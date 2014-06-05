@@ -1,13 +1,26 @@
 classdef Dyn
     
+    % DYN: Create a Dyn object.
+    % ========================================
     %
-    % Class for discrete-time linear dynamics
+    % SYNTAX
+    % ------
+    %
+    %   dyn = Dyn(A,B,K,E,XU_set)
+    %   dyn = Dyn(A,B,K,E,XU_set,XD_plus,XD_minus)
     % 
-    % x(t+1) = Ax(t) + Bu(t) + Ed(t) + K
+    % DESCRIPTION
+    % ------    
+    %   An instance of this class represents a discrete-time
+    %   linear system of the form
+    %   x(t+1) = Ax(t) + Bu(t) + Ed(t) + K
     % 
-    % Input constraint:         [x; u] \in XD_poly, a n+m-dimensional Polytope
-    % Disturbance constraints   d \leq XD_plus*[ x; ones(p,1) ]
-    %     (state-dependent)     d \geq XD_minus*[ x; ones(p,1) ]
+    %   u(t) is the control input
+    %   d(t) is a disturbance
+    %
+    %   - Input constraint:                             [x; u] \in XD_poly, a n+m-dimensional Polytope
+    %   - (State-dependent) disturbance constraints:    d \leq XD_plus*[ x; ones(p,1) ]
+    %                                                   d \geq XD_minus*[ x; ones(p,1) ]
     %
 
     properties (SetAccess=protected)
