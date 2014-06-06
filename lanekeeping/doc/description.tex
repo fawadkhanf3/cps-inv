@@ -1,0 +1,143 @@
+\documentclass[letterpaper, 12pt]{article}
+
+\usepackage{amsmath, amsthm, amssymb, dsfont, accents}
+\usepackage{hyperref, subcaption, booktabs}
+\usepackage{fullpage}
+
+\usepackage{tikz, pgfplots}
+\pgfplotsset{compat=newest}
+\newlength{\figurewidth}
+\newlength{\figureheight}
+
+\newcommand{\argmin}{\operatornamewithlimits{arg\ min}}
+\newcommand{\argmax}{\operatornamewithlimits{arg\ max}}
+\newcommand{\ind}[1]{\mathds{1}_{{#1}}} 
+\newcommand{\ubar}[1]{\underaccent{\bar}{#1}}
+
+\title{Invariant Set Lane Keeping Controller Explained}
+\author{Petter Nilsson \\ \href{mailto:pettni@umich.edu}{pettni@umich.edu}}
+
+\begin{document}
+
+\maketitle
+
+\section{Model} % (fold)
+\label{sec:model}
+
+The controller is based on the following model, which is prof. Grizzle's ``Very Much Simplified Model'' extended with an additional state to be able to constrain the derivative of the yaw rate:
+\begin{equation}
+	\begin{bmatrix}
+		\dot y \\
+		\dot \psi \\ 
+		\dot r
+	\end{bmatrix} = 
+	\begin{bmatrix}
+		0 & u_0 & 0 \\
+		0 & 0 & 1 \\
+		0 & 0 & 0
+	\end{bmatrix}
+	\begin{bmatrix}
+		y \\
+		\psi \\ 
+		r
+	\end{bmatrix} + 
+	\begin{bmatrix}
+		0 \\ 0 \\ 1
+	\end{bmatrix} r_{dot} + \begin{bmatrix}
+		0 \\ 1 \\ 0
+	\end{bmatrix} r_{road}
+\end{equation}
+Therefore $r_{dot}$ is the control input in this model, and $r_{road}$ is an uncontrolled disturbance modeling the change in curvature of the road.
+
+Parameter explanations:
+\begin{itemize}
+	\item $y$ [m] - distance from center of lane
+	\item $\psi$ [rad] - yaw angle
+	\item $r$ [rad/s] - yaw rate, time derivative of $\psi$
+	\item $u_0$ [m/s] - speed of car which is constant
+\end{itemize}
+% section model (end)
+
+\section{Specifications} % (fold)
+\label{sec:specifications}
+
+We require the following safety specs to be satisfied at all times:
+\begin{itemize}
+	\item $|y| \leq 0.9$ - to prevent lane departure
+	\item $\left|r_{dot} + \frac{b^2 C_{ar}}{u_0 I_z} r \right|  \leq  \frac{a F_{yf,max}}{I_z}$ - Front axle force constraint from Yuxiao's notes.
+	\item $| r | \leq \frac{a u_0 F_{yf,max} }{ b^2 C_{ar}}$ - also from Yuxiao's notes.
+\end{itemize}
+
+The following parameter values are assumed, most are taken from prof. Grizzle's simulation:
+\begin{itemize}
+	\item $u_0 = 30$ m/s
+	\item $b = 1.59$ m
+	\item $a = 1.11$ m
+	\item $I_z = 2315.3$ kg m$^2$
+	\item $C_{ar} = 9.882 \times 10^{4}$ N/rad
+	\item $F_{yf,max} = 1500$ N - based on the simulation of prof. Grizzle's controller, might be too small.
+\end{itemize}
+
+0.1 s was used as the time discretization step.
+% section specifications (end)
+
+\section{Assumptions} % (fold)
+\label{sec:assumptions}
+
+The road does not force the car to turn sharper than a lateral acceleration corresponding to $\alpha_{road} g$. Equating the lateral acceleration to $u_0^2/R$, this gives a minimal turning radius of $R = u_0^2/\alpha_{road} g$. The derivative of the angle is equal to $r_{road} = u_0/R$, so we assume
+\begin{equation}
+	|r_{road}| \leq \frac{ \alpha_{road} g}{ u_0}.
+\end{equation}
+In the following $\alpha_{road} = 0.2$ has been used.
+
+% section assumptions (end)
+
+\section{Invariant set} % (fold)
+\label{sec:invariant_set}
+
+The red set in the Figure \ref{fig:invariant} below is found to be controlled-invariant for these dynamics and assumptions.
+
+\setlength\figurewidth{0.4\columnwidth} 
+\setlength\figureheight{0.3 \columnwidth} 
+
+\begin{figure}[h]
+	\begin{center}
+		% \includegraphics[width=0.4\columnwidth]{invariant}
+		\input{test.tikz}
+	\end{center}
+	\caption{Invariant set (red) inside safe set (blue).}
+	\label{fig:invariant}
+\end{figure}
+
+% section invariant_set (end)
+
+\section{Simulation} % (fold)
+\label{sec:simulation}
+
+A 15-step (corresponding to 1.5s) look ahead MPC controller was used. The road in the simulation has $\alpha = 0.15$.
+
+\setlength\figurewidth{0.4\columnwidth} 
+\setlength\figureheight{0.1 \columnwidth} 
+
+\begin{figure}[h]
+	\begin{center}
+		% \includegraphics[width=0.4\columnwidth]{invariant}
+		\input{state.tikz}
+	\end{center}
+	\caption{Car states in simulation. Red line is $r_{road}$.}
+	\label{fig:invariant}
+\end{figure}
+\setlength\figurewidth{0.4\columnwidth} 
+\setlength\figureheight{0.2 \columnwidth} 
+
+\begin{figure}[h]
+	\begin{center}
+		% \includegraphics[width=0.4\columnwidth]{invariant}
+		\input{rdot.tikz}
+	\end{center}
+	\caption{Input: derivative of car yaw rate.}
+	\label{fig:invariant}
+\end{figure}
+% section simulation (end)
+
+\end{document}

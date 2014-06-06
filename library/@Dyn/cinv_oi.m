@@ -41,7 +41,7 @@ function [V] = cinv_oi(dyn, R, show_plot, rel_tol, verbose)
 	tic 
 
 	V = R;
-	V_prim = intersect1(V, dyn.solve_feasible(V,1,1));
+	V_prim = intersect1(V, dyn.solve_feasible(V));
 	V_prim = merge1(V_prim,3,0);
 
 	vol1 = volume1(V);
@@ -55,7 +55,7 @@ function [V] = cinv_oi(dyn, R, show_plot, rel_tol, verbose)
 	i = 2;
 	while rel_vol > rel_tol
 		V = V_prim;
-		V_prim = intersect1(V, dyn.solve_feasible(V,1,1));
+		V_prim = intersect1(V, dyn.solve_feasible(V));
 		V_prim = merge1(V_prim,3,0);
 
 		vol1 = volume1(V);

@@ -1,11 +1,40 @@
-function [ min_u, min_cost ] = solve_mpc(dyn, x0, Rx, rx, Ru, ru, polys)
+function [ min_u, min_cost ] = solve_mpc(dyn, x0, Rx, rx, Ru, ru, polys, opts)
+    % SOLVE_MPC: Solve an optimal control problem with quadratic costs and
+    % linear constraints.
+    % ======================================================
     %
-    % Minimizes  (1/2)*x'*Rx*x + rx'*x + (1/2)*u'*Ru*u + ru'*u, 
+    % SYNTAX
+    % ------
+    %   [u, cost] = solve_mpc(dyn, x0, Rx, rx, Ru, ru, polys)
+    %
+    % DESCRIPTION
+    % -----------
+    %   Minimizes  (1/2)*x'*Rx*x + rx'*x + (1/2)*u'*Ru*u + ru'*u, 
     % 
-    % where u = [ u(0)'' ... u(N-1)']', x = [ x(1)' ... x(N)']'
+    %   where u = [ u(0)'' ... u(N-1)']', x = [ x(1)' ... x(N)']'
     %
-    % such that x(i) \in polys(i) for i=1 ... N,
-    % subject to the dynamics dyn.
+    %   such that x(i) \in polys(i) for i=1 ... N,
+    %   subject to the dynamics dyn.
+    %
+    % INPUT
+    % -----
+    %   dyn     System dynamics
+    %           Class: Dyn
+    %   x0      Initial state in R^d
+    %   Rx, rx  State weight matrix and vector
+    %   Ru, ru  Control weight matrix and vector
+    %   polys   Polyhedra representing linear constraints
+    %           Class: Array of Polyhedron or PolyUnion
+    %   opts    Optimization options for quadprog, see `help optimoptions'
+    %
+    % OUTPUT
+    % -----
+    %   min_u    Optimal control signal
+    %   min_cost Cost of optimal control signal
+
+    if nargin<8
+        opts = optimoptions('quadprog','Algorithm','interior-point-convex','display','None');
+    end
 
     if ~isa(dyn, 'Dyn')
         error('dyn must be an instance of Dyn');
@@ -45,7 +74,6 @@ function [ min_u, min_cost ] = solve_mpc(dyn, x0, Rx, rx, Ru, ru, polys)
         A_ineq = HH(:,n+1:n+N*m);
         b_ineq = hh - HH(:,1:n)*x0;
 
-        opts = optimoptions('quadprog','Algorithm','interior-point-convex','display','None');
         [u, cost, flag] = quadprog(U_cost_MAT,U_cost_VEC,A_ineq,b_ineq, ...
                              [],[],[],[],[],opts);
         

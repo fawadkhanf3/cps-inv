@@ -1,51 +1,61 @@
-function [ S ] = solve_feasible(dyn, X, N, no_overlaps)
-	%
-	% Finds the set S such that from anywhere in S, 
-	% X can be reached in N time steps using the
-	% dynamics dyn.
-	%
-	% Inputs:
-	% - dyn : System dynamics (struct)
-	% - X 	: Final set (Polyhedron)
-	% - N 	: Number of time steps (int)
-	% - no_overlaps : If true, make parts of S disjoint (bool)
+function [ X0 ] = solve_feasible(dyn, X, N)
+    % SOLVE_FEASIBLE: Find a backward-time reachable set.
+    % ======================================================
+    %
+    % SYNTAX
+    % ------
+    %   X0 = solve_feasible(dyn, X, N)
+    %
+    % DESCRIPTION
+    % -----------
+	% 	Finds the set S such that from anywhere in S, 
+	% 	X can be reached in N time steps using the
+	% 	dynamics dyn.
+    %
+    % 	If dyn contains disturbance, this is taken into
+    %	account by assuming the worst case disturbance.
+    % 
+    % INPUT
+    % -----
+    %   dyn     System dynamics
+    %           Class: Dyn
+    %   X   	Final set
+    %           Class: Polyhedron or PolyUnion
+    %   N 	    Number of time steps
+    %           Default: 1
+
+	if nargin<3
+		N = 1;
+	end
 
     if ~isa(dyn, 'Dyn')
         error('dyn must be an instance of Dyn');
     end
 	
-	if nargin<4
-		no_overlaps = 0;
-	end
-
-	% If target polytope is union
+	% If target set is PolyUnion
 	if isa(X, 'PolyUnion')	
-		S = PolyUnion;
+		X0 = PolyUnion;
 		for i=1:X.Num
             new_poly = dyn.solve_feasible(X.Set(i), N);
-            S = add1(S, new_poly);
+            X0 = add1(X0, new_poly);
 		end
-		% if no_overlaps
-			% S = remove_overlaps1(S);
-		% end
 		return
 	end
 
 	% If horizon longer than 1
 	if N>1
-		S0 = dyn.solve_feasible(X,1);
+		X0_iter = dyn.solve_feasible(X,1);
 		for i=2:N
-			S0 = dyn.solve_feasible(S0,1);
+			X0_iter = dyn.solve_feasible(X0_iter,1);
 		end
-		S = S0;
+		X0 = X0_iter;
 		return 
 	end
 
-	%%%%%%%%%%%%%%%% Standard method %%%%%%%%%%%%%%%%%%%%
-	[HH, hh] = dyn.constraint_polytope(X, X, 1);
-
+	% Project a polytope
+	[HH, hh] = dyn.constraint_polytope2(X);
 	P = Polyhedron(HH,hh);
-	S = P.projection(1:size(dyn.A, 2));
+	X0 = P.projection(1:size(dyn.A, 2));
 end
 
 

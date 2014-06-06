@@ -1,5 +1,8 @@
 function con = constants
 
+	% time step
+	con.dt = 0.1;
+
 	% nominal speed
 	con.u0 = 30; %m/s
 
@@ -12,11 +15,16 @@ function con = constants
 
     con.g = 9.82; %m/s^2
 
+    % Maximal assumed road curvature as alpha*g
+    con.alpha_ass = 0.2;
+
+    % Road curvature in simulation
+    con.alpha_road = 0.15;
+
     % Tire parameters
 	con.Caf = 1.3308e5; % N/rad 
     con.Car = 9.882e4; % N/rad
 
-    con.F_yfmax = 1000;
-
+    con.F_yfmax = 1500;
 
 end

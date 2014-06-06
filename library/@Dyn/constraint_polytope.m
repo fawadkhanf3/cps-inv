@@ -1,19 +1,6 @@
 function [HH, hh] = constraint_polytope(dyn, poly0, poly1, N)
-	%
-	% Return HH and hh such that 
-	%  
-	%     [ x(0); 
-	% HH    u(0);     \leq hh
-	%       ...
-	%	    u(N-1)]
-	%
-	% enforces x(1),...,x(N-1) to stay in poly0, and x(N) to be in poly1, wrt dyn
+    % should be replaced
 
-    %
-    % Comment: Does not support horizon length larger than 1. Two things
-    % should be fixed: 
-    % 1. Fix the input constraints.
-    % 2. Fix the disturbance bounds.
 
     if nargin<4
         N=1;

@@ -15,12 +15,17 @@ classdef Dyn
     %   linear system of the form
     %   x(t+1) = Ax(t) + Bu(t) + Ed(t) + K
     % 
+    %   A is n x n
+    %   B is n x m
+    %   E is n x p
+    %   K is n x 1
+    %
     %   u(t) is the control input
     %   d(t) is a disturbance
     %
     %   - Input constraint:                             [x; u] \in XD_poly, a n+m-dimensional Polytope
-    %   - (State-dependent) disturbance constraints:    d \leq XD_plus*[ x; ones(p,1) ]
-    %                                                   d \geq XD_minus*[ x; ones(p,1) ]
+    %   - (State-dependent) disturbance constraints:    d \leq XD_plus*[ x; 1 ],  XD_plus is p x (d+1)
+    %                                                   d \geq XD_minus*[ x; 1 ]  XD_minus is p x (d+1)
     %
 
     properties (SetAccess=protected)
