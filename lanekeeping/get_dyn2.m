@@ -21,7 +21,7 @@ function dyn = get_dyn2(con)
 	E = [0; 1; 0];
 	K = zeros(3,1);
 
-	% Integrate it
+	% Integrate it 
     A_s = @(s) expm(s*A);
     Ad = A_s(con.dt);
     Bd = integral(A_s, 0, con.dt, 'ArrayValued', true) * B;
