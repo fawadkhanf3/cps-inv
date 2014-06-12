@@ -7,7 +7,7 @@ function headway_model_car(block)
 function setup(block)
   
   %% Register number of dialog parameters   
-  block.NumDialogPrms = 1;
+  block.NumDialogPrms = 2;
 
   %% Register number of input and output ports
   block.NumInputPorts  = 1;
@@ -40,7 +40,7 @@ function setup(block)
 %endfunction
 
 function InitConditions(block)
-  block.ContStates.Data = [block.DialogPrm(1).Data; 14];
+  block.ContStates.Data = [block.DialogPrm(1).Data; block.DialogPrm(2).Data];
   
 %endfunction
 
@@ -64,7 +64,7 @@ function dvl = vldt(t, vl)
   amin = 0.9*con.d_max_ratio*(con.umin - con.f0 - con.f1*vl - con.f2*vl^2)/con.mass;
   dvl = (t>20)*(t<30)*(vl<25)*amax + ...
         (t>35)*(t<50)*(vl<34)*amax + ...
-        (t>60)*(t<80)*(vl>10)*amin + ...
-        (t>110)*(t<120)*(vl>0)*max(amin, -vl) + ...
-        (t>130)*(t<160)*(vl<22)*amax;
+        (t>50)*(t<70)*(vl>10)*amin + ...
+        (t>100)*(t<110)*(vl>0)*max(amin, -vl) + ...
+        (t>120)*(t<150)*(vl<22)*amax;
 % end

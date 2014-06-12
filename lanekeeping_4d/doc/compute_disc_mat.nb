@@ -1,0 +1,149 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 8.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       157,          7]
+NotebookDataLength[      3979,        139]
+NotebookOptionsPosition[      3652,        122]
+NotebookOutlinePosition[      4008,        138]
+CellTagsIndexPosition[      3965,        135]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"A", " ", "=", " ", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"0", ",", "1", ",", "u", ",", "0"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"0", " ", ",", 
+       RowBox[{
+        RowBox[{"-", 
+         RowBox[{"(", 
+          RowBox[{"Caf", "+", "Car"}], ")"}]}], "/", 
+        RowBox[{"(", 
+         RowBox[{"m", " ", "u0"}], ")"}]}], ",", " ", "0", ",", " ", 
+       RowBox[{"(", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"(", 
+           RowBox[{
+            RowBox[{"b", " ", "Car"}], " ", "-", " ", 
+            RowBox[{"a", " ", "Caf"}]}], ")"}], "/", 
+          RowBox[{"(", 
+           RowBox[{"m", " ", "u0"}], ")"}]}], "-", " ", "u0"}], ")"}]}], 
+      "}"}], ",", " ", 
+     RowBox[{"{", 
+      RowBox[{"0", " ", ",", "0", ",", "0", ",", "1"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"0", ",", 
+       RowBox[{
+        RowBox[{"(", 
+         RowBox[{
+          RowBox[{"b", "*", "Car"}], "-", 
+          RowBox[{"a", " ", "Caf"}]}], ")"}], "/", 
+        RowBox[{"(", 
+         RowBox[{"Iz", " ", "u0"}], ")"}]}], ",", "0", ",", 
+       RowBox[{
+        RowBox[{"-", 
+         RowBox[{"(", 
+          RowBox[{
+           RowBox[{
+            RowBox[{"a", "^", "2"}], " ", "Caf"}], " ", "+", " ", 
+           RowBox[{
+            RowBox[{"b", "^", "2"}], " ", "Car"}]}], ")"}]}], "/", 
+        RowBox[{"(", 
+         RowBox[{"Iz", " ", "u0"}], ")"}]}]}], "}"}]}], "}"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"B", " ", "=", " ", 
+   RowBox[{"{", 
+    RowBox[{"0", ",", " ", 
+     RowBox[{"Caf", "/", "m"}], ",", " ", "0", ",", " ", 
+     RowBox[{"a", " ", 
+      RowBox[{"Caf", "/", "Iz"}]}]}], "}"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"E", "  ", "=", " ", 
+   RowBox[{"{", 
+    RowBox[{"0", " ", ",", "0", ",", "1", ",", "0"}], "}"}]}], 
+  ";"}]}], "Input",
+ CellChangeTimes->{{3.611343611675181*^9, 3.611343806997888*^9}}],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{"0", ",", "1", ",", "u", ",", "0"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"0", ",", 
+     FractionBox[
+      RowBox[{
+       RowBox[{"-", "Caf"}], "-", "Car"}], 
+      RowBox[{"m", " ", "u0"}]], ",", "0", ",", 
+     RowBox[{
+      FractionBox[
+       RowBox[{
+        RowBox[{
+         RowBox[{"-", "a"}], " ", "Caf"}], "+", 
+        RowBox[{"b", " ", "Car"}]}], 
+       RowBox[{"m", " ", "u0"}]], "-", "u0"}]}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"0", ",", "0", ",", "0", ",", "1"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"0", ",", 
+     FractionBox[
+      RowBox[{
+       RowBox[{
+        RowBox[{"-", "a"}], " ", "Caf"}], "+", 
+       RowBox[{"b", " ", "Car"}]}], 
+      RowBox[{"Iz", " ", "u0"}]], ",", "0", ",", 
+     FractionBox[
+      RowBox[{
+       RowBox[{
+        RowBox[{"-", 
+         SuperscriptBox["a", "2"]}], " ", "Caf"}], "-", 
+       RowBox[{
+        SuperscriptBox["b", "2"], " ", "Car"}]}], 
+      RowBox[{"Iz", " ", "u0"}]]}], "}"}]}], "}"}]], "Output",
+ CellChangeTimes->{3.611343753404605*^9}]
+}, Open  ]]
+},
+WindowSize->{740, 867},
+WindowMargins->{{Automatic, 624}, {50, Automatic}},
+FrontEndVersion->"8.0 for Mac OS X x86 (32-bit, 64-bit Kernel) (October 6, \
+2011)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[579, 22, 1952, 59, 73, "Input"],
+Cell[2534, 83, 1102, 36, 87, "Output"]
+}, Open  ]]
+}
+]
+*)
+
+(* End of internal cache information *)
+

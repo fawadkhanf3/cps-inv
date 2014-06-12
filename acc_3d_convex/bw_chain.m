@@ -8,15 +8,12 @@ function C_vec = bw_chain(pwddyn, winning, safe)
 		pre = pwddyn.solve_feasible(C_vec(end), 1);
 		pre = intersect1(safe, pre);
 		if isa(pre, 'PolyUnion')
-			pre2 = find_max(pre);
+			[merged, best] = merge1(pre,1,1);
+			[~, maxindex] = max(best);
+			pre2 = merged.Set(maxindex);
 		else
 			pre2 = pre;
 		end
-		plot(mldivide1(pre,pre2));
-
-		axis([0 35 0 300 0 35])
-		drawnow
-		pause(1)
 
 		if C_vec(end).contains(pre2)
 			break

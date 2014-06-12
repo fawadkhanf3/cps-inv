@@ -43,7 +43,7 @@ function setup(block)
 %endfunction
 
 function InitConditions(block)
-  block.ContStates.Data = [0 0 0]'; % initial condition
+  block.ContStates.Data = [0.2; 0.04; 0.0]'; % initial condition
 %endfunction
 
 function Output(block)

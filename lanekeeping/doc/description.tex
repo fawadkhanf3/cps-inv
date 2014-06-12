@@ -114,20 +114,23 @@ The red set in the Figure \ref{fig:invariant} below is found to be controlled-in
 \section{Simulation} % (fold)
 \label{sec:simulation}
 
-A 15-step (corresponding to 1.5s) look ahead MPC controller was used. The road in the simulation has $\alpha = 0.15$.
+A 15-step (corresponding to 1.5s) look ahead MPC controller was used. The road in the simulation has $\alpha = 0.15$. A simple way to implement the controller on the 4-state model, which takes steering angle as input, is to invert the mapping from $\delta_f$ to $\dot r$:
+\begin{equation}
+	\delta_f(r_{dot}, v, ,r) = \frac{I_z}{a C_{af}} \left( r_{dot} - \frac{b C_{ar} - a C_{af}}{I_z u_0} v + \frac{a^2 C_{af} + b^2 C_{ar}}{I_z u_0} r \right) .
+\end{equation}
 
-\setlength\figurewidth{0.4\columnwidth} 
-\setlength\figureheight{0.1 \columnwidth} 
+\setlength\figurewidth{0.5\columnwidth} 
+\setlength\figureheight{0.2 \columnwidth} 
 
 \begin{figure}[h]
 	\begin{center}
 		% \includegraphics[width=0.4\columnwidth]{invariant}
 		\input{state.tikz}
 	\end{center}
-	\caption{Car states in simulation. Red line is $r_{road}$.}
+	\caption{Car states in simulation. Yellow line is $r_{road}$.}
 	\label{fig:invariant}
 \end{figure}
-\setlength\figurewidth{0.4\columnwidth} 
+\setlength\figurewidth{0.5\columnwidth} 
 \setlength\figureheight{0.2 \columnwidth} 
 
 \begin{figure}[h]

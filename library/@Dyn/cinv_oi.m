@@ -1,4 +1,4 @@
-function [V] = cinv_oi(dyn, R, show_plot, rel_tol, verbose)
+function [V] = cinv_oi(dyn, R, maxiter, rel_tol, show_plot, verbose)
 	
 	% CINV_OI: Compute an invariant set outside-in.
 	% ======================================================
@@ -6,7 +6,8 @@ function [V] = cinv_oi(dyn, R, show_plot, rel_tol, verbose)
 	% SYNTAX
 	% ------
 	%	C = cinv_oi(dyn, R)
-	%	C = cinv_oi(dyn, R, show_plot, rel_tol, verbose)
+	%	C = cinv_oi(dyn, R, maxiter)
+	%	C = cinv_oi(dyn, R, maxiter, rel_tol, show_plot, verbose)
 	%
 	% DESCRIPTION
 	% -----------
@@ -18,15 +19,17 @@ function [V] = cinv_oi(dyn, R, show_plot, rel_tol, verbose)
 	% 		Class: Dyn
 	%	R 	Dimensions upon which to project
 	%		Class: Polyhedron or PolyUnion
-	%	show_plot 	Show plotting while computing
-	%		Default: false
+	%   maxiter  Maximal number of iterations
+	% 		Default: inf
 	%	rel_tol 	Volume stopping criterion
 	%		Default: 1e-3
+	%	show_plot 	Show plotting while computing
+	%		Default: false
 	%	verbose 	Output text
 	%		Default: false
 
 	if nargin<3
-		show_plot=0;
+		maxiter = Inf;
 	end
 
 	if nargin<4
@@ -34,6 +37,10 @@ function [V] = cinv_oi(dyn, R, show_plot, rel_tol, verbose)
 	end
 
 	if nargin<5
+		show_plot = 0;
+	end
+
+	if nargin<6
 		verbose = 0;
 	end
 
@@ -53,7 +60,7 @@ function [V] = cinv_oi(dyn, R, show_plot, rel_tol, verbose)
 	end
 
 	i = 2;
-	while rel_vol > rel_tol
+	while rel_vol > rel_tol && i <= maxiter
 		V = V_prim;
 		V_prim = intersect1(V, dyn.solve_feasible(V));
 		V_prim = merge1(V_prim,3,0);

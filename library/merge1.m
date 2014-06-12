@@ -1,25 +1,35 @@
 function [pu_merged, best] = merge1(pu, method, no_envelope)
-	% Merge polytopes in PolyUnion pu by constructing a hyperplane arrangement.
+    % MERGE1: Merge polytopes in PolyUnion pu by constructing a hyperplane arrangement.
+    % ======================================================
+    %
+    % SYNTAX
+    % ------
+    %   [merged, best] = merge1(pu)
+    %   [merged, best] = merge1(pu, method, no_envelope)
+    %
+    % DESCRIPTION
+    % -----------
+	% 	Given a (non-convex) PolyUnion, tries to find 
+	% 	a different representation of the same set such
+	% 	that a given criterion is maximized.
+    % 
+    % INPUT
+    % -----
+    %   pu     	Set to merge
+    %           Class: PolyUnion
+    %   method 	Objective to maximize (int):
+    %    			1: maximize number of cells of largest Polyhedron
+	%				2: maximize volume of largest Polyhedron in result
+	%				3: minimize total number of Polyhedra
+    %          	Default: 3
+    %	no_envelope	Run algorithm without considering the envelope. Might be faster for 
+	%			    Polyhedra with a complex envelope.
+	%  				Default: false
 	%
-	% Input:
-	%
-	% (int) objective : what to optimize,
-	%				1. maximize number of cells of largest Polyhedron
-	%				2. maximize volume of largest Polyhedron in result
-	%				3. minimize total number of Polyhedra
-	%
-	% (bool) no_envelope : run algorithm without considering the envelope. Might be faster for 
-	%			   		   Polyhedra with a complex envelope.
-	%
-	% Output: A PolyUnion object describing
-	%
-	% (PolyUnion) pu_merged : Object describing the merged cells.
-	%  
-	% (double) performance : Vector containing the objective values, for instance volumes of the cells.
 	% Remark: The two choices interfer, since removing the envelope results in
 	% 	      a modified optimization problem. 
 	%         To compute the true optimizer, set no_envelope=0,
-	% 		
+    %
 
 	if nargin < 2
 		method = 3;

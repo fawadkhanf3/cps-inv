@@ -1,0 +1,68 @@
+\documentclass[letterpaper, 12pt]{article}
+
+\usepackage{amsmath, amsthm, amssymb, dsfont, accents}
+\usepackage{hyperref, subcaption, booktabs}
+\usepackage{fullpage}
+
+\usepackage{tikz, pgfplots}
+\pgfplotsset{compat=newest}
+\newlength{\figurewidth}
+\newlength{\figureheight}
+
+\newcommand{\argmin}{\operatornamewithlimits{arg\ min}}
+\newcommand{\argmax}{\operatornamewithlimits{arg\ max}}
+\newcommand{\ind}[1]{\mathds{1}_{{#1}}} 
+\newcommand{\ubar}[1]{\underaccent{\bar}{#1}}
+
+\title{4D lane keepin}
+\author{Petter Nilsson \\ \href{mailto:pettni@umich.edu}{pettni@umich.edu}}
+
+\begin{document}
+
+\begin{figure}
+
+\setlength\figurewidth{0.4\columnwidth} 
+\setlength\figureheight{0.4 \columnwidth} 
+		
+\begin{subfigure}{0.45\columnwidth}
+	\input{poly1.tikz}
+\end{subfigure}
+\begin{subfigure}{0.45\columnwidth}
+	\input{poly2.tikz}
+\end{subfigure}
+
+\begin{subfigure}{0.45\columnwidth}
+	\input{poly3.tikz}
+\end{subfigure}
+\begin{subfigure}{0.45\columnwidth}
+	\input{poly4.tikz}
+\end{subfigure}
+
+\caption{Projections of the \emph{approximate} controlled-invariant set on the 0-level-sets of each coordinate.}
+\end{figure}
+
+\setlength\figurewidth{0.5\columnwidth} 
+\setlength\figureheight{0.2 \columnwidth} 
+
+\begin{figure}[ht]
+	\begin{center}
+		% \includegraphics[width=0.4\columnwidth]{invariant}
+		\input{state.tikz}
+	\end{center}
+	\caption{Car states in simulation. Yellow line is $r_{road}$.}
+	\label{fig:invariant}
+\end{figure}
+\setlength\figurewidth{0.5\columnwidth} 
+\setlength\figureheight{0.2 \columnwidth} 
+
+\begin{figure}[ht]
+	\begin{center}
+		% \includegraphics[width=0.4\columnwidth]{invariant}
+		\input{deltaf.tikz}
+	\end{center}
+	\caption{Input: steering angle.}
+	\label{fig:df}
+\end{figure}
+% section simulation (end)
+
+\end{document}

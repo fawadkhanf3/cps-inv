@@ -7,7 +7,7 @@ end %function
 function setup(block)
 
 % Register number of ports
-block.NumInputPorts  = 2;
+block.NumInputPorts  = 1;
 block.NumOutputPorts = 1;
 
 % Setup port properties to be inherited or dynamic
@@ -21,10 +21,10 @@ block.InputPort(1).Complexity  = 'Real';
 block.InputPort(1).DirectFeedthrough = false;
 
 % Override input port properties
-block.InputPort(2).Dimensions        = 1;
-block.InputPort(2).DatatypeID  = 0;  % double
-block.InputPort(2).Complexity  = 'Real';
-block.InputPort(2).DirectFeedthrough = false;
+% block.InputPort(2).Dimensions        = 1;
+% block.InputPort(2).DatatypeID  = 0;  % double
+% block.InputPort(2).Complexity  = 'Real';
+% block.InputPort(2).DirectFeedthrough = false;
 
 % Override output port properties
 block.OutputPort(1).Dimensions       = 1;
@@ -126,7 +126,6 @@ function Outputs(block)
 
   % read input - vehicle state and road curvature
   x = block.InputPort(1).Data;
-  rd = block.InputPort(2).Data;
 
   N = 14;
   [rdot, cost] = dyn.solve_mpc(x, eye(N*3), zeros(N*3,1), 4*eye(N), zeros(N,1), repmat(C,1,N), opts);

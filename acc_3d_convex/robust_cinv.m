@@ -7,8 +7,8 @@ function [C_iter] = robust_cinv(pwddyn, goal)
 	while true
 		disp(['iteration: ' num2str(iter)])
 		C = intersect1(C_iter, pwddyn.solve_feasible(C_iter, 1));
+		
 		[merged, best] = merge1(C,1,1);
-
 		[~, maxindex] = max(best);
 		C_cvx = merged.Set(maxindex);
 

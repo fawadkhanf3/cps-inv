@@ -55,10 +55,7 @@ block.SimStateCompliance = 'DefaultSimState';
 
 block.RegBlockMethod('PostPropagationSetup',    @DoPostPropSetup);
 block.RegBlockMethod('InitializeConditions', @InitializeConditions);
-block.RegBlockMethod('Start', @Start);
 block.RegBlockMethod('Outputs', @Outputs);     % Required
-block.RegBlockMethod('Update', @Update);
-block.RegBlockMethod('Derivatives', @Derivatives);
 block.RegBlockMethod('Terminate', @Terminate); % Required
 
 end %setup
@@ -98,9 +95,13 @@ function InitializeConditions(block)
   Gb = [0; con.v_des+con.v_delta];
   goal = intersect1(S1, Polyhedron('A', GA, 'b', Gb));
 
-  % cinv = robust_cinv(pwadyn, goal); set_chain = bw_chain(pwadyn, cinv, S1);
+  % cinv = robust_cinv(pwadyn, goal); 
+  % set_chain = bw_chain(pwadyn, cinv, S1);
+  % set_chain = [cinv];
   % save('set_chain_save.mat', 'set_chain')
   load set_chain_save
+
+  warning('off', 'all'); % dont want to see QP warnings
 
   assignin('base','con',con)
   assignin('base','pwadyn',pwadyn)
@@ -108,11 +109,6 @@ function InitializeConditions(block)
   assignin('base','set_chain',set_chain);
 
 end %InitializeConditions
-
-
-function Start(block)
-
-end %Start
 
 
 function Outputs(block)
@@ -146,16 +142,15 @@ function Outputs(block)
 
   current_cell = find_cell(set_chain, x0);
   if current_cell == -1;
-    disp('Cell not found, breaking hard')
+    disp([num2str(block.currentTime), 'Cell not found, breaking hard'])
     block.OutputPort(1).Data = con.umin;
     return;
   end
 
-  N = 1;
+  N = 10;
   next_numbers = max(1, current_cell-[0:N-1]);
   next_polys = set_chain(next_numbers);
   % next_poly = set_chain(max(1, current_cell-1));
-
 
   [Rx,rx,Ru,ru] = mpcweights(v,d,vl,block.OutputPort(1).Data,N,con);
 
@@ -172,11 +167,9 @@ function Outputs(block)
 
 end %Outputs
 
-function Update(block) 
-
-end %Update
 
 function Terminate(block)
+  warning('on', 'all');
 end %Terminate
 
 function ind = find_cell(puvec,x0)
@@ -190,30 +183,33 @@ function ind = find_cell(puvec,x0)
 end
 
 function  [Rx,rx,Ru,ru] = mpcweights(v,d,vl,udes,N,con)
+  ramp = @(x, lim, delta) max(0, min(1, 0.5+x/delta-lim/delta));
+  % Piecewise linear and continuous function w: R -> R such that
+  %   w(x) = 1  x > lim + delta/2
+  %   w(x) = 0  x < lim - delta/2
+  %   w(x) = linear interpolation otherwise
+  %
+  % Remark: To invert, use 1-w(x)
 
-  vdes = ramp(d, 5*vl, 1)*con.v_des + ramp(d, 5*vl, -1)*min(con.v_des,vl);
+  % v_goal = ramp(d, 5*vl, 1)*con.v_des + ramp(d, 5*vl, -1)*min(con.v_des,vl);
+  v_goal = min(con.v_des, vl);
 
   Rx = zeros(3*N);
   rx = zeros(3*N,1);
 
-  v_weight = 5;
-  h_weight = 5*ramp(abs(v-vl), 5, 1);
+  v_weight = 3;
+  h_weight = 10*(1-ramp(abs(v-vl), 10, 20));
   u_weight = 1;
 
   % weight on velocity
   Rx(sub2ind([3*N 3*N], 1:3:3*N, 1:3:3*N)) = v_weight*ones(N,1);
-  rx(1:3:3*N) = v_weight*(-vdes)*ones(N,1);
+  rx(1:3:3*N) = v_weight*(-v_goal)*ones(N,1);
 
   % weight on headway
-  Rx(sub2ind([3*N 3*N], 2:3:3*N, 2:3:3*N)) = ramp(v, con.v_des, -1)*h_weight*ones(N,1);
-  rx(2:3:3*N) = h_weight*(-1.4)*vl*ones(N,1)*ramp(v, con.v_des, -1);
+  Rx(sub2ind([3*N 3*N], 2:3:3*N, 2:3:3*N)) = h_weight*ones(N,1);
+  rx(2:3:3*N) = h_weight*(-1.4)*vl*ones(N,1);
 
 
   Ru = u_weight*eye(N);
   ru = zeros(N,1);
-  % ru = -u_weight*udes*ones(N,1);
-end
-
-function weight = ramp(x, lim, sgn)
-  weight = max(0, min(1, sign(sgn)*(-lim+x)/10));
 end
