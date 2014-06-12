@@ -7,7 +7,7 @@ Model {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.23"
+    ComputedModelVersion    "1.25"
     NumModelReferences	    0
     NumTestPointedSignals   0
   }
@@ -30,7 +30,7 @@ Model {
       $ObjectID		      2
       $ClassName	      "Simulink.WindowInfo"
       IsActive		      [1]
-      Location		      [272.0, 492.0, 1146.0, 914.0]
+      Location		      [1327.0, 699.0, 1146.0, 727.0]
       Object {
 	$PropName		"ModelBrowserInfo"
 	$ObjectID		3
@@ -54,9 +54,9 @@ Model {
 	IsActive		[1]
 	ViewObjType		"SimulinkTopLevel"
 	LoadSaveID		"0"
-	Extents			[1112.0, 744.0]
-	ZoomFactor		[1.4582484725050917]
-	Offset			[-35.494173358938546, 8.3994413407821522]
+	Extents			[1112.0, 557.0]
+	ZoomFactor		[1.0773930753564154]
+	Offset			[-170.27533524338381, 5.005671077504724]
       }
     }
   }
@@ -66,9 +66,9 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "petter"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Tue May 27 13:57:32 2014"
-  RTWModifiedTimeStamp	  322079266
-  ModelVersionFormat	  "1.%<AutoIncrement:23>"
+  LastModifiedDate	  "Thu Jun 12 15:44:10 2014"
+  RTWModifiedTimeStamp	  324487220
+  ModelVersionFormat	  "1.%<AutoIncrement:25>"
   ConfigurationManager	  "none"
   SampleTimeColors	  off
   SampleTimeAnnotations	  off
@@ -177,7 +177,7 @@ Model {
 	  $ObjectID		  8
 	  Version		  "1.13.1"
 	  StartTime		  "0.0"
-	  StopTime		  "170"
+	  StopTime		  "150"
 	  AbsTol		  "auto"
 	  FixedStep		  "auto"
 	  InitialStep		  "auto"
@@ -919,7 +919,7 @@ Model {
   }
   System {
     Name		    "um_simulation"
-    Location		    [272, 492, 1418, 1406]
+    Location		    [1327, 699, 2473, 1426]
     Open		    on
     ModelBrowserVisibility  off
     ModelBrowserWidth	    200
@@ -931,9 +931,9 @@ Model {
     TiledPaperMargins	    [0.500000, 0.500000, 0.500000, 0.500000]
     TiledPageScale	    1
     ShowPageBoundaries	    off
-    ZoomFactor		    "146"
+    ZoomFactor		    "108"
     ReportName		    "simulink-default.rpt"
-    SIDHighWatermark	    "144"
+    SIDHighWatermark	    "149"
     Block {
       BlockType		      Constant
       Name		      "Constant"
@@ -977,7 +977,7 @@ Model {
       MaskHideContents	      off
       System {
 	Name			"Lead car: h_0 = 100"
-	Location		[1310, 629, 2456, 1368]
+	Location		[1327, 699, 2473, 1426]
 	Open			off
 	ModelBrowserVisibility	off
 	ModelBrowserWidth	200
@@ -989,7 +989,7 @@ Model {
 	TiledPaperMargins	[0.500000, 0.500000, 0.500000, 0.500000]
 	TiledPageScale		1
 	ShowPageBoundaries	off
-	ZoomFactor		"349"
+	ZoomFactor		"387"
 	Block {
 	  BlockType		  Inport
 	  Name			  "In1"
@@ -1012,10 +1012,10 @@ Model {
 	  Name			  "Level-2 MATLAB\nS-Function1"
 	  SID			  "132"
 	  Ports			  [1, 1]
-	  Position		  [170, 69, 290, 101]
+	  Position		  [170, 78, 290, 112]
 	  ZOrder		  4
 	  FunctionName		  "headway_model_car"
-	  Parameters		  "100"
+	  Parameters		  "100, 17"
 	}
 	Block {
 	  BlockType		  Outport
@@ -1029,6 +1029,7 @@ Model {
 	  ZOrder		  1
 	  SrcBlock		  "In1"
 	  SrcPort		  1
+	  Points		  [45, 0]
 	  DstBlock		  "Level-2 MATLAB\nS-Function1"
 	  DstPort		  1
 	}
@@ -1036,6 +1037,7 @@ Model {
 	  ZOrder		  2
 	  SrcBlock		  "Level-2 MATLAB\nS-Function1"
 	  SrcPort		  1
+	  Points		  [0, -10]
 	  DstBlock		  "Out1"
 	  DstPort		  1
 	}
@@ -1058,7 +1060,7 @@ Model {
       MaskHideContents	      off
       System {
 	Name			"Lead car: h_0 = 250\n"
-	Location		[272, 492, 1418, 1406]
+	Location		[1327, 699, 2473, 1426]
 	Open			off
 	ModelBrowserVisibility	off
 	ModelBrowserWidth	200
@@ -1093,10 +1095,10 @@ Model {
 	  Name			  "Level-2 MATLAB\nS-Function"
 	  SID			  "109"
 	  Ports			  [1, 1]
-	  Position		  [170, 69, 285, 101]
+	  Position		  [170, 73, 285, 107]
 	  ZOrder		  2
 	  FunctionName		  "headway_model_car"
-	  Parameters		  "250"
+	  Parameters		  "250, 14"
 	}
 	Block {
 	  BlockType		  Outport
@@ -1110,6 +1112,7 @@ Model {
 	  ZOrder		  1
 	  SrcBlock		  "In1"
 	  SrcPort		  1
+	  Points		  [45, 0]
 	  DstBlock		  "Level-2 MATLAB\nS-Function"
 	  DstPort		  1
 	}
@@ -1117,6 +1120,7 @@ Model {
 	  ZOrder		  2
 	  SrcBlock		  "Level-2 MATLAB\nS-Function"
 	  SrcPort		  1
+	  Points		  [0, -5]
 	  DstBlock		  "Out1"
 	  DstPort		  1
 	}
@@ -1218,7 +1222,7 @@ Model {
       SID		      "116"
       Position		      [20, 170, 50, 200]
       ZOrder		      50
-      Time		      "80"
+      Time		      "70"
       After		      "-2"
       SampleTime	      "0"
     }
@@ -1228,7 +1232,7 @@ Model {
       SID		      "141"
       Position		      [20, 220, 50, 250]
       ZOrder		      58
-      Time		      "100"
+      Time		      "90"
       After		      "3"
       SampleTime	      "0"
     }
@@ -1238,7 +1242,7 @@ Model {
       SID		      "142"
       Position		      [20, 275, 50, 305]
       ZOrder		      59
-      Time		      "150"
+      Time		      "140"
       After		      "-3"
       SampleTime	      "0"
     }
@@ -1409,7 +1413,7 @@ Model {
       DstPort		      1
     }
     Line {
-      ZOrder		      12
+      ZOrder		      41
       SrcBlock		      "Lead car: h_0 = 250\n"
       SrcPort		      1
       DstBlock		      "Merge"
@@ -1422,13 +1426,6 @@ Model {
       Points		      [125, 0]
       DstBlock		      "Lead car: h_0 = 250\n"
       DstPort		      ifaction
-    }
-    Line {
-      ZOrder		      14
-      SrcBlock		      "Lead car: h_0 = 100"
-      SrcPort		      1
-      DstBlock		      "Merge"
-      DstPort		      2
     }
     Line {
       ZOrder		      15
@@ -1519,6 +1516,13 @@ Model {
       Points		      [125, 0]
       DstBlock		      "Lead car: h_0 = 100"
       DstPort		      ifaction
+    }
+    Line {
+      ZOrder		      42
+      SrcBlock		      "Lead car: h_0 = 100"
+      SrcPort		      1
+      DstBlock		      "Merge"
+      DstPort		      2
     }
   }
 }

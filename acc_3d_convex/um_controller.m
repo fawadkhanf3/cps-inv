@@ -100,7 +100,6 @@ function InitializeConditions(block)
   % set_chain = [cinv];
   % save('set_chain_save.mat', 'set_chain')
   load set_chain_save
-
   warning('off', 'all'); % dont want to see QP warnings
 
   assignin('base','con',con)

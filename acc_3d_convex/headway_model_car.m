@@ -45,9 +45,7 @@ function InitConditions(block)
 %endfunction
 
 function Output(block)
-
   block.OutputPort(1).Data = block.ContStates.Data;
-
 %endfunction
 
 function Derivative(block)
