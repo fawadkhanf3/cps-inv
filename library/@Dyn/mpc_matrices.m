@@ -17,9 +17,9 @@ function [Lx, Lu, Ld, Lk] = mpc_matrices(dyn,N)
     E = dyn.E;
     K = dyn.K;
 
-    n = size(A,2);
-    m = size(B,2);
-    p = size(E,2);
+    n = dyn.n;
+    m = dyn.m;
+    p = dyn.p;
 
     Lx = zeros(n*N, n);
     Lu = zeros(n*N, m*N);
@@ -43,7 +43,7 @@ function [Lx, Lu, Ld, Lk] = mpc_matrices(dyn,N)
         if p>0
     	    diag = repmat({ANE},1,N+1-i);
     	    diag = blkdiag(diag{:});
-    	    Ld(1+n*(i-1):end,1:(N+1-i)) = Ld(1+n*(i-1):end,1:(N+1-i)) + diag;
+    	    Ld(1+n*(i-1):end,1:p*(N+1-i)) = Ld(1+n*(i-1):end,1:p*(N+1-i)) + diag;
     	end
     	
         Lx(1+n*(i-1):n*i,:) = AN;

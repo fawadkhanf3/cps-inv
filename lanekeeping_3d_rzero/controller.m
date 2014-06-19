@@ -96,13 +96,9 @@ function InitializeConditions(block)
             'b', [2*ymax; 0.15; 2*rmax; 2*ymax; 0.15; 2*rmax]);
 
   safe = Polyhedron('A', [1 0 0;
-              -1 0 0;
-              0 0  1;
-              0 0 -1], ...
+              -1 0 0], ...
             'b', [ymax;
-                  ymax;
-                  rmax;
-                  rmax] ...
+                  ymax] ...
             );
   safe = intersect1(safe,domain);
 

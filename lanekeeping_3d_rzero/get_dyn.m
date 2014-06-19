@@ -16,13 +16,13 @@ function dyn = get_dyn2(con)
 	u0 = con.u0; dt = con.dt;
 	K1 = -(con.a^2*con.Caf + con.b^2*con.Car)/(con.Iz*u0);
 	K2 = con.a*con.Caf/con.Iz;
-
+	K3 = (con.b*con.Car-con.a*con.Caf)/(con.Iz*con.u0);
 	% Continuous system
 	A = [0  u0  0;
 		 0  0   1;
 		 0  0   K1];
 	B = [0; 0; K2];
-	E = [0; 1; 0];
+	E = [0 1; 1 0; 0 K3];
 	K = zeros(3,1);
 
 	% Exact discrete system
@@ -50,8 +50,10 @@ function dyn = get_dyn2(con)
 						'b', [pi/2;
 							  pi/2] ...
 						);
-	XD_plus = [0 0 0 con.alpha_ass*con.g/u0];
-	XD_minus = [0 0 0 -con.alpha_ass*con.g/u0];
+	XD_plus = [0 0 0 con.alpha_ass*con.g/u0;
+			   0 0 0 1];
+	XD_minus = [0 0 0 -con.alpha_ass*con.g/u0;
+				0 0 0 -1];
 
 	dyn = Dyn(Ad,Bd,Kd,Ed,XU_set,XD_plus,XD_minus);
 end

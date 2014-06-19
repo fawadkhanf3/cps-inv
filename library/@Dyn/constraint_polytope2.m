@@ -96,10 +96,10 @@ function [HH, hh] = constraint_polytope_2(dyn, polys, perm)
 
     if p>0
         XD_plus_x = dyn.XD_plus(:,1:n);
-        XD_plus_d = dyn.XD_plus(:,n+1:n+p);
+        XD_plus_d = dyn.XD_plus(:,n+1);
 
         XD_minus_x = dyn.XD_minus(:,1:n);
-        XD_minus_d = dyn.XD_minus(:,n+1:n+p);
+        XD_minus_d = dyn.XD_minus(:,n+1);
 
         Ld_0 = Ld(:,1:p); % part of Ld acting on d(0) - only disturbance we care about
 
