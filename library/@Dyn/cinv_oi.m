@@ -48,34 +48,25 @@ function [V] = cinv_oi(dyn, R, maxiter, rel_tol, show_plot, verbose)
 	tic 
 
 	V = R;
-	V_prim = intersect1(V, dyn.solve_feasible(V));
-	V_prim = merge1(V_prim,3,0);
-
-	vol1 = volume1(V);
-	vol2 = volume1(V_prim);
-	rel_vol = (vol1-vol2)/vol1;
-
-	if verbose
-		message(1, V_prim, rel_vol)
-	end
-
-	i = 2;
-	while rel_vol > rel_tol && i <= maxiter
-		V = V_prim;
+	rel_vol = inf;
+	i = 1;
+	while (rel_vol > rel_tol) && (i <= maxiter)
 		V_prim = intersect1(V, dyn.solve_feasible(V));
 		V_prim = merge1(V_prim,3,0);
 
-		vol1 = volume1(V);
-		vol2 = volume1(V_prim);
-		rel_vol = (vol1-vol2)/vol1;
+		v1 = volume1(V); v2 = volume1(V_prim);
+		rel_vol = (v1-v2)/v1;
+		
 		if verbose
 			message(i, V_prim, rel_vol);
 		end
-		i = i+1;
 		if show_plot
 			plot(V_prim);
 			drawnow;
 		end
+
+		V = V_prim;
+		i = i+1;
 	end
 	time = toc;
 	disp(['Outside-in controlled-invariant set algo finished in ', num2str(time), ' seconds after ', num2str(i), ' iterations'])

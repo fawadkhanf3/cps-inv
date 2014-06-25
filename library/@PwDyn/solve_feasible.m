@@ -27,6 +27,10 @@ function [ S ] = solve_feasible(pwd, X, N)
     % REMARK: Usage with N larger than 1 will force state to remain,
     %         in the same region in intermediate steps
 	
+    if nargin<3
+        N = 1;
+    end
+
     S = PolyUnion;
     for i=1:pwd.num_region
         new_poly = intersect1(pwd.reg_list{i}, pwd.dyn_list{i}.solve_feasible(X, N));
