@@ -103,11 +103,13 @@ function InitializeConditions(block)
 
   safe = intersect1(safe,domain);
 
+  C = dyn.cinv_oi(safe, 10, 1e-3, 0, 1);
+  save('c.mat', 'C')
+  % load('c.mat')
+
   opts = optimoptions('quadprog','Algorithm','interior-point-convex','display','None');
   warning('off', 'all'); % dont want to see QP warnings
 
-  % C = dyn.cinv_oi(safe, 1, 1e-3, 1);
-  load('c.mat')
 end %InitializeConditions
 
 
@@ -125,9 +127,9 @@ function Outputs(block)
   % read input - vehicle state and road curvature
   x = block.InputPort(1).Data;
 
-  N = 15;
-  [delta_f, cost] = dyn.solve_mpc(x, diag(repmat([0 0 0 0],1,N)), zeros(N*4,1), 4*eye(N), zeros(N,1), repmat(C,1,N), opts);
-
+  N = 10;
+  [delta_f, cost] = dyn.solve_mpc(x, diag(repmat([1 0 0 0],1,N)), zeros(N*4,1), 50*eye(N), zeros(N,1), repmat(C,1,N), opts);
+  % block.OutputPort(1).Data = -dyn.get_constant('feedback')*x + delta_f(1);
   block.OutputPort(1).Data = delta_f(1);
 
 end %Outputs

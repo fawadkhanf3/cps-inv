@@ -43,7 +43,7 @@ function setup(block)
 %endfunction
 
 function InitConditions(block)
-  block.ContStates.Data = [0 0 0 0]'; % initial condition
+  block.ContStates.Data = [0.4 0 0 0]'; % initial condition
 %endfunction
 
 function Output(block)
@@ -67,7 +67,6 @@ function Derivative(block)
 
   E=[0;0;1;0];
 
-  global model;
   block.Derivatives.Data = A*x + B*delta_f + E*r_d;
   
 %endfunction

@@ -38,7 +38,6 @@ function setup(block)
 %endfunction
 
 function InitConditions(block)
-  [params, model, ~, ~] = get_model;  
 %endfunction
 
 function Output(block)
@@ -46,10 +45,30 @@ function Output(block)
   % change of curvature of alpha*g/u is required, where 
   % u is the speed of the vehicle
   global con;
-
-  maxr = con.alpha_road*con.g/con.u0;
   t = block.currentTime;
 
-  block.OutputPort(1).Data = 0 + (10<t)*(t<20)*maxr + (20<t)*(t<30)*(-maxr);
+  % maxr = con.alpha_road*con.g/con.u0;
+  % block.OutputPort(1).Data = 0 + (10<t)*(t<11)*maxr + (20<t)*(t<30)*(-maxr);
+
+  radiusMin =  (con.u0^2)/(0.9*con.alpha_road*con.g);
+
+  if t> 22
+      radius=-radiusMin;
+      rd = con.u0/radius;
+  elseif t > 20
+      alpha = (t-20)/2;
+      rd= alpha * con.u0/(-radiusMin) + (1-alpha)*con.u0/radiusMin;
+      
+  elseif t> 11
+      radius=radiusMin;
+      rd = con.u0/radius;
+  elseif t>10
+      radius = radiusMin;
+      rd = (t-10)*con.u0/radius;
+  else
+      rd=0;
+  end
+
+  block.OutputPort(1).Data = rd;
 
 %endfunction

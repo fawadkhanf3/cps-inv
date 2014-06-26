@@ -92,8 +92,7 @@ function [HH, hh] = constraint_polytope_2(dyn, polys, perm)
         diagb = [diagb; poly_i.b];
     end
    
-	[ Lx, Lu, Ld, Lk ] = mpc_matrices(dyn, N);
-
+	[ Lx, Lu, Ld, Lk ] = mpc_matrices(dyn, N);   
     if p>0
         XD_plus_x = dyn.XD_plus(:,1:n);
         XD_plus_d = dyn.XD_plus(:,n+1);

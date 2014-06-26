@@ -55,7 +55,7 @@ function [ X0 ] = solve_feasible(dyn, X, N)
 	% Project a polytope
 	[HH, hh] = dyn.constraint_polytope2(X);
 	P = Polyhedron(HH,hh);
-	X0 = P.projection(1:size(dyn.A, 2));
+	X0 = P.projection(1:dyn.n);
 end
 
 
