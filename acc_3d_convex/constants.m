@@ -1,12 +1,12 @@
 function con = constants
 
 	con.h_des = 1.4;
-	con.h_delta = 0.2;
+	con.h_delta = 0.1;
 	con.dT = 0.5;
 	con.v_des = 28;
 	con.v_delta = 3;
 
-	con.v0 = 12;
+	con.v0 = 28;
 
 	con.dT = 0.5;
 	con.lin_speed = 15;

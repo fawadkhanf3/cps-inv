@@ -7,6 +7,8 @@ subplot(411)
 hold on
 plot(x_out.time, x_out.signals.values(:,1), 'b', 'linewidth', lw)
 plot(x_out.time, x_out.signals.values(:,3), 'r', 'linewidth', lw)
+plot(kal_out.time, kal_out.signals.values(:,3), 'r--', 'linewidth', lw)
+% legend('ACC', 'Lead')
 legend('ACC', 'Lead', 'Location', 'NorthEastOutSide')
 ylabel('$v$')
 xlabel('$t$')
@@ -34,17 +36,56 @@ plot(get(gca,'xlim'), [con.h_des-con.h_delta con.h_des-con.h_delta], 'g');
 xlabel('$t$')
 ylabel('$\max(3, h/v)$')
 
-matlab2tikz('plots.tikz','interpretTickLabelsAsTex',true, ...
-		     'width','\figurewidth', 'height', '\figureheight', ...
-		     'parseStrings',false, 'showInfo', false, ...
-		    'extraAxisOptions', ...
-		    'xmajorgrids=false, ymajorgrids=false, axis x line=bottom, axis y line=left, every axis x label/.style={at={(current axis.south east)},anchor=west}')
+% matlab2tikz('doc/simulink_plots.tikz','interpretTickLabelsAsTex',true, ...
+% 		     'parseStrings',false, 'showInfo', false, ...
+% 		     'width','\figurewidth', 'height', '\figureheight', ...
+% 		    'extraAxisOptions', ...
+% 		    'xmajorgrids=false, ymajorgrids=false, axis x line=bottom, axis y line=left, every axis x label/.style={at={(current axis.south east)},anchor=west}')
 
-figure(2)
-clf
-hold on
-colors=cool(length(set_chain));
-for i=length(set_chain):-1:1
-	plot(set_chain(i), 'color', colors(i,:), 'alpha', 0.1)
-end
-plot3(x_out.signals.values(:,1), x_out.signals.values(:,2), x_out.signals.values(:,3), 'r')
+% ind60 = find(x_out.time>=60, 1);
+% ind85 = find(x_out.time>=85, 1);
+% ind110 = find(x_out.time>=110, 1);
+% figure(2)
+% clf
+% hold on
+% plot(x_out.time(ind60:ind85), x_out.signals.values(ind60:ind85,1), 'b', 'linewidth', lw)
+% plot(x_out.time(ind60:ind85), x_out.signals.values(ind60:ind85,3), 'r', 'linewidth', lw)
+% ylabel('$v$')
+% xlabel('$t$')
+
+% set(gca, 'XTickLabel','')
+% legend('ACC','Lead','Location','SouthOutside')
+% matlab2tikz('doc/simulink_6085.tikz','interpretTickLabelsAsTex',true, ...
+% 		     'parseStrings',false, 'showInfo', false, ...
+% 		     'width','\figurewidth', 'height', '\figureheight', ...
+% 		    'extraAxisOptions', ...
+% 		    'xmajorgrids=false, ymajorgrids=false, axis x line=bottom, axis y line=left, every axis x label/.style={at={(current axis.south east)},anchor=west}')
+% clf
+% hold on
+% plot(x_out.time(ind85:ind110), x_out.signals.values(ind85:ind110,1), 'b', 'linewidth', lw)
+% plot(x_out.time(ind85:ind110), x_out.signals.values(ind85:ind110,3), 'r', 'linewidth', lw)
+% ylabel('$v$')
+% xlabel('$t$')
+% set(gca,'XTickLabel','')
+% matlab2tikz('doc/simulink_85110.tikz','interpretTickLabelsAsTex',true, ...
+% 		     'parseStrings',false, 'showInfo', false, ...
+% 		     'width','\figurewidth', 'height', '\figureheight', ...
+% 		    'extraAxisOptions', ...
+% 		    'xmajorgrids=false, ymajorgrids=false, axis x line=bottom, axis y line=left, every axis x label/.style={at={(current axis.south east)},anchor=west}')
+
+
+% figure(2)
+% clf
+% hold on
+% colors=cool(length(set_chain));
+% for i=length(set_chain):-1:1
+% 	plot(intersect1(Polyhedron([ 0 1 0], [200]), set_chain(i)), 'alpha', 0.1, 'color', colors(i,:))
+% end
+% view([6 18])
+% matlab2tikz('doc/setchain.tikz','interpretTickLabelsAsTex',true, ...
+% 		     'parseStrings',false, 'showInfo', false, ...
+% 		     'width','\figurewidth', 'height', '\figureheight', ...
+% 		    'extraAxisOptions', ...
+% 		    'xmajorgrids=false, ymajorgrids=false, axis x line=bottom, axis y line=left, every axis x label/.style={at={(current axis.south east)},anchor=west}')
+
+% plot3(x_out.signals.values(:,1), x_out.signals.values(:,2), x_out.signals.values(:,3), 'r')

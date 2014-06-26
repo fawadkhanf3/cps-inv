@@ -197,8 +197,9 @@ function  [Rx,rx,Ru,ru] = mpcweights(v,d,vl,udes,N,con)
   rx = zeros(3*N,1);
 
   v_weight = 3;
-  h_weight = 10*(1-ramp(abs(v-vl), 10, 20));
-  u_weight = 1;
+  h_weight = 1*(1-ramp(abs(v-vl), 10, 20));
+  u_weight = 3;
+  u_weight_jerk = 100;
 
   % weight on velocity
   Rx(sub2ind([3*N 3*N], 1:3:3*N, 1:3:3*N)) = v_weight*ones(N,1);
@@ -208,7 +209,12 @@ function  [Rx,rx,Ru,ru] = mpcweights(v,d,vl,udes,N,con)
   Rx(sub2ind([3*N 3*N], 2:3:3*N, 2:3:3*N)) = h_weight*ones(N,1);
   rx(2:3:3*N) = h_weight*(-1.4)*vl*ones(N,1);
 
-
   Ru = u_weight*eye(N);
+  if N>2
+    Ru = Ru + u_weight_jerk*(diag([1 2*ones(1,N-2) 1]) - diag(ones(N-1,1), -1) - diag(ones(N-1,1), 1));
+  else
+    Ru = Ru + u_weight_jerk*(diag(ones(1,N)) - diag(ones(N-1,1), -1) - diag(ones(N-1,1), 1));
+  end
   ru = zeros(N,1);
+
 end
