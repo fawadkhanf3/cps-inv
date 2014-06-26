@@ -1,9 +1,6 @@
 C_FILES := $(wildcard lib/*.c)
 OBJ_FILES := $(addprefix obj/,$(notdir $(C_FILES:.c=.out)))
 
-main: lib
-	g++ main.cpp umcont.a
-
 lib: umcont.out $(OBJ_FILES)
 	ar rvs umcont.a $^
 
@@ -15,3 +12,9 @@ obj/%.out: lib/%.c
 
 clean:
 	rm obj/*.out
+
+test1: lib
+	g++ -o test1.out test1.cpp umcont.a
+
+test2: lib
+	g++ -o test2.out test2.cpp umcont.a

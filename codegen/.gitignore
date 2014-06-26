@@ -1,5 +1,5 @@
 src/*.o
-lib/*.out
+lib/*
 *.out
 *.mat
 *.a

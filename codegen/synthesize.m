@@ -20,7 +20,7 @@ Gb = [0; con.v_des+con.v_delta];
 goal = intersect1(S1, Polyhedron('A', GA, 'b', Gb));
 
 set0 = robust_cinv(pwdyn,goal); 
-pre = pwdyn.solve_feasible(cinv);
+pre = pwdyn.solve_feasible(set0);
 set1 = pre.Set(2);
 
 %%%%%%%% SAVE STUFF TO MAT FILES %%%%%%%%%%
@@ -88,19 +88,25 @@ v_des = con.v_des;
 
 save('constants.mat', 'N', 'scale_factor', 'f0', 'f1', 'f2', 'f0_bar', 'f1_bar', 'v_des', 'mass')
 
+% Compute number of inequalities in output
+num_poly_hp_max = max(size(set0.A,1),size(set1.A,1));
+num_xu_hp = size(XUA,1);
+if p>0
+	max_num_ineq = N*(num_xu_hp+2*num_poly_hp_max);
+else
+	max_num_ineq = N*(num_xu_hp+num_poly_hp_max);
+end
+
 fid = fopen('./definitions.h','wt');
 fprintf(fid,'%s', '#define QP_N ');
 fprintf(fid,'%d\n', N);
-fprintf(fid,'%s', '#define QP_NHP ');
-fprintf(fid,'%d\n', size(cinv.A,1));
 fprintf(fid,'%s', '#define QP_XDIM ');
 fprintf(fid,'%d\n', n);
 fprintf(fid,'%s', '#define QP_UDIM ');
 fprintf(fid,'%d\n', m);
-fprintf(fid,'%s', '#define QP_NXU ');
-fprintf(fid,'%d\n', size(XUA,1));
-fprintf(fid,'%s', '#define QP_DDIM ');
-fprintf(fid,'%d\n', p);
+fprintf(fid,'%s', '#define QP_MAX_INEQ ');
+fprintf(fid,'%d\n', max_num_ineq);
+
 
 fprintf(fid,'%s', '#define KAL_XDIM ');
 fprintf(fid,'%d\n', 4);

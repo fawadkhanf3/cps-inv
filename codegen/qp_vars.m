@@ -23,7 +23,7 @@ function [H, f, A_ineq, b_ineq] = qp_vars(x0) %#codegen
     % Space dimensions
     n = size(dyn.A,2);
     m = size(dyn.B,2);
-    p = size(dyn.E, 2);
+    p = size(dyn.E,2);
 
     maxnum = max(size(poly1.A,1), size(poly0.A,1));
 
@@ -41,7 +41,6 @@ function [H, f, A_ineq, b_ineq] = qp_vars(x0) %#codegen
         polyA(1:size(poly1.A,1), :) = polyA(1:size(poly1.A,1), :) + poly1.A;
         polyb(1:size(poly1.A,1), :) = polyb(1:size(poly1.A,1), :) + poly1.b;
     end
-
 
 	v = x0(1);
 	h = x0(2);

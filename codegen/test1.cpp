@@ -10,17 +10,33 @@ using namespace std;
 int main(int argc, char const *argv[])
 {
 
-	VectorXd x0(3);
-	x0 << 3, 4, 5;
-	MatrixXd H, Aiq;
-	VectorXd f, biq;
+	VectorXd x0(3), x1(3);
+	x0 << 2, 4, 4;
+	x1 << 3.5,4,4;
+	MatrixXd H, H1, Aiq, Aiq1;
+	VectorXd f, f1, biq, biq1;
 
 	qp_vars_wrapper(x0,H,f,Aiq,biq);
 
-	cout << H << endl;
-	cout << f << endl;
-	// cout << Aiq << endl;
-	// cout << biq << endl;
+	H1 = H;
+	f1 = f;
+	Aiq1 = Aiq;
+	biq1 = biq;
+
+	qp_vars_wrapper(x1,H,f,Aiq,biq);
+
+	MatrixXd Hdiff, Adiff;
+	VectorXd fdiff, bdiff;
+
+	Hdiff = H-H1;
+	fdiff = f-f1;
+	bdiff = biq - biq1;
+	Adiff = Aiq - Aiq1;
+
+	cout << Hdiff << endl;
+	cout << fdiff << endl;
+	cout << bdiff << endl;
+	cout << Adiff << endl;
 
 	// VectorXd x_obs(4);
 	// MatrixXd P_obs(4,4);
