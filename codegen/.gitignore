@@ -1,0 +1,6 @@
+src/*.o
+lib/*.out
+*.out
+*.mat
+*.a
+definitions.h
