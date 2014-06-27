@@ -1,13 +1,13 @@
 function [H, f, A_ineq, b_ineq] = qp_vars(x0) %#codegen 
 	poly0 = coder.load('poly0_data.mat');
-    poly1 = coder.load('poly1_data.mat')
+    poly1 = coder.load('poly1_data.mat');
 	dyn1 = coder.load('dyn1_data.mat');
 	dyn2 = coder.load('dyn2_data.mat');
     dyn3 = coder.load('dyn3_data.mat');
     con = coder.load('constants');
 
     % Horizon
-    N = 2;
+    N = 10;
     
     if all(dyn2.domainA*x0 <= dyn2.domainb)
         dyn = dyn2;
@@ -55,21 +55,13 @@ function [H, f, A_ineq, b_ineq] = qp_vars(x0) %#codegen
 
 	v_weight = 3.;
 	h_weight = 1.*(1-ramp);
-	u_weight = 3.;
-	u_weight_jerk = 100;
+	% u_weight = 3.;
+	% u_weight_jerk = 100;
+    u_weight = 0.1;
+    u_weight_jerk = 1;
  
 	Rx = kron(eye(N), [v_weight 0 0; 0 h_weight 0; 0 0 0]);
-	rx = repmat([v_weight*(-v_goal); h_weight*(-1.4); 0],N,1);
-
-	% % weight on velocity
-	% Rx(sub2ind([3*N 3*N], 1:3:3*N, 1:3:3*N)) = v_weight*ones(N,1);
-	% Rx = Rx + v_weight*diag(repmat([1,0,0],1,N));
-	% rx(1:3:3*N) = v_weight*(-v_goal)*ones(N,1);
-
-	% % weight on headway
-	% Rx(sub2ind([3*N 3*N], 2:3:3*N, 2:3:3*N)) = h_weight*ones(N,1);
-	% Rx = Rx + h_weight*diag(repmat([0,1,0],1,N));
-	% rx(2:3:3*N) = h_weight*(-1.4)*vl*ones(N,1);
+	rx = repmat([v_weight*(-v_goal); h_weight*(-con.h_des); 0],N,1);
 
 	Ru = u_weight*eye(N);
 	if N>2

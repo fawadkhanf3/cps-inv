@@ -26,6 +26,8 @@
 #include "std_msgs/Bool.h"
 #include "std_msgs/Int32.h"
 #include "std_msgs/Int16.h"
+
+// Michigan controller includes
 #include "umcont.h"
 #include "definitions.h"
 
@@ -39,48 +41,44 @@ using namespace eiquadprog;
 
 double convert_rpm_to_vel = 0.00932;
 double convert_vel_to_rpm = 1/ 0.00932;
-double v_desired = 3;
-int last_vel = 0;
-int pwm;
+
 //double input_vel;
+int pwm;
 double input_pwm = 1400;
 int pwm_low = 1450;
 int pwm_high = 1300;
+
+// Data from car sensor
 double current_rpm;
-double current_vel;
-//double Kp = 0.00000004;
+double current_vel; 
+
+// Data from encoders
+double dist_0 = 0;
+//double dist_1 = 0;
+double dist = 0;      // relative distance
+
+// Actuation parameters
 double Kp = 0.8;     // 0.8
 double Kp_brake = 1.2;     // 0.8
 double Kp_acc = 1;     // 0.8 
+
+// Internal model
+double v_internal;
+double v_desired;
 double error;
 double P = 0;
-double v_internal;
-void calc_speed();
-void calc_torque();
 bool new_data = false;
 bool internal_is_initialized = false;
-double dist_0 = 0;
-//double dist_1 = 0;
-double dist = 0;
-//void calc_distance();
-double u_qp;
-double limit = 0.5;
-//bool counter = false;
-double Bcalc;
-double Distcalc;
-double V;
-double V_dot;
-double B_dot;
-double bar_gain = 0.3;
-double relax_error = 0.001;
 
-//// Things to possibly change
-/// Increase the relax_error if QP is failing
-/// Change bar_gain if the distance is too large or too small
-/// Change between v_interal and current_vel in the QP error calculation**** See notes below
+// Kalman filter observer
+MatrixXd P_obs(4,4);
+VectorXd x_obs(4);
 
-/// Small epsilon if running internal velocity epsilon = 1-10
-/// Large epsilon if running the current_vel epsilon = 30
+// Computed control
+double u_qp;          // QP output force
+
+void calc_torque();
+void calc_speed();
 
 void hall_callback(const std_msgs::UInt16& hall_msg) {
   ROS_INFO ("Received hall_data");
@@ -89,15 +87,16 @@ void hall_callback(const std_msgs::UInt16& hall_msg) {
   new_data = true;
 }
 
-void desired_cb(const std_msgs::UInt16& desired_msg) {
-  ROS_INFO ("Received desired velocity");
-  v_desired = desired_msg.data;
-}
-
 void dist_0_cb(const std_msgs::Int16& dist_0_msg) {
   //ROS_INFO ("Received desired velocity");
   dist_0 = dist_0_msg.data;
   new_data = true;
+}
+
+void desired_cb(const std_msgs::UInt16& desired_msg)
+{
+ ROS_INFO ("Received desired velocity");
+ v_desired = desired_msg.data;
 }
 
 /*void dist_1_cb(const std_msgs::Int64& dist_1_msg)
@@ -179,6 +178,12 @@ int main(int argc, char **argv) {
   //ros::Rate loop_rate(100);
   ros::Rate loop(loop_rate);
 
+  // Initialize Kalman filter
+  P_obs.setIdentity(4, 4);
+  x_obs(1) = 1;
+  x_obs(2) = 30;
+  x_obs(3) = 4;
+  
   while (ros::ok()) {
     if(new_data){
       /// @todo Implement logic for handling real-time switching between internal model trajectory generation and setpoint
@@ -189,12 +194,16 @@ int main(int argc, char **argv) {
       }
       
       // ROS_INFO("Looping");
-      std::cout << "v_desired " << v_desired << std::endl;
-
       dist = (dist_0)*0.00562;              //-(dist_1 - dist_0)*0.00562;
       std::cout << "distance_rel " << dist << std::endl;
 
+      // Update Kalman filter
+      // May need to change dt_loop to actual value
+      VectorXd y(2);
+      y << current_vel, dist;
+      kalman_wrapper(x_obs, P_obs, y, u_qp, dt_loop);
 
+      // Actuation
       calc_torque();
       calc_speed();
       
@@ -218,14 +227,8 @@ int main(int argc, char **argv) {
       }
       
       {
-        std_msgs::UInt16 msg;
-        msg.data = v_desired;             // publishing desired velocity 
-        pub_desired.publish(msg);
-      }
-      
-      {
         std_msgs::Float64 msg;
-        msg.data = current_vel;                // publishing current velocity 
+        msg.data = current_vel;            // publishing current velocity 
         pub_current.publish(msg);
       }
       
@@ -241,43 +244,12 @@ int main(int argc, char **argv) {
         pub_rel.publish(msg);
       }
       
-      {
-        std_msgs::Float64 msg;
-        msg.data = Bcalc;                   // publishing barrier function from the QP 
-        pub_barrier.publish(msg);
-      }
-      
-      {
-        std_msgs::Float64 msg;
-        msg.data = Distcalc;                   // publishing Distcalc from the QP 
-        pub_barrier.publish(msg);
-      }
-      
-      {
-        std_msgs::Float64 msg;
-        msg.data = V;                   // publishing V from the QP 
-        pub_V.publish(msg);
-      }
-      
-      {
-        std_msgs::Float64 msg;
-        msg.data = V_dot;                   // publishing V_dot from the QP 
-        pub_vdot.publish(msg);
-      }
-      
-      {
-        std_msgs::Float64 msg;
-        msg.data = B_dot;                   // publishing B_dot from the QP 
-        pub_bdot.publish(msg);
-      }
-      
       // Integrate time afterwards to be consistent with actual wall time
       t_internal = dt_loop + t_internal;
 
       ros::spinOnce();
       loop.sleep();
 
-      last_vel = current_vel;
       new_data = false;
     }
     ros::spinOnce();
@@ -313,25 +285,24 @@ void calc_speed() {
 
 void calc_torque() {
   std::cout << "Inside the calc torque" << std::endl;
-
-  // Get QP variables from controller
-  MatrixXd Aeq(neq, nvar);
-  MatrixXd H, Aiq;
-  VectorXd beq(neq);
-  VectorXd f, biq;
-  VectorXd x0(3);
-
-  x0 << 1,2,3;
-  cout << "Trying wrapper with x0:" << x0 << endl;
-  cout << H << endl;
-  cout << f << endl;
-  cout << Aiq << endl;
-  cout << biq << endl;
-  qp_vars_wrapper(x0, H, f, Aiq, biq);
-  cout << "Finished wrapper" << endl;
-
+  
   int nvar = QP_N;
   int neq = 0;
+
+  // Get QP variables from controller
+  MatrixXd H, Aiq;
+  VectorXd f, biq;
+
+  VectorXd x0(3);
+  x0 << x_obs[0], x_obs[1], x_obs[2]; // Use observer for feedback
+  // x0 << 1,2,3;
+  // x0 << current_vel << dist << x_obs[2];
+  cout << "Trying UM-C with x0:" << x0 << endl;
+  qp_vars_wrapper(x0, H, f, Aiq, biq);
+  cout << "Finished UM-C" << endl;
+
+  MatrixXd Aeq(neq, nvar);
+  VectorXd beq(neq);
 
   VectorXd x_actual(nvar);
   double obj_actual;
@@ -342,7 +313,7 @@ void calc_torque() {
 
   try {
     // Solve the QP 
-    // @todo Note that for this specific problem, if we change H to H/2, we get same answer but 	different objective
+    // @todo Note that for this specific problem, if we change H to H/2, we get same answer but   different objective
     obj_actual = eiquadprog::solve_quadprog(H, f, -Aeq.transpose(), -beq.transpose(), 
                                                   -Aiq.transpose(), biq, x_actual, 
                                                   equality_tolerance, iter_max, &iters);

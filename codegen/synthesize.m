@@ -5,7 +5,7 @@ n = 3;
 m = 1;
 p = 1;
 
-N = 2;
+N = 10;
 
 %%%%%%%%%%%% SYNTHESIZE %%%%%%%%%%%%%%
 
@@ -85,14 +85,16 @@ f0_bar = con.f0;
 f1_bar = con.f1;
 mass = con.mass;
 v_des = con.v_des;
+h_des = con.h_des;
 
-save('constants.mat', 'N', 'scale_factor', 'f0', 'f1', 'f2', 'f0_bar', 'f1_bar', 'v_des', 'mass')
+save('constants.mat', 'N', 'scale_factor', 'f0', 'f1', 'f2', 'f0_bar',  ...
+	 'f1_bar', 'v_des', 'h_des', 'mass')
 
 % Compute number of inequalities in output
 num_poly_hp_max = max(size(set0.A,1),size(set1.A,1));
 num_xu_hp = size(XUA,1);
 if p>0
-	max_num_ineq = N*(num_xu_hp+2*num_poly_hp_max);
+	max_num_ineq = N*(num_xu_hp+2*num_poly_hp_max)
 else
 	max_num_ineq = N*(num_xu_hp+num_poly_hp_max);
 end

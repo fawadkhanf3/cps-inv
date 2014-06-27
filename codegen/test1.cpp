@@ -13,43 +13,38 @@ int main(int argc, char const *argv[])
 	VectorXd x0(3), x1(3);
 	x0 << 2, 4, 4;
 	x1 << 3.5,4,4;
-	MatrixXd H, H1, Aiq, Aiq1;
-	VectorXd f, f1, biq, biq1;
+	MatrixXd H, Aiq;
+	VectorXd f, biq;
 
+	cout << "calling wrapper" << endl;
 	qp_vars_wrapper(x0,H,f,Aiq,biq);
 
-	H1 = H;
-	f1 = f;
-	Aiq1 = Aiq;
-	biq1 = biq;
+	cout << H << endl;
+	cout << f << endl;
+	cout << Aiq << endl;
+	cout << biq << endl;
 
-	qp_vars_wrapper(x1,H,f,Aiq,biq);
+	VectorXd x_obs(4);
+	MatrixXd P_obs(4,4);
+	P_obs.setIdentity(4, 4);
+	cout << P_obs << endl;
 
-	MatrixXd Hdiff, Adiff;
-	VectorXd fdiff, bdiff;
+	VectorXd y(2);
+	double u = 400;
+	double dt = 0.3;
 
-	Hdiff = H-H1;
-	fdiff = f-f1;
-	bdiff = biq - biq1;
-	Adiff = Aiq - Aiq1;
+	kalman_wrapper(x_obs, P_obs, y, u, dt);
 
-	cout << Hdiff << endl;
-	cout << fdiff << endl;
-	cout << bdiff << endl;
-	cout << Adiff << endl;
+	cout << x_obs << endl;
+	cout << P_obs << endl;
+	kalman_wrapper(x_obs, P_obs, y, u, dt);
 
-	// VectorXd x_obs(4);
-	// MatrixXd P_obs(4,4);
+	cout << x_obs << endl;
+	cout << P_obs << endl;
+	kalman_wrapper(x_obs, P_obs, y, u, dt);
 
-	// VectorXd y(2);
-	// double u = 400;
-	// double dt = 0.3;
-
-	// kalman_wrapper(x_obs, P_obs, y, u, dt);
-
-	// cout << x_obs << endl;
-	// cout << P_obs << endl;
+	cout << x_obs[0] << endl;
+	cout << P_obs << endl;
 
 	return 0;
 }
-

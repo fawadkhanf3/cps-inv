@@ -13,10 +13,10 @@ obj/%.out: lib/%.c
 clean:
 	rm obj/*.out
 
-test1: lib
+test1: umcont.out lib
 	g++ -o test1.out test1.cpp umcont.a
 
-test2: lib
+test2: umcont.out lib
 	g++ -o test2.out test2.cpp umcont.a
 
 akarchive: definitions.h 

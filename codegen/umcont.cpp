@@ -3,31 +3,23 @@
 
 void qp_vars_wrapper(const VectorXd & x0, MatrixXd & H, 
 	         		 VectorXd & f, MatrixXd & A_ineq, VectorXd & b_ineq) {
-	cout << "Inside wrapper" << endl;
-	
+
 	// Change input to array
 	double x0_arr[QP_XDIM];
 	Map<VectorXd>(x0_arr,QP_XDIM) = x0;
-
-	cout << "Inside wrapper, pos 1" << endl;
 	
 	// Allocate output variables
-	double H_out[QP_XDIM*QP_XDIM];
-	double f_out[QP_XDIM];
+	double H_out[QP_UDIM*QP_N*QP_UDIM*QP_N];
+	double f_out[QP_UDIM*QP_N];
 	double A_ineq_out[QP_MAX_INEQ*QP_UDIM*QP_N];
 	double b_ineq_out[QP_MAX_INEQ];
-
-	cout << "Inside wrapper, pos 2" << endl;
-	
+		
 	// Call to Matlab converted function
 	qp_vars(x0_arr,H_out,f_out,A_ineq_out,b_ineq_out);
-	
-	cout << "Inside wrapper, pos 3" << endl;
-
+		
 	// Create maps for outputs
 	Map<MatrixXd> A_ineq1(A_ineq_out,QP_MAX_INEQ,QP_UDIM*QP_N);
 	Map<VectorXd> b_ineq1(b_ineq_out,QP_MAX_INEQ);
-
 	Map<MatrixXd> H1(H_out,QP_UDIM*QP_N,QP_UDIM*QP_N);
 	Map<VectorXd> f1(f_out,QP_UDIM*QP_N);
 
@@ -38,7 +30,6 @@ void qp_vars_wrapper(const VectorXd & x0, MatrixXd & H,
 	A_ineq = A_ineq1;
 	b_ineq = b_ineq1;
 	
-	cout << "Inside wrapper, pos 4" << endl;
 }
 
 void kalman_wrapper(VectorXd & x_obs, MatrixXd & P_obs, 

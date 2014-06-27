@@ -23,10 +23,6 @@ void calc_torque() {
   x0 << 1,2,3;
 
   cout << "Trying wrapper with x0: " << x0 << endl;
-  cout << "H: " << H << endl;
-  cout << "f: " << f << endl;
-  cout << "Aiq: " << Aiq << endl;
-  cout << "biq: " << biq << endl;
   qp_vars_wrapper(x0, H, f, Aiq, biq);
   cout << "Finished wrapper" << endl;
 
