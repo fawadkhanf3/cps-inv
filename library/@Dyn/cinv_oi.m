@@ -17,7 +17,7 @@ function [V] = cinv_oi(dyn, R, maxiter, rel_tol, show_plot, verbose)
 	% -----
 	%	dyn	System dynamics
 	% 		Class: Dyn
-	%	R 	Dimensions upon which to project
+	%	R 	Goal set
 	%		Class: Polyhedron or PolyUnion
 	%   maxiter  Maximal number of iterations
 	% 		Default: inf

@@ -3,7 +3,7 @@ function con = constants
 	con.h_des = 0.2;
 	con.h_delta = 0.0;
 	con.h_min = 0.1;
-	con.v_des = 3;
+	con.v_des = 4;
 	con.v_delta = 0.1;
 
 	con.dT = 0.1;

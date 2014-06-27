@@ -32,18 +32,15 @@ function [Lx, Lu, Ld, Lk] = mpc_matrices(dyn,N)
     ANK = K;
 
     for i=1:N
-        diag = repmat({ANB},1,N+1-i);
-        diag = blkdiag(diag{:});
-        Lu(1+n*(i-1):end,1:m*(N+1-i)) = Lu(1+n*(i-1):end,1:m*(N+1-i)) + diag;
+        diag_mat = kron(eye(N+1-i), ANB);
+        Lu(1+n*(i-1):end,1:m*(N+1-i)) = Lu(1+n*(i-1):end,1:m*(N+1-i)) + diag_mat;
 
-        diag = repmat({ANK},1,N+1-i);
-        diag = blkdiag(diag{:});
-        Lk(1+n*(i-1):end,1:(N+1-i)) = Lk(1+n*(i-1):end,1:(N+1-i)) + diag;
+        diag_mat = kron(eye(N+1-i), ANK);
+        Lk(1+n*(i-1):end,1:(N+1-i)) = Lk(1+n*(i-1):end,1:(N+1-i)) + diag_mat;
 
         if p>0
-    	    diag = repmat({ANE},1,N+1-i);
-    	    diag = blkdiag(diag{:});
-    	    Ld(1+n*(i-1):end,1:p*(N+1-i)) = Ld(1+n*(i-1):end,1:p*(N+1-i)) + diag;
+            diag_mat = kron(eye(N+1-i), ANE);
+    	    Ld(1+n*(i-1):end,1:p*(N+1-i)) = Ld(1+n*(i-1):end,1:p*(N+1-i)) + diag_mat;
     	end
     	
         Lx(1+n*(i-1):n*i,:) = AN;

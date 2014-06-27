@@ -19,7 +19,7 @@ GA = [con.h_des-con.h_delta -1 0; 1 0 0];
 Gb = [0; con.v_des+con.v_delta];
 goal = intersect1(S1, Polyhedron('A', GA, 'b', Gb));
 
-set0 = robust_cinv(pwdyn,goal); 
+set0 = pwdyn.cinv_oi(goal); 
 pre = pwdyn.solve_feasible(set0);
 set1 = pre.Set(2);
 

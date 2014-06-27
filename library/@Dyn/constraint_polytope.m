@@ -1,4 +1,4 @@
-function [HH, hh] = constraint_polytope_2(dyn, polys, perm)
+function [HH, hh] = constraint_polytope(dyn, polys, perm)
     % CONSTRAINT_POLYTOPE: Compute polytopes that represent joint 
     % constraints on initial state and inputs that keep the states in
     % a given set of polytopes.
@@ -47,31 +47,29 @@ function [HH, hh] = constraint_polytope_2(dyn, polys, perm)
 	m = size(dyn.B, 2);
 	p = size(dyn.E, 2);
 
+    [ Lx, Lu, Ld, Lk ] = mpc_matrices(dyn, N);   
+
     % Take care of input constraints; form A_u, b_u such that A_u [ x(0); u(0) .. u(N-1)] < b_u
     % enforces LU [x(i); u(i)] < lU for all i.
-	LU = dyn.XU_set.A;
-	lU = dyn.XU_set.b;
+    LU = dyn.XU_set.A;
+    lU = dyn.XU_set.b;
 
     LU_x = LU(:,1:n);
     LU_u = LU(:,n+1:n+m);
 
-    [ LxN1, LuN1, LdN1, LkN1 ] = mpc_matrices(dyn, N-1);
-
-    dLU_x = repmat({LU_x},1,N-1); 
-    dLU_x = blkdiag(dLU_x{:});
-    dLU_u = repmat({LU_u},1,N-1); 
-    dLU_u = blkdiag(dLU_u{:});
-    dlU = repmat(lU,N-1,1);
+    dLU_x = kron(eye(N-1), LU_x);
+    dLU_u = kron(eye(N-1), LU_u);
+    dlU = repmat(lU,N-1,1);    
 
     A_u_X = [ LU_x; 
-              dLU_x*LxN1];
+              dLU_x*Lx(1:n*(N-1),:)];
 
     A_u_U = [ LU_u zeros(size(LU_u,1), m*(N-1)); 
-              [dLU_x*LuN1 zeros(size(dLU_u,1),m)]+[zeros(size(dLU_u,1),m) dLU_u] ];
+              [dLU_x*Lu(1:n*(N-1), 1:m*(N-1)) zeros(size(dLU_u,1),m)]+[zeros(size(dLU_u,1),m) dLU_u] ];
     A_u = [A_u_X A_u_U];
 
     b_u = [lU; 
-           dlU-dLU_x*LkN1];
+           dlU-dLU_x*Lk(1:n*(N-1),:)];
 
     % Add state constraints, x(i) \in poly(i)(perm(i)) for all i
     diagA = [];
@@ -92,7 +90,6 @@ function [HH, hh] = constraint_polytope_2(dyn, polys, perm)
         diagb = [diagb; poly_i.b];
     end
    
-	[ Lx, Lu, Ld, Lk ] = mpc_matrices(dyn, N);   
     if p>0
         XD_plus_x = dyn.XD_plus(:,1:n);
         XD_plus_d = dyn.XD_plus(:,n+1);

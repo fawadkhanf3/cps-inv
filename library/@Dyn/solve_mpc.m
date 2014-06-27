@@ -69,7 +69,7 @@ function [ min_u, min_cost ] = solve_mpc(dyn, x0, Rx, rx, Ru, ru, polys, opts)
     for i=1:prod(Nn) % test each combination of multi-steps
         current = permutations(i,:);
 
-        [HH hh] = dyn.constraint_polytope2(polys, current);
+        [HH hh] = dyn.constraint_polytope(polys, current);
 
         A_ineq = HH(:,n+1:n+N*m);
         b_ineq = hh - HH(:,1:n)*x0;
