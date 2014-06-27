@@ -18,3 +18,6 @@ test1: lib
 
 test2: lib
 	g++ -o test2.out test2.cpp umcont.a
+
+akarchive: definitions.h 
+	tar czf um_controller.tar.gz umcont.cpp umcont.h lib definitions.h um_cont.cpp test1.cpp test2.cpp 

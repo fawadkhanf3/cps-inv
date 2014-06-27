@@ -1,12 +1,12 @@
 function con = constants
 
-	con.h_des = 0.5;
+	con.h_des = 0.2;
 	con.h_delta = 0.0;
 	con.h_min = 0.1;
 	con.v_des = 3;
 	con.v_delta = 0.1;
 
-	con.dT = 0.35;
+	con.dT = 0.1;
 	con.lin_speed = 1.5;
 
 	% Create 3-dimenstional PwDyn object
@@ -20,12 +20,12 @@ function con = constants
 	con.f1_bar = con.f1 + 2*con.f2*con.lin_speed;
 
 	con.g = 9.82;
-	con.umin = -0.1*con.g*con.mass;	% Newton
-	con.umax = 0.07*con.g*con.mass;	% Newton
+	con.umin = -0.3*con.g*con.mass;	% Newton
+	con.umax = 0.2*con.g*con.mass;	% Newton
 
 	% Speed limitaitons for following car [m/s]
 	con.v_f_min = -0.05;
-	con.v_f_max = 5;
+	con.v_f_max = 10;
 
 	% Distance limitations
 	con.d_max = 20;
@@ -37,7 +37,7 @@ function con = constants
 
 	% Constraint on disturbance as a fraction of following car
 	% acceleration capabilities
-	con.d_max_ratio = 0.7; % Must be less than 1
+	con.d_max_ratio = 2; % Must be less than 1
 
 
 end
