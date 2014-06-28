@@ -180,9 +180,9 @@ int main(int argc, char **argv) {
 
   // Initialize Kalman filter
   P_obs.setIdentity(4, 4);
-  x_obs(1) = 1;
-  x_obs(2) = 30;
-  x_obs(3) = 4;
+  x_obs(0) = 1;
+  x_obs(1) = 30;
+  x_obs(2) = 4;
   
   while (ros::ok()) {
     if(new_data){
@@ -294,9 +294,9 @@ void calc_torque() {
   VectorXd f, biq;
 
   VectorXd x0(3);
-  x0 << x_obs[0], x_obs[1], x_obs[2]; // Use observer for feedback
+  x0 << x_obs(0), x_obs(1), x_obs(2); // Use observer for feedback
   // x0 << 1,2,3;
-  // x0 << current_vel << dist << x_obs[2];
+  // x0 << current_vel, dist, x_obs(2);
   cout << "Trying UM-C with x0:" << x0 << endl;
   qp_vars_wrapper(x0, H, f, Aiq, biq);
   cout << "Finished UM-C" << endl;

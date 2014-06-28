@@ -50,6 +50,6 @@ function [x_next, P_next] = kalman_4d(x,P,y,u,dt)
     P_next = (eye(4)-gain*C)*P_next_pred;
 
     % Ugly hacks to keep speeds positive
-    x_next(1) = max(x_next(1), 1e-5)
-    x_next(3) = max(x_next(3), 1e-5);
+    x_next(1) = max(x_next(1), 0)
+    x_next(3) = max(x_next(3), 0);
 end

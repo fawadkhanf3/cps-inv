@@ -94,7 +94,7 @@ save('constants.mat', 'N', 'scale_factor', 'f0', 'f1', 'f2', 'f0_bar',  ...
 num_poly_hp_max = max(size(set0.A,1),size(set1.A,1));
 num_xu_hp = size(XUA,1);
 if p>0
-	max_num_ineq = N*(num_xu_hp+2*num_poly_hp_max)
+	max_num_ineq = N*(num_xu_hp+2*num_poly_hp_max);
 else
 	max_num_ineq = N*(num_xu_hp+num_poly_hp_max);
 end

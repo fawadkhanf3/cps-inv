@@ -9,14 +9,16 @@ function [H, f, A_ineq, b_ineq] = qp_vars(x0) %#codegen
     % Horizon
     N = 10;
     
+    all_safe = 1;
+
     if all(dyn2.domainA*x0 <= dyn2.domainb)
         dyn = dyn2;
     elseif all(dyn1.domainA*x0 <= dyn1.domainb)
         dyn = dyn1;
     elseif all(dyn3.domainA*x0 <= dyn3.domainb)
         dyn = dyn3;
-    else
-        disp(['Warning: outside of region'])
+    else  
+        all_safe = 0;
         dyn = dyn2;
     end
 
@@ -37,9 +39,9 @@ function [H, f, A_ineq, b_ineq] = qp_vars(x0) %#codegen
         polyA(1:size(poly0.A,1), :) = polyA(1:size(poly0.A,1), :) + poly0.A;
         polyb(1:size(poly0.A,1), :) = polyb(1:size(poly0.A,1), :) + poly0.b;
     else
-        disp(['Warning: outside of sets'])
-        polyA(1:size(poly1.A,1), :) = polyA(1:size(poly1.A,1), :) + poly1.A;
-        polyb(1:size(poly1.A,1), :) = polyb(1:size(poly1.A,1), :) + poly1.b;
+        % Outside of region, not good!
+        % Let polytope constraint be all zeros
+        all_safe = 0;
     end
 
 	v = x0(1);
@@ -184,5 +186,10 @@ function [H, f, A_ineq, b_ineq] = qp_vars(x0) %#codegen
 	
     H = Ru + Lu'*Rx*Lu;
     f = ru + Lu'*Rx*(Lx*x0+Lk)+Lu'*rx;
+
+    if ~all_safe
+        H = zeros(size(H));
+        f = ones(size(f));
+    end
 
 end

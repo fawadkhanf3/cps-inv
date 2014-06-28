@@ -12,7 +12,7 @@ int main(int argc, char const *argv[])
 
 	VectorXd x0(3), x1(3);
 	x0 << 2, 4, 4;
-	x1 << 3.5,4,4;
+	x1 << 3.5,-1,4;
 	MatrixXd H, Aiq;
 	VectorXd f, biq;
 
@@ -23,6 +23,15 @@ int main(int argc, char const *argv[])
 	cout << f << endl;
 	cout << Aiq << endl;
 	cout << biq << endl;
+
+	cout << "calling wrapper" << endl;
+	qp_vars_wrapper(x1,H,f,Aiq,biq);
+
+	cout << H << endl;
+	cout << f << endl;
+	cout << Aiq << endl;
+	cout << biq << endl;
+
 
 	VectorXd x_obs(4);
 	MatrixXd P_obs(4,4);
