@@ -63,5 +63,5 @@ function dyn = get_dyn(dT, lin_speed)
 	XD_plus = [ 0 0 v_plus_coef plus_constant ];
 	XD_minus = [ 0 0 v_min_coef min_constant ];
 	
-	dyn = Dyn(A,B,K,E,XUset,XD_plus,XD_minus);
+	dyn = Dyn(A,K,B,XUset,E,XD_plus,XD_minus);
 end

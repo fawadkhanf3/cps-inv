@@ -60,5 +60,5 @@ function dyn = get_dyn(con)
   	XD_plus = [0 0 0 0 con.alpha_ass*con.g/con.u0];
   	XD_minus = [0 0 0 0 -con.alpha_ass*con.g/con.u0];
 
-    dyn = Dyn(Ad,Bd,Kd,Ed,XU_set,XD_minus, XD_plus);
+    dyn = Dyn(Ad,Kd,Bd,XU_set,Ed,XD_minus, XD_plus);
 end

@@ -81,9 +81,9 @@ function pwd = get_pw_dyn(dT, lin_speed)
 	reg2 = intersect(region, Polyhedron([0 0 1; 0 0 -1], [v_plus_co; -v_min_co]));
 	reg3 = intersect(region, Polyhedron([0 0 -1], [-v_plus_co]));
 
-	dyn1 = Dyn(A,B,K,E,XUset,XD_plus_mid,XD_minus_low);
-	dyn2 = Dyn(A,B,K,E,XUset,XD_plus_mid,XD_minus_mid);
-	dyn3 = Dyn(A,B,K,E,XUset,XD_plus_high,XD_minus_mid);
+	dyn1 = Dyn(A,K,B,XUset,E,XD_plus_mid,XD_minus_low);
+	dyn2 = Dyn(A,K,B,XUset,E,XD_plus_mid,XD_minus_mid);
+	dyn3 = Dyn(A,K,B,XUset,E,XD_plus_high,XD_minus_mid);
 
 	reg_list = {reg1, reg2, reg3};
 	dyn_list = {dyn1, dyn2, dyn3};

@@ -34,8 +34,6 @@ function dyn = get_2d_dyn(con)
 	B = B/B_cond_number;
 	K = [ (f0_bar/f1_bar)*(ekt-1) ;
 			  (f0_bar/(f1_bar^2) )*(dT*f1_bar + mass*(ekt-1))  + dT*v_lead];
-	% E = [0; 1];
-	E = zeros(2,0);
 
 	% Constraints on the form A_xu [x' u']' \leq b_xu, definitng the possible
 	% input signals
@@ -48,6 +46,6 @@ function dyn = get_2d_dyn(con)
 	XD_minus = [0 0 -dT*dist];
 
 	% dyn = Dyn(A,B,K,E,XUset,XD_plus, XD_minus);
-	dyn = Dyn(A,B,K,E,XUset);
+	dyn = Dyn(A,K,B,XUset);
 	dyn.save_constant('B_cond_number', B_cond_number);
 end

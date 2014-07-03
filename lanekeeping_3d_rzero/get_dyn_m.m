@@ -22,7 +22,8 @@ function dyn = get_dyn2(con)
 		 0  0   1;
 		 0  0   K1];
 	B = [0; 0; K2];
-	E = [0 1; 1 0; 0 K3];
+	E = [0; 1; 0];
+	Em = [1; 0; K3];
 	K = zeros(3,1);
 
 	% Integrate
@@ -31,6 +32,7 @@ function dyn = get_dyn2(con)
     Bd = integral(A_s, 0, dt, 'ArrayValued', true, 'AbsTol', 1e-6) * B;
     Kd = zeros(3,1);
     Ed = integral(A_s, 0, dt, 'ArrayValued', true, 'AbsTol', 1e-6) * E;
+    Emd = integral(A_s, 0, dt, 'ArrayValued', true, 'AbsTol', 1e-6) * Em;
 
 
 	XU_set = Polyhedron('A', [0 0 0 1;
@@ -38,10 +40,10 @@ function dyn = get_dyn2(con)
 						'b', [pi/2;
 							  pi/2] ...
 						);
-	XD_plus = [0 0 0 con.alpha_ass*con.g/u0;
-			   0 0 0 con.maxv];
-	XD_minus = [0 0 0 -con.alpha_ass*con.g/u0;
-				0 0 0 -con.maxv];
+	XD_plus = [0 0 0 con.alpha_ass*con.g/u0];
+	XD_minus = [0 0 0 -con.alpha_ass*con.g/u0];
 
-	dyn = Dyn(Ad,Kd,Bd,XU_set,Ed,XD_plus,XD_minus);
+	Dm_set = Polyhedron('V', [-con.maxv; con.maxv]);
+
+	dyn = Dyn(Ad,Kd,Bd,XU_set,Ed,XD_plus,XD_minus,Emd, Dm_set);
 end

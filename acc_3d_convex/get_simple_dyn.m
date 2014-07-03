@@ -12,7 +12,6 @@ function dyn = get_simple_dyn(con)
 	B_cond_number = max(abs(B));
 	B = B/B_cond_number;
 	K = [ (con.f0_bar/con.f1_bar)*(ekt-1) ];
-	E = zeros(1,0);
 	A_xu = [ 0	1 ;
 			0   -1;
 			ekt*B_cond_number (1-ekt)/con.f1_bar;
@@ -23,6 +22,6 @@ function dyn = get_simple_dyn(con)
 	       -B_cond_number*con.v_f_min+con.f0_bar*B_cond_number*(ekt-1)/con.f1_bar];
 	XUset = Polyhedron(A_xu, b_xu);
 	
-	dyn = Dyn(A,B,K,E,XUset);
+	dyn = Dyn(A,K,B,XUset);
 	dyn.save_constant('B_cond_number', B_cond_number);
 end

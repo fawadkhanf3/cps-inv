@@ -50,11 +50,11 @@ function pwd = get_pw_dyn(con)
 	reg2 = intersect(region, Polyhedron([0 0 1; 0 0 -1], [v_plus_co; -v_min_co]));
 	reg3 = intersect(region, Polyhedron([0 0 -1], [-v_plus_co]));
 
-	dyn1 = Dyn(A,B,K,E,XUset,XD_plus_mid,XD_minus_low);
+	dyn1 = Dyn(A,K,B,XUset,E,XD_plus_mid,XD_minus_low);
 	dyn1.save_constant('B_cond_number', B_cond_number);
-	dyn2 = Dyn(A,B,K,E,XUset,XD_plus_mid,XD_minus_mid);
+	dyn2 = Dyn(A,K,B,XUset,E,XD_plus_mid,XD_minus_mid);
 	dyn2.save_constant('B_cond_number', B_cond_number);
-	dyn3 = Dyn(A,B,K,E,XUset,XD_plus_high,XD_minus_mid);
+	dyn3 = Dyn(A,K,B,XUset,E,XD_plus_high,XD_minus_mid);
 	dyn3.save_constant('B_cond_number', B_cond_number);
 
 	reg_list = {reg1, reg2, reg3};

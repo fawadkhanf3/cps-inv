@@ -28,4 +28,6 @@ function con = constants
     % con.F_yfmax = 1500;
     con.F_yfmax = 6660; % from Omar
 
+    con.maxv = 1;
+
 end

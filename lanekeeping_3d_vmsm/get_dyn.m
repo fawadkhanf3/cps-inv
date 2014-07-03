@@ -39,5 +39,5 @@ function dyn = get_dyn(con)
 	XD_plus = [0 0 0 con.alpha_ass*con.g/con.u0];
 	XD_minus = [0 0 0 -con.alpha_ass*con.g/con.u0];
 
-	dyn = Dyn(A,B,K,E,XU_set,XD_plus,XD_minus);
+	dyn = Dyn(A,K,B,XU_set,E,XD_plus,XD_minus);
 end

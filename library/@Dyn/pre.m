@@ -54,10 +54,18 @@ function [ X0 ] = pre(dyn, X, N)
 
 	if dyn.pm > 0
 		% We have measurable disturbance
+		[HH, hh] = dyn.constraint_polytope(X);
+		P = Polyhedron(HH,hh);
+		X0 = P.projection(1:dyn.n);
+
 		num_vert = size(dyn.Dm_set.V);
-		for dm_vert = 1:num_vert
-
-
+		for i_vert = 1:num_vert
+			dm_vert = dyn.Dm_set.V(i_vert,:);
+			dyn_mod = Dyn(dyn.A, dyn.K + dyn.Em*dm_vert', dyn.B, dyn.XU_set, ...
+						  dyn.E, dyn.XD_plus, dyn.XD_minus);
+			[HH, hh] = dyn_mod.constraint_polytope(X);
+			P = Polyhedron(HH,hh);
+			X0 = intersect1(P.projection(1:dyn.n), X0);
 		end
 	else
 		[HH, hh] = dyn.constraint_polytope(X);

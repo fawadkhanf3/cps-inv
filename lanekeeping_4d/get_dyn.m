@@ -29,7 +29,7 @@ function dyn = get_dyn(con)
     Q=Kp*c'*c + Kd*A'*c'*c*A;
     R=600;
     [K,Slqr,Elqr]=lqr(Sys,Q,R);
-    % [V,D]=eig(A-B*K)
+    % K = zeros(1,4);
 
     % Closed-loop
     SysCL=ss(A-B*K,B,Cy,0);
@@ -44,11 +44,11 @@ function dyn = get_dyn(con)
     Kd = zeros(4,1);
     Ed = integral(A_s, 0, dt, 'ArrayValued', true) * E;
 
-    XU_set = Polyhedron([0 0 0 0 1; 0 0 0 0 -1], [pi/3; pi/3]);
+    XU_set = Polyhedron([-K 1; K -1], [pi/3; pi/3]);
 
   	XD_plus = [0 0 0 0 con.alpha_ass*con.g/con.u0];
   	XD_minus = [0 0 0 0 -con.alpha_ass*con.g/con.u0];
 
-    dyn = Dyn(Ad,Bd,Kd,Ed,XU_set,XD_minus, XD_plus);
-    dyn.save_constant('feedback', K)
+    dyn = Dyn(Ad,Kd,Bd,XU_set,Ed,XD_minus,XD_plus);
+    % dyn.save_constant('feedback', K)
 end

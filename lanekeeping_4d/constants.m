@@ -1,7 +1,7 @@
 function con = constants
 
 	% time step
-	con.dt = 0.05;
+	con.dt = 0.1;
 
 	% nominal speed
 	con.u0 = 30; %m/s

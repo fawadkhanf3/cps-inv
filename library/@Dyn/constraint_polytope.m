@@ -6,8 +6,8 @@ function [HH, hh] = constraint_polytope(dyn, polys, perm)
     %
     % SYNTAX
     % ------
-    %   [HH, hh] = constraint_polytope(dyn, polys, perm)
     %   [HH, hh] = constraint_polytope(dyn, polys)
+    %   [HH, hh] = constraint_polytope(dyn, polys, perm)
     %
     % DESCRIPTION
     % -----------
@@ -43,9 +43,9 @@ function [HH, hh] = constraint_polytope(dyn, polys, perm)
         error('wrong size')
     end
 
-    n = size(dyn.A, 2);
-	m = size(dyn.B, 2);
-	p = size(dyn.E, 2);
+    n = dyn.n;
+	m = dyn.m;
+	p = dyn.p;
 
     [ Lx, Lu, Ld, Lk ] = mpc_matrices(dyn, N);   
 
