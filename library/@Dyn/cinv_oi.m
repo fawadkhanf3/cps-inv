@@ -50,15 +50,28 @@ function [V] = cinv_oi(dyn, R, maxiter, rel_tol, show_plot, verbose)
 	V = R;
 	rel_vol = inf;
 	i = 1;
+	tic;
 	while (rel_vol > rel_tol) && (i <= maxiter)
-		V_prim = intersect1(V, dyn.solve_feasible(V));
+		V_prim = intersect1(V, dyn.pre(V));
 		V_prim = merge1(V_prim,3,0);
 
 		v1 = volume1(V); v2 = volume1(V_prim);
 		rel_vol = (v1-v2)/v1;
 		
 		if verbose
-			message(i, V_prim, rel_vol);
+			t = toc;
+			if isa(V_prim, 'Polyhedron')
+				num = 1;
+				numhp = size(V_prim.A,1);
+				numv = size(V_prim.V,1);
+			else
+				num = V_prim.Num;
+				numhp = 0;
+				numv = 0;
+			end
+			disp([num2str(i), ': time ' num2str(t), ', Number of polys: ', ...
+				num2str(num), ' Number of hps: ', num2str(numhp), ...
+				' Number of vs: ', num2str(numv), ' Voldiff: ', num2str(rel_vol)])
 		end
 		if show_plot
 			plot(V_prim);
@@ -73,12 +86,5 @@ function [V] = cinv_oi(dyn, R, maxiter, rel_tol, show_plot, verbose)
 end
 
 function mes = message(i, V_prim, rel_vol)
-	if isa(V_prim, 'Polyhedron')
-		num = 1;
-	else
-		num = V_prim.Num;
-	end
-	disp([num2str(i), ', Number of polys: ', ...
-		num2str(num), ', Voldiff: ', num2str(rel_vol)])
 end
 

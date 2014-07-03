@@ -6,14 +6,15 @@ classdef Dyn
     % SYNTAX
     % ------
     %
-    %   dyn = Dyn(A,B,K,E,XU_set)
-    %   dyn = Dyn(A,B,K,E,XU_set,XD_plus,XD_minus)
+    %   dyn = Dyn(A,K,B,XU_set,E)
+    %   dyn = Dyn(A,K,B,XU_set,E,XD_plus,XD_minus)
+    %   dyn = Dyn(A,K,B,XU_set,E,XD_plus,XD_minus,Em,Dm_set)
     % 
     % DESCRIPTION
     % ------    
     %   An instance of this class represents a discrete-time
     %   linear system of the form
-    %   x(t+1) = Ax(t) + Bu(t) + Ed(t) + K
+    %   x(t+1) = Ax(t) + Bu(t) + Ed(t) + Em dm(t) + K
     % 
     %   A is n x n
     %   B is n x m
@@ -21,51 +22,70 @@ classdef Dyn
     %   K is n x 1
     %
     %   u(t) is the control input
-    %   d(t) is a disturbance
+    %   d(t) is a non-measurable disturbance
+    %   dm(t) is a measurable disturbance
     %
-    %   - Input constraint:                             [x; u] \in XD_poly, a n+m-dimensional Polytope
+    %   - Input constraint:                             [x; u] \in XU_set, a n+m-dimensional Polytope
     %   - (State-dependent) disturbance constraints:    d \leq XD_plus*[ x; 1 ],  XD_plus is p x (d+1)
     %                                                   d \geq XD_minus*[ x; 1 ]  XD_minus is p x (d+1)
+    %   - Measurable disturbance constraint:            dm \in Dm_set
     %
 
     properties (SetAccess=protected)
         A;          % n x n array
         B;          % n x m array
         E;          % n x p array
+        Em;         % n x pm array
         K;          % n x 1 array
         XU_set;     % Polyhedron
         XD_plus;    % p x n+p array
         XD_minus;   % p x n+p array
+        Dm_set;
         n;
         m;
         p;
+        pm;
         constants;  % Map of additional constants associated with the object (key-value pairs)
     end
     
     methods
         % Constructor
-        function d = Dyn(A,B,K,E,XU_set,XD_plus,XD_minus)
+        function d = Dyn(A,K,B,XU_set,E,XD_plus,XD_minus,Em,Dm_set)
             d.n = size(A,2);
-            d.m = size(B,2);
-            d.p = size(E,2);
-            if [size(B,1) size(E,1) size(K,1)] ~= [d.n d.n d.n]
+
+            if size(A) ~= [d.n d.n]
                 error('Wrong dimensions in dynamics definition')
             end
-            if ~isa(XU_set, 'Polyhedron')
-                error('5th argument must be a Polyhedron')
+
+            if nargin<8
+                % No measurable disturbance
+                Em = zeros(d.n,0);
+                Dm_set = Polyhedron('H', zeros(0,d.n));
             end
-            if nargin<6
-                XD_plus = zeros(1,d.n);
-                XD_minus = zeros(1,d.n);
+
+            if nargin<5
+                % No disturbance
+                E = zeros(d.n,0);
+                XD_plus = zeros(0,d.n);
+                XD_minus = zeros(0,d.n);
+            end
+
+            d.m = size(B,2);
+            d.p = size(E,2);
+            d.pm = size(Em,2);
+            if [size(B,1) size(E,1) size(Em,1) size(K,1)] ~= [d.n d.n d.n d.n]
+                error('Wrong dimensions in dynamics definition')
             end
 
             d.A = A;
             d.B = B;
             d.E = E;
+            d.Em = Em;
             d.K = K;
             d.XU_set = XU_set;
             d.XD_plus = XD_plus;
             d.XD_minus = XD_minus;
+            d.Dm_set = Dm_set;
             d.constants = containers.Map;
         end
         function [poly] = xd_poly(dyn)

@@ -1,10 +1,10 @@
-function [ X0 ] = solve_feasible(dyn, X, N)
-    % SOLVE_FEASIBLE: Find a backward-time reachable set.
+function [ X0 ] = pre(dyn, X, N)
+    % PRE: Find a backward-time reachable set.
     % ======================================================
     %
     % SYNTAX
     % ------
-    %   X0 = solve_feasible(dyn, X, N)
+    %   X0 = pre(dyn, X, N)
     %
     % DESCRIPTION
     % -----------
@@ -36,7 +36,7 @@ function [ X0 ] = solve_feasible(dyn, X, N)
 	if isa(X, 'PolyUnion')	
 		X0 = PolyUnion;
 		for i=1:X.Num
-            new_poly = dyn.solve_feasible(X.Set(i), N);
+            new_poly = dyn.pre(X.Set(i), N);
             X0 = add1(X0, new_poly);
 		end
 		return
@@ -44,18 +44,26 @@ function [ X0 ] = solve_feasible(dyn, X, N)
 
 	% If horizon longer than 1
 	if N>1
-		X0_iter = dyn.solve_feasible(X,1);
+		X0_iter = dyn.pre(X,1);
 		for i=2:N
-			X0_iter = dyn.solve_feasible(X0_iter,1);
+			X0_iter = dyn.pre(X0_iter,1);
 		end
 		X0 = X0_iter;
 		return 
 	end
 
-	% Project a polytope
-	[HH, hh] = dyn.constraint_polytope(X);
-	P = Polyhedron(HH,hh);
-	X0 = P.projection(1:dyn.n);
+	if dyn.pm > 0
+		% We have measurable disturbance
+		num_vert = size(dyn.Dm_set.V);
+		for dm_vert = 1:num_vert
+
+
+		end
+	else
+		[HH, hh] = dyn.constraint_polytope(X);
+		P = Polyhedron(HH,hh);
+		X0 = P.projection(1:dyn.n);
+	end	
 end
 
 
