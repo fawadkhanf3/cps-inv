@@ -1,7 +1,5 @@
 src/*.o
-lib/*
 *.out
 *.mat
 *.a
-definitions.h
 *.tar.gz
