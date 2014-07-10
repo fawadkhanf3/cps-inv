@@ -11,6 +11,7 @@ include:
 	mkdir -p include
 	cp matlab_c/qp_vars.h include/
 	cp matlab_c/kalman_4d.h include/
+	cp definitions.h include/
 
 obj/%.out: matlab_c/%.c
 	mkdir -p obj
