@@ -207,7 +207,7 @@ function  [Rx,rx,Ru,ru] = mpcweights(v,d,vl,udes,N,con)
 
   % weight on headway
   Rx(sub2ind([3*N 3*N], 2:3:3*N, 2:3:3*N)) = h_weight*ones(N,1);
-  rx(2:3:3*N) = h_weight*(-1.4)*vl*ones(N,1);
+  rx(2:3:3*N) = h_weight*(-1.4)*v*ones(N,1);
 
   Ru = u_weight*eye(N);
   if N>2

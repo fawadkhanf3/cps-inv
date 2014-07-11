@@ -56,14 +56,14 @@ function [H, f, A_ineq, b_ineq] = qp_vars(x0) %#codegen
 	ramp = max(0, min(1, 0.5+abs(v-vl)/delta-lim/delta));
 
 	v_weight = 3.;
-	h_weight = 1.*(1-ramp);
+	h_weight = 4.*(1-ramp);
 	% u_weight = 3.;
 	% u_weight_jerk = 100;
     u_weight = 0.1;
     u_weight_jerk = 1;
  
 	Rx = kron(eye(N), [v_weight 0 0; 0 h_weight 0; 0 0 0]);
-	rx = repmat([v_weight*(-v_goal); h_weight*(-con.h_des); 0],N,1);
+	rx = repmat([v_weight*(-v_goal); h_weight*(-con.h_des*v); 0],N,1);
 
 	Ru = u_weight*eye(N);
 	if N>2
