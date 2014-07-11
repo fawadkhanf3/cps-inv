@@ -24,6 +24,8 @@ function [ X0 ] = pre(dyn, X, N)
     %   N 	    Number of time steps
     %           Default: 1
 
+
+
 	if nargin<3
 		N = 1;
 	end

@@ -51,7 +51,7 @@ function [C_iter] = robust_cinv(pwdyn, goal, maxiter, rel_tol, show_plot, verbos
 	iter = 0;
 	while iter < maxiter
 		disp(['iteration: ' num2str(iter)])
-		C = intersect1(C_iter, pwdyn.solve_feasible(C_iter, 1));
+		C = intersect1(C_iter, pwdyn.pre(C_iter, 1));
 		
 		C_cvx = C.Set(1);
 		for i=2:pwdyn.num_region

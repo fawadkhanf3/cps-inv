@@ -7,7 +7,7 @@ function [H, f, A_ineq, b_ineq] = qp_vars(x0) %#codegen
     con = coder.load('constants');
 
     % Horizon
-    N = 10;
+    N = con.N;
     
     all_safe = 1;
 
