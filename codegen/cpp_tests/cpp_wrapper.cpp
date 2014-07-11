@@ -1,5 +1,5 @@
-#include "definitions.h"
-#include "umcont.h"
+#include "../matlab_c/definitions.h"
+#include "cpp_wrapper.h"
 
 void qp_vars_wrapper(const VectorXd & x0, MatrixXd & H, 
 	         		 VectorXd & f, MatrixXd & A_ineq, VectorXd & b_ineq) {

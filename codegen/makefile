@@ -1,23 +1,23 @@
-C_FILES := $(wildcard lib/*.c)
+C_FILES := $(wildcard matlab_c/*.c)
 OBJ_FILES := $(addprefix obj/,$(notdir $(C_FILES:.c=.out)))
 
-lib: umcont.out $(OBJ_FILES)
-	ar rvs umcont.a $^
+all: lib include
 
-umcont.out: $(OBJ_FILES)
-	g++ -c -o umcont.out umcont.cpp
+lib: $(OBJ_FILES)
+	mkdir -p lib
+	ar rvsc lib/qp_kalman_lib.a $^
 
-obj/%.out: lib/%.c
+include:
+	mkdir -p include
+	cp matlab_c/qp_vars.h include/
+	cp matlab_c/kalman_4d.h include/
+	cp definitions.h include/
+
+obj/%.out: matlab_c/%.c
+	mkdir -p obj
 	gcc -c -o $@ $<
 
 clean:
-	rm obj/*.out
-
-test1: umcont.out lib
-	g++ -o test1.out test1.cpp umcont.a
-
-test2: umcont.out lib
-	g++ -o test2.out test2.cpp umcont.a
-
-akarchive: definitions.h 
-	tar czf um_controller.tar.gz umcont.cpp umcont.h lib definitions.h um_cont.cpp test1.cpp test2.cpp makefile 
+	rm -rf lib
+	rm -rf obj
+	rm -rf include

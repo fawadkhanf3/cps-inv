@@ -4,8 +4,8 @@
 
 // Include files converted from matlab
 extern "C" {
-	#include "lib/qp_vars.h"
-	#include "lib/kalman_4d.h"
+	#include "../matlab_c/qp_vars.h"
+	#include "../matlab_c/kalman_4d.h"
 }
 
 #ifndef __UMCONT_H__

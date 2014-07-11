@@ -2,7 +2,7 @@
 #include <eigen3/Eigen/Dense>
 #include <eigen3/Eigen/Core>
 
-#include "umcont.h"
+#include "cpp_wrapper.h"
 
 using namespace Eigen;
 using namespace std;

@@ -1,5 +1,1 @@
-src/*.o
-*.out
-*.mat
-*.a
-*.tar.gz
+matlab_c

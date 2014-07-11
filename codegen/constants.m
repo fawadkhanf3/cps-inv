@@ -1,5 +1,7 @@
 function con = constants
 
+	con.N = 10;
+
 	con.h_des = 0.2;
 	con.h_delta = 0.0;
 	con.h_min = 0.1;
@@ -20,10 +22,8 @@ function con = constants
 	con.f1_bar = con.f1 + 2*con.f2*con.lin_speed;
 
 	con.g = 9.82;
-	% con.umin = -0.3*con.g*con.mass;	% Newton
-	% con.umax = 0.2*con.g*con.mass;	% Newton
-	con.umin = -5;
-	con.umax = 10;
+	con.umin = -0.3*con.g*con.mass;	% Newton
+	con.umax = 0.2*con.g*con.mass;	% Newton
 
 	% Speed limitaitons for following car [m/s]
 	con.v_f_min = -0.05;
