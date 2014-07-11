@@ -1,5 +1,5 @@
 function [ S ] = solve_feasible(pwd, X, N)
-    % SOLVE_FEASIBLE: Find a backward-time reachable set.
+    % PRE: Find a backward-time reachable set.
     % ======================================================
     %
     % SYNTAX
@@ -33,7 +33,7 @@ function [ S ] = solve_feasible(pwd, X, N)
 
     S = PolyUnion;
     for i=1:pwd.num_region
-        new_poly = intersect1(pwd.reg_list{i}, pwd.dyn_list{i}.solve_feasible(X, N));
+        new_poly = intersect1(pwd.reg_list{i}, pwd.dyn_list{i}.pre(X, N));
         S = add1(S, new_poly);
     end
 end

@@ -6,6 +6,10 @@ classdef PwDyn
         domain = Polyhedron;
         reg_list = {};
         dyn_list = {};
+        n;
+        m;
+        p;
+        pm;
     end
     
     methods
@@ -13,6 +17,16 @@ classdef PwDyn
         % Constructor
             if size(reg_list) ~= size(dyn_list)
                 error('Number of domains and number of dynamics must agree')
+            end
+            pwd.n = dyn_list{1}.n;
+            pwd.m = dyn_list{1}.m;
+            pwd.p = dyn_list{1}.p; 
+            pwd.pm = dyn_list{1}.pm;   
+            for i=1:size(dyn_list)
+                if (dyn_list{i}.n ~= pwd.n) || (dyn_list{i}.m ~= pwd.m) || ...
+                   (dyn_list{i}.p ~= pwd.p) || (dyn_list{i}.pm ~= pwd.pm)
+                    error('Dyn objects do not have the same state/input/disturbance dimension')
+                end
             end
             pwd.num_region = length(reg_list);
             pwd.domain = domain;

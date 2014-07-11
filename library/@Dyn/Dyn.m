@@ -19,6 +19,7 @@ classdef Dyn
     %   A is n x n
     %   B is n x m
     %   E is n x p
+    %   Em is n x pm
     %   K is n x 1
     %
     %   u(t) is the control input
