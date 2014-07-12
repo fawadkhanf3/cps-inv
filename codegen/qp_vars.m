@@ -51,16 +51,14 @@ function [H, f, A_ineq, b_ineq] = qp_vars(x0) %#codegen
 	% Create MPC weights
 	v_goal = min(con.v_des, vl);
 	
-	lim = 10;
-	delta = 20;
+	lim = 1;
+	delta = 2;
 	ramp = max(0, min(1, 0.5+abs(v-vl)/delta-lim/delta));
 
 	v_weight = 3.;
 	h_weight = 4.*(1-ramp);
-	% u_weight = 3.;
-	% u_weight_jerk = 100;
     u_weight = 0.1;
-    u_weight_jerk = 1;
+    u_weight_jerk = 0.5;
  
 	Rx = kron(eye(N), [v_weight 0 0; 0 h_weight 0; 0 0 0]);
 	rx = repmat([v_weight*(-v_goal); h_weight*(-con.h_des*v); 0],N,1);
@@ -134,12 +132,8 @@ function [H, f, A_ineq, b_ineq] = qp_vars(x0) %#codegen
     LU_u = LU(:,n+1:n+m);
 
     dLU_x = kron(eye(N-1), LU_x);
-    % dLU_x = repmat({LU_x},1,N-1); 
-    % dLU_x = blkdiag(dLU_x{:});
     dLU_u = kron(eye(N-1), LU_u);
-    % dLU_u = repmat({LU_u},1,N-1); 
-    % dLU_u = blkdiag(dLU_u{:});
-    dlU = repmat(lU,N-1,min(1,N-1));
+    dlU = repmat(lU,N-1,max(1,N-1));
 
     A_u_X = [ LU_x; 
               dLU_x*LxN1];

@@ -45,7 +45,7 @@ function pwd = get_pw_dyn(con)
 	XD_plus_high = [0 0 -1/con.dT con.v_l_max/con.dT];
 	XD_minus_low = [0 0 -1/con.dT con.v_l_min/con.dT];
 
-	region = Polyhedron([diag([1 0 1]); -diag([1 0 1])], [con.v_f_max; con.d_max; con.v_l_max; -con.v_f_min; -con.d_min; -con.v_l_min]);
+	region = Polyhedron([1 0 0; 0 0 1; -1 0 0; 0 0 -1], [con.v_f_max; con.v_l_max; -con.v_f_min; -con.v_l_min]);
 	reg1 = intersect(region, Polyhedron([0 0 1], [cutoff_lower]));
 	reg2 = intersect(region, Polyhedron([0 0 1; 0 0 -1], [cutoff_upper; -cutoff_lower]));
 	reg3 = intersect(region, Polyhedron([0 0 -1], [-cutoff_upper]));

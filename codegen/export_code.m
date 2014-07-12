@@ -23,8 +23,13 @@ end
 fid = fopen('./matlab_c/definitions.h','wt');
 fprintf(fid,'%s', '#define V_LIN ');
 fprintf(fid,'%f\n', con.lin_speed);
-
-fprintf(fid,'%s', '#define F2_CON ');
+fprintf(fid,'%s', '#define CAR_MASS ');
+fprintf(fid,'%f\n', con.mass);
+fprintf(fid,'%s', '#define CAR_F0 ');
+fprintf(fid,'%f\n', con.f0);
+fprintf(fid,'%s', '#define CAR_F1 ');
+fprintf(fid,'%f\n', con.f1);
+fprintf(fid,'%s', '#define CAR_F2 ');
 fprintf(fid,'%f\n', con.f2);
 
 fprintf(fid,'%s', '#define QP_N ');
