@@ -10,7 +10,7 @@ function [C_iter] = robust_cinv(pwdyn, goal, maxiter, rel_tol, show_plot, verbos
 	%
 	% DESCRIPTION
 	% -----------
-	%	Computes the maximally controlled-invariant set contained in R
+	%	Iterates towards the maximal convex controlled-invariant set contained in R
 	%
 	% INPUT
 	% -----
@@ -52,7 +52,6 @@ function [C_iter] = robust_cinv(pwdyn, goal, maxiter, rel_tol, show_plot, verbos
 	while iter < maxiter
 		disp(['iteration: ' num2str(iter)])
 		C = intersect1(C_iter, pwdyn.pre(C_iter, 1));
-		
 		C_cvx = C.Set(1);
 		for i=2:pwdyn.num_region
 			C_cvx = merge_biggest_wins(C_cvx, C.Set(i));

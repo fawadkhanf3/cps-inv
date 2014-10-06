@@ -1,10 +1,10 @@
-function [ S ] = solve_feasible(pwd, X, N)
+function [ S ] = pre(pwd, X, N)
     % PRE: Find a backward-time reachable set.
     % ======================================================
     %
     % SYNTAX
     % ------
-    %   X0 = solve_feasible(dyn, X, N)
+    %   X0 = pre(dyn, X, N)
     %
     % DESCRIPTION
     % -----------

@@ -84,23 +84,23 @@ function InitializeConditions(block)
   global set_chain;
 
   con = constants;
-  pwadyn = get_pw_dyn(con);
+  pwadyn = get_dyn(con);
   simple_dyn = get_simple_dyn(con);
 
   VH = pwadyn.domain;
   %Safe set
-  S1 = intersect(VH, Polyhedron([1 -1 0; 0 -1 0], [0; -3]));
+  S1 = intersect(VH, Polyhedron([1 -1 0; 0 -1 0], [0; -0.3]));
   % Goal set
   GA = [con.h_des-con.h_delta -1 0; 1 0 0];
   Gb = [0; con.v_des+con.v_delta];
   goal = intersect1(S1, Polyhedron('A', GA, 'b', Gb));
 
-  % cinv = robust_cinv(pwadyn, goal); 
+  % cinv = cinv_oi(pwadyn, goal); 
   % set_chain = bw_chain(pwadyn, cinv, S1);
   % set_chain = [cinv];
   % save('set_chain_save.mat', 'set_chain')
   load set_chain_save
-  warning('off', 'all'); % dont want to see QP warnings
+  % warning('off', 'all'); % dont want to see QP warnings
 
   assignin('base','con',con)
   assignin('base','pwadyn',pwadyn)
@@ -129,10 +129,9 @@ function Outputs(block)
 
   if d >= con.d_max
     % Use controller for mode M2
-    u = simple_dyn.solve_mpc(v, 1, -con.v_des, 0, 0, Polyhedron('A', [1; -1], 'b', [con.v_f_max; -con.v_f_min]));
+    u = simple_dyn.solve_mpc(v, 1, -con.v_des, 1, 0, Polyhedron('A', [1; -1], 'b', [con.v_f_max; -con.v_f_min]));
     u_real = u(1)/(simple_dyn.get_constant('B_cond_number'));
     u_real = u_real + con.f2*(v-con.lin_speed)^2;
-    % disp(['Trying to achieve v_des by applying ', num2str(u_real)]);
     block.OutputPort(1).Data = u_real;
     return;
   end
@@ -141,7 +140,7 @@ function Outputs(block)
 
   current_cell = find_cell(set_chain, x0);
   if current_cell == -1;
-    disp([num2str(block.currentTime), 'Cell not found, breaking hard'])
+    disp([num2str(block.currentTime), 'Cell not found for ', mat2str(x0), ', breaking hard'])
     block.OutputPort(1).Data = con.umin;
     return;
   end

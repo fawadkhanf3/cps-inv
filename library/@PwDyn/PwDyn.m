@@ -42,7 +42,7 @@ classdef PwDyn
                    return;
                 end
             end
-            error('Point not inside any region')
+            error(strcat('Point', mat2str(point), 'not inside any region'))
         end
 
         function plot_regions(pwd)

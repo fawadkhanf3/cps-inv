@@ -1,67 +1,64 @@
-function dyn = get_dyn(dT, lin_speed)
-
-	% Create 3-dimenstional PwDyn object
-
-	mass = 1650;	% kg
-	f0 = 0.1*mass;	% Newton
-	f1 = 5;			% Newton/mps
-	f2 = 0.25;		% Newton/mps^2
-
-	f0_bar = f0 - f2*lin_speed^2;
-	f1_bar = f1 + 2*f2*lin_speed;
-
-	umin = -0.3*9.82*mass;	% Newton
-	umax = 0.2*9.82*mass;	% Newton
-
-	% Speed limitaitons for following car [m/s]
-	v_f_min = 10/3.6;
-	v_f_max = 120/3.6;
-
-	% Constraint on disturbance as a fraction of following car
-	% acceleration capabilities
-	d_max_ratio = 0.5; % Must be less than 1
+function pwd = get_pw_dyn(con)
 
 	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-	kappa = f1_bar/mass;
-	ekt = exp(-kappa*dT);
+	kappa = con.f1_bar/con.mass;
+	ekt = exp(-kappa*con.dT);
 
 	A = [ ekt 				0 		0 ; 
-			  (ekt-1)/kappa 	1 		dT;
+			  (ekt-1)/kappa 	1 		con.dT;
 			  0 				0 		1]; 
-	B = (1/(f1_bar^2))*[ f1_bar*(1-ekt) ;
-			  				 mass*(1-ekt) - dT*f1_bar ;
+	B = (1/(con.f1_bar^2))*[ con.f1_bar*(1-ekt) ;
+			  				 con.mass*(1-ekt) - con.dT*con.f1_bar ;
 			  				 0 ];
-	B_cond_number = max(abs(B));
-	B_cond_number = B_cond_number;
+	B_cond_number = 1; %max(abs(B));
 	B = B/B_cond_number;
-	E = [0 ; dT^2/2; dT];
-	E = E;
-	K = [ (f0_bar/f1_bar)*(ekt-1) ;
-			  (f0_bar/(f1_bar^2) )*(dT*f1_bar + mass*(ekt-1)) ;
+	
+	% E = [0 ; 0; 0];
+	E = [0 ; con.dT^2/2; con.dT];
+	K = [ (con.f0_bar/con.f1_bar)*(ekt-1) ;
+			  (con.f0_bar/(con.f1_bar^2) )*(con.dT*con.f1_bar + con.mass*(ekt-1)) ;
 			  0 ];
 	A_xu = [ 0	0	0	1 ;
 			0   0	0	-1;
-			ekt*B_cond_number 0   0   (1-ekt)/f1_bar;
-			-ekt*B_cond_number 0   0   -(1-ekt)/f1_bar ];
-	b_xu = [B_cond_number*umax; 
-	       -B_cond_number*umin;
-	       B_cond_number*v_f_max-f0_bar*B_cond_number*(ekt-1)/f1_bar;
-	       -B_cond_number*v_f_min+f0_bar*B_cond_number*(ekt-1)/f1_bar];
+			ekt*B_cond_number 0   0   (1-ekt)/con.f1_bar;
+			-ekt*B_cond_number 0   0   -(1-ekt)/con.f1_bar ];
+	b_xu = [B_cond_number*con.umax; 
+	       -B_cond_number*con.umin;
+	       B_cond_number*con.v_f_max-con.f0_bar*B_cond_number*(ekt-1)/con.f1_bar;
+	       -B_cond_number*con.v_f_min+con.f0_bar*B_cond_number*(ekt-1)/con.f1_bar];
 	XUset = Polyhedron(A_xu, b_xu);
 
+	acceleration_max = con.d_max_ratio*con.umax/con.mass;
+	acceleration_min = con.d_max_ratio*con.umin/con.mass;
+
+	% Figure out cut-off points
+	cutoff_upper = con.v_l_max - acceleration_max*con.dT;
+	cutoff_lower = con.v_l_min - acceleration_min*con.dT;
+
 	% Limitations on disturbance
-
-	plus_constant = (d_max_ratio/dT)*((1-ekt)*umax+f0_bar*(ekt-1))/f1_bar;
-	v_plus_coef = (d_max_ratio/dT)*(ekt-1);
-
-	min_constant = (d_max_ratio/dT)*((1-ekt)*umin+f0_bar*(ekt-1))/f1_bar;
-	v_min_coef = (d_max_ratio/dT)*(ekt-1);
-
-	XD_plus = [ 0 0 v_plus_coef plus_constant ];
-	XD_minus = [ 0 0 v_min_coef min_constant ];
+	XD_plus_mid = [ 0 0 0 acceleration_max];
+	XD_minus_mid = [ 0 0 0 acceleration_min];
 	
-	dyn = Dyn(A,K,B,XUset,E,XD_plus,XD_minus);
+	XD_plus_high = [0 0 -1/con.dT con.v_l_max/con.dT];
+	XD_minus_low = [0 0 -1/con.dT con.v_l_min/con.dT];
+
+	region = Polyhedron([1 0 0; 0 0 1; -1 0 0; 0 0 -1], [con.v_f_max; con.v_l_max; -con.v_f_min; -con.v_l_min]);
+	reg1 = intersect(region, Polyhedron([0 0 1], [cutoff_lower]));
+	reg2 = intersect(region, Polyhedron([0 0 1; 0 0 -1], [cutoff_upper; -cutoff_lower]));
+	reg3 = intersect(region, Polyhedron([0 0 -1], [-cutoff_upper]));
+
+	dyn1 = Dyn(A,K,B,XUset,E,XD_plus_mid,XD_minus_low);
+	dyn1.save_constant('B_cond_number', B_cond_number);
+	dyn2 = Dyn(A,K,B,XUset,E,XD_plus_mid,XD_minus_mid);
+	dyn2.save_constant('B_cond_number', B_cond_number);
+	dyn3 = Dyn(A,K,B,XUset,E,XD_plus_high,XD_minus_mid);
+	dyn3.save_constant('B_cond_number', B_cond_number);
+
+	reg_list = {reg1, reg2, reg3};
+	dyn_list = {dyn1, dyn2, dyn3};
+	
+	pwd = PwDyn(region, reg_list, dyn_list);
 end

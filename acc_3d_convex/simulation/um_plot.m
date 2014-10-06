@@ -7,7 +7,7 @@ subplot(411)
 hold on
 plot(x_out.time, x_out.signals.values(:,1), 'b', 'linewidth', lw)
 plot(x_out.time, x_out.signals.values(:,3), 'r', 'linewidth', lw)
-plot(kal_out.time, kal_out.signals.values(:,3), 'r--', 'linewidth', lw)
+% plot(kal_out.time, kal_out.signals.values(:,3), 'r--', 'linewidth', lw)
 % legend('ACC', 'Lead')
 legend('ACC', 'Lead', 'Location', 'NorthEastOutSide')
 ylabel('$v$')

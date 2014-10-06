@@ -1,4 +1,4 @@
-function headway_model_nocar(block)
+function headway_model_car(block)
 
   setup(block);
   
@@ -7,7 +7,7 @@ function headway_model_nocar(block)
 function setup(block)
   
   %% Register number of dialog parameters   
-  block.NumDialogPrms = 1;
+  block.NumDialogPrms = 2;
 
   %% Register number of input and output ports
   block.NumInputPorts  = 1;
@@ -27,7 +27,7 @@ function setup(block)
   block.SampleTimes = [0 0];
   
   %% Setup Dwork
-  block.NumContStates = 1;
+  block.NumContStates = 2;
 
   %% Set the block simStateCompliance to default (i.e., same as a built-in block)
   block.SimStateCompliance = 'DefaultSimState';
@@ -40,19 +40,29 @@ function setup(block)
 %endfunction
 
 function InitConditions(block)
-  block.ContStates.Data = block.DialogPrm(1).Data;
+  block.ContStates.Data = [block.DialogPrm(1).Data; block.DialogPrm(2).Data];
   
 %endfunction
 
 function Output(block)
-
-  block.OutputPort(1).Data = [300; 0];
-
+  block.OutputPort(1).Data = block.ContStates.Data;
 %endfunction
 
 function Derivative(block)
+  v = block.InputPort(1).Data;
+  vl = block.ContStates.Data(2);
 
-  block.Derivatives.Data = [ 0 ];
+  block.Derivatives.Data = [vl - v; vldt(block.currentTime, vl)];
   
 %endfunction
 
+function dvl = vldt(t, vl)
+  con = constants;
+  amax = 0.9*con.d_max_ratio*(con.umax - con.f0 - con.f1*vl - con.f2*vl^2)/con.mass;
+  amin = 0.9*con.d_max_ratio*(con.umin - con.f0 - con.f1*vl - con.f2*vl^2)/con.mass;
+  dvl = (t>20)*(t<25)*(vl<3)*min(amax, 5-vl) + ...
+        (t>30)*(t<35)*(vl<5)*amax + ...
+        (t>50)*(t<70)*(vl>2)*amin + ...
+        (t>100)*(t<110)*(vl>0)*max(amin, -vl) + ...
+        (t>120)*(t<150)*(vl<22)*amax;
+% end
