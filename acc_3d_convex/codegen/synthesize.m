@@ -1,5 +1,5 @@
 con = constants;
-pwdyn = get_pw_dyn(con);
+pwdyn = get_dyn(con);
 
 %%%%%%%%%%%% SYNTHESIZE %%%%%%%%%%%%%%
 

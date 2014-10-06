@@ -2,7 +2,7 @@ function con = constants
 
 	con.N = 1;
 
-	con.h_des = 0.6;
+	con.h_des = 2;
 	con.h_delta = 0.0;
 	con.h_min = 0.1;
 	con.v_des = 3.5;
@@ -26,7 +26,7 @@ function con = constants
 	con.umax = 0.06*con.g*con.mass;	% Newton
 
 	% Speed limitaitons for following car [m/s]
-	con.v_f_min = -0.05;
+	con.v_f_min = -0.02;
 	con.v_f_max = 5;
 
 	% Speed limitations for lead car [m/s]
@@ -39,5 +39,5 @@ function con = constants
 
 	% For simulation
 	con.v0 = 3;		% initial speed
-	con.d_max = 8; 	% max radar range
+	con.d_max = 12; 	% max radar range
 end

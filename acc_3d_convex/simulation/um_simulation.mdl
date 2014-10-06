@@ -1,16 +1,16 @@
 Model {
   Name			  "um_simulation"
-  Version		  8.1
+  Version		  8.2
   MdlSubVersion		  0
+  SavedCharacterEncoding  "ISO-8859-1"
   GraphicalInterface {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.30"
+    ComputedModelVersion    "1.31"
     NumModelReferences	    0
     NumTestPointedSignals   0
   }
-  SavedCharacterEncoding  "ISO-8859-1"
   SaveDefaultBlockParams  on
   ScopeRefreshTime	  0.035000
   OverrideScopeRefreshTime on
@@ -30,7 +30,7 @@ Model {
       $ObjectID		      2
       $ClassName	      "Simulink.WindowInfo"
       IsActive		      [1]
-      Location		      [294.0, 215.0, 1146.0, 681.0]
+      Location		      [294.0, 215.0, 1342.0, 892.0]
       Object {
 	$PropName		"ModelBrowserInfo"
 	$ObjectID		3
@@ -45,18 +45,30 @@ Model {
 	$PropName		"ExplorerBarInfo"
 	$ObjectID		4
 	$ClassName		"Simulink.ExplorerBarInfo"
-	Visible			[1]
+	Visible			[0]
       }
-      Object {
-	$PropName		"EditorsInfo"
-	$ObjectID		5
-	$ClassName		"Simulink.EditorInfo"
-	IsActive		[1]
-	ViewObjType		"SimulinkTopLevel"
-	LoadSaveID		"0"
-	Extents			[1112.0, 511.0]
-	ZoomFactor		[1.0]
-	Offset			[-153.984375, 69.0]
+      Array {
+	Type			"Simulink.EditorInfo"
+	Dimension		2
+	Object {
+	  $ObjectID		  5
+	  IsActive		  [1]
+	  ViewObjType		  "SimulinkTopLevel"
+	  LoadSaveID		  "0"
+	  Extents		  [1308.0, 752.0]
+	  ZoomFactor		  [1.4451097804391217]
+	  Offset		  [-38.545148480662931, 59.624309392265275]
+	}
+	Object {
+	  $ObjectID		  6
+	  IsActive		  [0]
+	  ViewObjType		  "SimulinkSubsys"
+	  LoadSaveID		  "122"
+	  Extents		  [1308.0, 752.0]
+	  ZoomFactor		  [4.5714285714285712]
+	  Offset		  [71.9375, -12.25]
+	}
+	PropName		"EditorsInfo"
       }
     }
   }
@@ -66,9 +78,9 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "petter"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Wed Jun 25 23:27:30 2014"
-  RTWModifiedTimeStamp	  325639399
-  ModelVersionFormat	  "1.%<AutoIncrement:30>"
+  LastModifiedDate	  "Mon Oct 06 15:10:31 2014"
+  RTWModifiedTimeStamp	  334508527
+  ModelVersionFormat	  "1.%<AutoIncrement:31>"
   ConfigurationManager	  "none"
   SampleTimeColors	  off
   SampleTimeAnnotations	  off
@@ -94,6 +106,11 @@ Model {
   BrowserShowLibraryLinks off
   BrowserLookUnderMasks	  off
   SimulationMode	  "normal"
+  PauseTimes		  "5"
+  NumberOfSteps		  1
+  SnapshotBufferSize	  10
+  SnapshotInterval	  10
+  NumberOfLastSnapshots	  0
   LinearizationMsg	  "none"
   Profile		  off
   ParamWorkspaceSource	  "MATLABWorkspace"
@@ -103,7 +120,7 @@ Model {
   TryForcingSFcnDF	  off
   Object {
     $PropName		    "DataLoggingOverride"
-    $ObjectID		    6
+    $ObjectID		    7
     $ClassName		    "Simulink.SimulationData.ModelLoggingInfo"
     model_		    "simulink_model"
     overrideMode_	    [0.0]
@@ -127,6 +144,7 @@ Model {
   CovNameIncrementing	  off
   CovHtmlReporting	  on
   CovForceBlockReductionOff on
+  CovEnableCumulative	  on
   covSaveCumulativeToWorkspaceVar on
   CovSaveSingleToWorkspaceVar on
   CovCumulativeVarName	  "covCumulativeData"
@@ -162,14 +180,14 @@ Model {
     Type		    "Handle"
     Dimension		    1
     Simulink.ConfigSet {
-      $ObjectID		      7
-      Version		      "1.13.0"
+      $ObjectID		      8
+      Version		      "1.13.1"
       Array {
 	Type			"Handle"
 	Dimension		8
 	Simulink.SolverCC {
-	  $ObjectID		  8
-	  Version		  "1.13.0"
+	  $ObjectID		  9
+	  Version		  "1.13.1"
 	  StartTime		  "0.0"
 	  StopTime		  "150"
 	  AbsTol		  "auto"
@@ -203,8 +221,8 @@ Model {
 	  InsertRTBMode		  "Whenever possible"
 	}
 	Simulink.DataIOCC {
-	  $ObjectID		  9
-	  Version		  "1.13.0"
+	  $ObjectID		  10
+	  Version		  "1.13.1"
 	  Decimation		  "1"
 	  ExternalInput		  "[t, u]"
 	  FinalStateName	  "xFinal"
@@ -235,8 +253,8 @@ Model {
 	  Refine		  "1"
 	}
 	Simulink.OptimizationCC {
-	  $ObjectID		  10
-	  Version		  "1.13.0"
+	  $ObjectID		  11
+	  Version		  "1.13.1"
 	  Array {
 	    Type		    "Cell"
 	    Dimension		    8
@@ -256,6 +274,7 @@ Model {
 	  InlineParams		  off
 	  UseIntDivNetSlope	  off
 	  UseFloatMulNetSlope	  off
+	  DefaultUnderspecifiedDataType	"double"
 	  UseSpecifiedMinMax	  off
 	  InlineInvariantSignals  off
 	  OptimizeBlockIOStorage  on
@@ -275,6 +294,7 @@ Model {
 	  SystemCodeInlineAuto	  off
 	  StateBitsets		  off
 	  DataBitsets		  off
+	  ActiveStateOutputEnumStorageType "Native Integer"
 	  UseTempVars		  off
 	  ZeroExternalMemoryAtStartup on
 	  ZeroInternalMemoryAtStartup on
@@ -291,8 +311,8 @@ Model {
 	  ParallelExecutionInRapidAccelerator on
 	}
 	Simulink.DebuggingCC {
-	  $ObjectID		  11
-	  Version		  "1.13.0"
+	  $ObjectID		  12
+	  Version		  "1.13.1"
 	  RTPrefix		  "error"
 	  ConsistencyChecking	  "none"
 	  ArrayBoundsChecking	  "none"
@@ -381,8 +401,8 @@ Model {
 	  SFTransitionActionBeforeConditionDiag	"warning"
 	}
 	Simulink.HardwareCC {
-	  $ObjectID		  12
-	  Version		  "1.13.0"
+	  $ObjectID		  13
+	  Version		  "1.13.1"
 	  ProdBitPerChar	  8
 	  ProdBitPerShort	  16
 	  ProdBitPerInt		  32
@@ -422,8 +442,8 @@ Model {
 	  ProdEqTarget		  on
 	}
 	Simulink.ModelReferenceCC {
-	  $ObjectID		  13
-	  Version		  "1.13.0"
+	  $ObjectID		  14
+	  Version		  "1.13.1"
 	  UpdateModelReferenceTargets "IfOutOfDateOrStructuralChange"
 	  CheckModelReferenceTargetMessage "error"
 	  EnableParallelModelReferenceBuilds off
@@ -437,8 +457,8 @@ Model {
 	  SupportModelReferenceSimTargetCustomCode off
 	}
 	Simulink.SFSimCC {
-	  $ObjectID		  14
-	  Version		  "1.13.0"
+	  $ObjectID		  15
+	  Version		  "1.13.1"
 	  SFSimEnableDebug	  on
 	  SFSimOverflowDetection  on
 	  SFSimEcho		  on
@@ -449,11 +469,12 @@ Model {
 	  SimUseLocalCustomCode	  off
 	  SimParseCustomCode	  on
 	  SimBuildMode		  "sf_incremental_build"
+	  SimGenImportedTypeDefs  off
 	}
 	Simulink.RTWCC {
 	  $BackupClass		  "Simulink.RTWCC"
-	  $ObjectID		  15
-	  Version		  "1.13.0"
+	  $ObjectID		  16
+	  Version		  "1.13.1"
 	  Array {
 	    Type		    "Cell"
 	    Dimension		    15
@@ -475,11 +496,15 @@ Model {
 	    PropName		    "DisabledProps"
 	  }
 	  SystemTargetFile	  "grt.tlc"
+	  TLCOptions		  ""
 	  GenCodeOnly		  off
 	  MakeCommand		  "make_rtw"
 	  GenerateMakefile	  on
 	  PackageGeneratedCodeAndArtifacts off
+	  PackageName		  ""
 	  TemplateMakefile	  "grt_default_tmf"
+	  PostCodeGenCommand	  ""
+	  Description		  ""
 	  GenerateReport	  off
 	  SaveLog		  off
 	  RTWVerbose		  on
@@ -490,9 +515,20 @@ Model {
 	  TLCAssert		  off
 	  ProcessScriptMode	  "Default"
 	  ConfigurationMode	  "Optimized"
+	  ProcessScript		  ""
+	  ConfigurationScript	  ""
 	  ConfigAtBuild		  off
 	  RTWUseLocalCustomCode	  off
 	  RTWUseSimCustomCode	  off
+	  CustomSourceCode	  ""
+	  CustomHeaderCode	  ""
+	  CustomInclude		  ""
+	  CustomSource		  ""
+	  CustomLibrary		  ""
+	  CustomInitializer	  ""
+	  CustomTerminator	  ""
+	  Toolchain		  "Automatically locate an installed toolchain"
+	  BuildConfiguration	  "Faster Builds"
 	  IncludeHyperlinkInReport off
 	  LaunchReport		  off
 	  PortableWordSizes	  off
@@ -516,14 +552,17 @@ Model {
 	  GenerateCodeMetricsReport off
 	  GenerateCodeReplacementReport	off
 	  RTWCompilerOptimization "Off"
+	  RTWCustomCompilerOptimizations ""
 	  CheckMdlBeforeBuild	  "Off"
 	  CustomRebuildMode	  "OnUpdate"
+	  DataInitializer	  ""
+	  SharedConstantsCachingThreshold 1024
 	  Array {
 	    Type		    "Handle"
 	    Dimension		    2
 	    Simulink.CodeAppCC {
-	      $ObjectID		      16
-	      Version		      "1.13.0"
+	      $ObjectID		      17
+	      Version		      "1.13.1"
 	      Array {
 		Type			"Cell"
 		Dimension		22
@@ -575,6 +614,7 @@ Model {
 	      CustomSymbolStrBlkIO    "rtb_$N$M"
 	      CustomSymbolStrTmpVar   "$N$M"
 	      CustomSymbolStrMacro    "$R$N$M"
+	      CustomSymbolStrUtil     "$N$C"
 	      DefineNamingRule	      "None"
 	      ParamNamingRule	      "None"
 	      SignalNamingRule	      "None"
@@ -590,8 +630,8 @@ Model {
 	    }
 	    Simulink.GRTTargetCC {
 	      $BackupClass	      "Simulink.TargetCC"
-	      $ObjectID		      17
-	      Version		      "1.13.0"
+	      $ObjectID		      18
+	      Version		      "1.13.1"
 	      Array {
 		Type			"Cell"
 		Dimension		15
@@ -681,11 +721,11 @@ Model {
   }
   Simulink.ConfigSet {
     $PropName		    "ActiveConfigurationSet"
-    $ObjectID		    7
+    $ObjectID		    8
   }
   Object {
     $PropName		    "DataTransfer"
-    $ObjectID		    18
+    $ObjectID		    19
     $ClassName		    "Simulink.GlobalDataTransfer"
     DefaultTransitionBetweenSyncTasks "Ensure deterministic transfer (maximum delay)"
     DefaultTransitionBetweenAsyncTasks "Ensure data integrity only"
@@ -864,6 +904,7 @@ Model {
       SFBlockType	      "NONE"
       Variant		      off
       GeneratePreprocessorConditionals off
+      ContentPreviewEnabled   off
     }
     Block {
       BlockType		      Sum
@@ -905,7 +946,7 @@ Model {
   }
   System {
     Name		    "um_simulation"
-    Location		    [294, 215, 1440, 896]
+    Location		    [294, 215, 1636, 1107]
     Open		    on
     ModelBrowserVisibility  off
     ModelBrowserWidth	    200
@@ -917,7 +958,7 @@ Model {
     TiledPaperMargins	    [0.500000, 0.500000, 0.500000, 0.500000]
     TiledPageScale	    1
     ShowPageBoundaries	    off
-    ZoomFactor		    "100"
+    ZoomFactor		    "145"
     ReportName		    "simulink-default.rpt"
     SIDHighWatermark	    "152"
     Block {
@@ -936,16 +977,6 @@ Model {
       ZOrder		      5
       BlockMirror	      on
       FunctionName	      "um_controller"
-    }
-    Block {
-      BlockType		      M-S-Function
-      Name		      "Controller1"
-      SID		      "150"
-      Ports		      [2, 1]
-      Position		      [670, 245, 785, 280]
-      ZOrder		      61
-      BlockMirror	      on
-      FunctionName	      "kalman_f"
     }
     Block {
       BlockType		      M-S-Function
@@ -970,88 +1001,7 @@ Model {
     }
     Block {
       BlockType		      SubSystem
-      Name		      "Lead car: h_0 = 100"
-      SID		      "129"
-      Ports		      [1, 1, 0, 0, 0, 0, 0, 1]
-      Position		      [320, 142, 390, 178]
-      ZOrder		      54
-      TreatAsAtomicUnit	      on
-      MinAlgLoopOccurrences   off
-      PropExecContextOutsideSubsystem off
-      RTWSystemCode	      "Auto"
-      FunctionWithSeparateData off
-      Opaque		      off
-      RequestExecContextInheritance off
-      MaskHideContents	      off
-      System {
-	Name			"Lead car: h_0 = 100"
-	Location		[1327, 699, 2473, 1426]
-	Open			off
-	ModelBrowserVisibility	off
-	ModelBrowserWidth	200
-	ScreenColor		"white"
-	PaperOrientation	"landscape"
-	PaperPositionMode	"auto"
-	PaperType		"usletter"
-	PaperUnits		"inches"
-	TiledPaperMargins	[0.500000, 0.500000, 0.500000, 0.500000]
-	TiledPageScale		1
-	ShowPageBoundaries	off
-	ZoomFactor		"387"
-	Block {
-	  BlockType		  Inport
-	  Name			  "In1"
-	  SID			  "130"
-	  Position		  [75, 78, 105, 92]
-	  ZOrder		  -1
-	  IconDisplay		  "Port number"
-	}
-	Block {
-	  BlockType		  ActionPort
-	  Name			  "Action Port"
-	  SID			  "131"
-	  Position		  [170, 15, 229, 43]
-	  ZOrder		  -2
-	  InitializeStates	  "reset"
-	  ActionType		  "case"
-	}
-	Block {
-	  BlockType		  M-S-Function
-	  Name			  "Level-2 MATLAB\nS-Function1"
-	  SID			  "132"
-	  Ports			  [1, 1]
-	  Position		  [170, 78, 290, 112]
-	  ZOrder		  4
-	  FunctionName		  "headway_model_car"
-	  Parameters		  "100, 17"
-	}
-	Block {
-	  BlockType		  Outport
-	  Name			  "Out1"
-	  SID			  "133"
-	  Position		  [325, 78, 355, 92]
-	  ZOrder		  -3
-	  IconDisplay		  "Port number"
-	}
-	Line {
-	  SrcBlock		  "In1"
-	  SrcPort		  1
-	  Points		  [45, 0]
-	  DstBlock		  "Level-2 MATLAB\nS-Function1"
-	  DstPort		  1
-	}
-	Line {
-	  SrcBlock		  "Level-2 MATLAB\nS-Function1"
-	  SrcPort		  1
-	  Points		  [0, -10]
-	  DstBlock		  "Out1"
-	  DstPort		  1
-	}
-      }
-    }
-    Block {
-      BlockType		      SubSystem
-      Name		      "Lead car: h_0 = 250\n"
+      Name		      "Lead car: h_0 = 10\n"
       SID		      "118"
       Ports		      [1, 1, 0, 0, 0, 0, 0, 1]
       Position		      [320, 67, 390, 103]
@@ -1065,8 +1015,8 @@ Model {
       RequestExecContextInheritance off
       MaskHideContents	      off
       System {
-	Name			"Lead car: h_0 = 250\n"
-	Location		[1327, 699, 2473, 1426]
+	Name			"Lead car: h_0 = 10\n"
+	Location		[294, 215, 1440, 896]
 	Open			off
 	ModelBrowserVisibility	off
 	ModelBrowserWidth	200
@@ -1104,7 +1054,7 @@ Model {
 	  Position		  [170, 73, 285, 107]
 	  ZOrder		  2
 	  FunctionName		  "headway_model_car"
-	  Parameters		  "250, 14"
+	  Parameters		  "10,1"
 	}
 	Block {
 	  BlockType		  Outport
@@ -1115,6 +1065,7 @@ Model {
 	  IconDisplay		  "Port number"
 	}
 	Line {
+	  ZOrder		  1
 	  SrcBlock		  "In1"
 	  SrcPort		  1
 	  Points		  [45, 0]
@@ -1122,9 +1073,93 @@ Model {
 	  DstPort		  1
 	}
 	Line {
+	  ZOrder		  2
 	  SrcBlock		  "Level-2 MATLAB\nS-Function"
 	  SrcPort		  1
 	  Points		  [0, -5]
+	  DstBlock		  "Out1"
+	  DstPort		  1
+	}
+      }
+    }
+    Block {
+      BlockType		      SubSystem
+      Name		      "Lead car: h_0 = 100"
+      SID		      "129"
+      Ports		      [1, 1, 0, 0, 0, 0, 0, 1]
+      Position		      [320, 132, 390, 168]
+      ZOrder		      54
+      TreatAsAtomicUnit	      on
+      MinAlgLoopOccurrences   off
+      PropExecContextOutsideSubsystem off
+      RTWSystemCode	      "Auto"
+      FunctionWithSeparateData off
+      Opaque		      off
+      RequestExecContextInheritance off
+      MaskHideContents	      off
+      System {
+	Name			"Lead car: h_0 = 100"
+	Location		[294, 215, 1636, 1107]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	TiledPaperMargins	[0.500000, 0.500000, 0.500000, 0.500000]
+	TiledPageScale		1
+	ShowPageBoundaries	off
+	ZoomFactor		"387"
+	Block {
+	  BlockType		  Inport
+	  Name			  "In1"
+	  SID			  "130"
+	  Position		  [75, 78, 105, 92]
+	  ZOrder		  -1
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  ActionPort
+	  Name			  "Action Port"
+	  SID			  "131"
+	  Position		  [170, 15, 229, 43]
+	  ZOrder		  -2
+	  InitializeStates	  "reset"
+	  ActionType		  "case"
+	}
+	Block {
+	  BlockType		  M-S-Function
+	  Name			  "Level-2 MATLAB\nS-Function1"
+	  SID			  "132"
+	  Ports			  [1, 1]
+	  Position		  [170, 78, 290, 112]
+	  ZOrder		  4
+	  FunctionName		  "headway_model_car"
+	  Parameters		  "8,2"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Out1"
+	  SID			  "133"
+	  Position		  [325, 78, 355, 92]
+	  ZOrder		  -3
+	  IconDisplay		  "Port number"
+	}
+	Line {
+	  ZOrder		  1
+	  SrcBlock		  "In1"
+	  SrcPort		  1
+	  Points		  [45, 0]
+	  DstBlock		  "Level-2 MATLAB\nS-Function1"
+	  DstPort		  1
+	}
+	Line {
+	  ZOrder		  2
+	  SrcBlock		  "Level-2 MATLAB\nS-Function1"
+	  SrcPort		  1
+	  Points		  [0, -10]
 	  DstBlock		  "Out1"
 	  DstPort		  1
 	}
@@ -1156,8 +1191,8 @@ Model {
       MaskHideContents	      off
       System {
 	Name			"No lead car"
-	Location		[272, 492, 1418, 1406]
-	Open			off
+	Location		[294, 215, 1636, 1107]
+	Open			on
 	ModelBrowserVisibility	off
 	ModelBrowserWidth	200
 	ScreenColor		"white"
@@ -1168,7 +1203,7 @@ Model {
 	TiledPaperMargins	[0.500000, 0.500000, 0.500000, 0.500000]
 	TiledPageScale		1
 	ShowPageBoundaries	off
-	ZoomFactor		"349"
+	ZoomFactor		"457"
 	Block {
 	  BlockType		  Inport
 	  Name			  "In1"
@@ -1194,7 +1229,7 @@ Model {
 	  Position		  [170, 69, 290, 101]
 	  ZOrder		  4
 	  FunctionName		  "headway_model_nocar"
-	  Parameters		  "300"
+	  Parameters		  "10"
 	}
 	Block {
 	  BlockType		  Outport
@@ -1205,12 +1240,14 @@ Model {
 	  IconDisplay		  "Port number"
 	}
 	Line {
+	  ZOrder		  1
 	  SrcBlock		  "In1"
 	  SrcPort		  1
 	  DstBlock		  "Level-2 MATLAB\nS-Function1"
 	  DstPort		  1
 	}
 	Line {
+	  ZOrder		  2
 	  SrcBlock		  "Level-2 MATLAB\nS-Function1"
 	  SrcPort		  1
 	  DstBlock		  "Out1"
@@ -1313,18 +1350,6 @@ Model {
     }
     Block {
       BlockType		      ToWorkspace
-      Name		      "To Workspace1"
-      SID		      "152"
-      Ports		      [1]
-      Position		      [725, 365, 785, 395]
-      ZOrder		      63
-      VariableName	      "kal_out"
-      MaxDataPoints	      "inf"
-      SampleTime	      "-1"
-      SaveFormat	      "Structure With Time"
-    }
-    Block {
-      BlockType		      ToWorkspace
       Name		      "To Workspace2"
       SID		      "69"
       Ports		      [1]
@@ -1354,43 +1379,49 @@ Model {
       Position		      [490, 455, 525, 485]
       ZOrder		      31
       BlockMirror	      on
-      SampleTime	      "0.1"
+      SampleTime	      "0.02"
     }
     Line {
+      ZOrder		      1
       SrcBlock		      "Controller"
       SrcPort		      1
       Points		      [-67, 0]
       Branch {
-	Points			[0, 49; 566, 0; 0, -249]
-	DstBlock		"Controller1"
-	DstPort			2
+	ZOrder			2
+	Points			[0, 49; 566, 0; 0, -249; -29, 0]
       }
       Branch {
+	ZOrder			3
 	Points			[-81, 0; 0, -90]
 	Branch {
+	  ZOrder		  4
 	  Points		  [0, -70]
 	  DstBlock		  "Following car"
 	  DstPort		  1
 	}
 	Branch {
+	  ZOrder		  5
 	  DstBlock		  "To Workspace2"
 	  DstPort		  1
 	}
       }
     }
     Line {
+      ZOrder		      6
       SrcBlock		      "Zero-Order\nHold"
       SrcPort		      1
       DstBlock		      "Controller"
       DstPort		      1
     }
     Line {
+      ZOrder		      7
       SrcBlock		      "No lead car"
       SrcPort		      1
       DstBlock		      "Merge"
       DstPort		      3
     }
     Line {
+      ZOrder		      8
       SrcBlock		      "Merge"
       SrcPort		      1
       Points		      [100, 0]
@@ -1398,21 +1429,26 @@ Model {
       DstPort		      2
     }
     Line {
+      ZOrder		      9
       SrcBlock		      "Vector\nConcatenate"
       SrcPort		      1
       Points		      [0, 8]
       Branch {
+	ZOrder			10
 	Points			[-85, 0; 0, -258]
 	DstBlock		"Gain"
 	DstPort			1
       }
       Branch {
+	ZOrder			11
 	Points			[0, 22]
 	Branch {
+	  ZOrder		  12
 	  DstBlock		  "To Workspace"
 	  DstPort		  1
 	}
 	Branch {
+	  ZOrder		  13
 	  Points		  [0, 70]
 	  DstBlock		  "Zero-Order\nHold"
 	  DstPort		  1
@@ -1420,66 +1456,79 @@ Model {
       }
     }
     Line {
+      ZOrder		      14
       SrcBlock		      "Step1"
       SrcPort		      1
       DstBlock		      "Sum1"
       DstPort		      1
     }
     Line {
+      ZOrder		      15
       SrcBlock		      "Constant"
       SrcPort		      1
       DstBlock		      "Sum"
       DstPort		      1
     }
     Line {
-      SrcBlock		      "Lead car: h_0 = 250\n"
+      ZOrder		      16
+      SrcBlock		      "Lead car: h_0 = 10\n"
       SrcPort		      1
       DstBlock		      "Merge"
       DstPort		      1
     }
     Line {
+      ZOrder		      17
       SrcBlock		      "Switch Case"
       SrcPort		      1
       Points		      [125, 0]
-      DstBlock		      "Lead car: h_0 = 250\n"
+      DstBlock		      "Lead car: h_0 = 10\n"
       DstPort		      ifaction
     }
     Line {
+      ZOrder		      18
       SrcBlock		      "Following car"
       SrcPort		      1
       Points		      [11, 0]
       Branch {
+	ZOrder			19
 	Points			[0, -75]
 	Branch {
-	  Points		  [0, -75]
+	  ZOrder		  20
+	  Points		  [0, -85]
 	  Branch {
-	    Points		    [0, -75]
-	    DstBlock		    "Lead car: h_0 = 250\n"
+	    ZOrder		    21
+	    Points		    [0, -65]
+	    DstBlock		    "Lead car: h_0 = 10\n"
 	    DstPort		    1
 	  }
 	  Branch {
+	    ZOrder		    22
 	    DstBlock		    "Lead car: h_0 = 100"
 	    DstPort		    1
 	  }
 	}
 	Branch {
+	  ZOrder		  23
 	  DstBlock		  "No lead car"
 	  DstPort		  1
 	}
       }
       Branch {
+	ZOrder			24
 	Points			[294, 0]
 	DstBlock		"Vector\nConcatenate"
 	DstPort			1
       }
     }
     Line {
+      ZOrder		      25
       SrcBlock		      "Sum"
       SrcPort		      1
       DstBlock		      "Switch Case"
       DstPort		      1
     }
     Line {
+      ZOrder		      26
       SrcBlock		      "Sum1"
       SrcPort		      1
       Points		      [9, 0; 0, -22; -24, 0]
@@ -1487,12 +1536,14 @@ Model {
       DstPort		      2
     }
     Line {
+      ZOrder		      27
       SrcBlock		      "Step2"
       SrcPort		      1
       DstBlock		      "Sum2"
       DstPort		      1
     }
     Line {
+      ZOrder		      28
       SrcBlock		      "Step3"
       SrcPort		      1
       Points		      [40, 0]
@@ -1500,6 +1551,7 @@ Model {
       DstPort		      2
     }
     Line {
+      ZOrder		      29
       SrcBlock		      "Sum2"
       SrcPort		      1
       Points		      [9, 0; 0, -25]
@@ -1507,6 +1559,7 @@ Model {
       DstPort		      2
     }
     Line {
+      ZOrder		      30
       SrcBlock		      "Switch Case"
       SrcPort		      3
       Points		      [125, 0]
@@ -1514,6 +1567,7 @@ Model {
       DstPort		      ifaction
     }
     Line {
+      ZOrder		      31
       SrcBlock		      "Switch Case"
       SrcPort		      2
       Points		      [125, 0]
@@ -1521,24 +1575,18 @@ Model {
       DstPort		      ifaction
     }
     Line {
+      ZOrder		      32
       SrcBlock		      "Lead car: h_0 = 100"
       SrcPort		      1
+      Points		      [30, 0; 0, 10]
       DstBlock		      "Merge"
       DstPort		      2
     }
     Line {
+      ZOrder		      33
       SrcBlock		      "Gain"
       SrcPort		      1
-      Points		      [145, 0]
-      DstBlock		      "Controller1"
-      DstPort		      1
-    }
-    Line {
-      SrcBlock		      "Controller1"
-      SrcPort		      1
-      Points		      [-9, 0; 0, 112; 44, 0; 0, 3]
-      DstBlock		      "To Workspace1"
-      DstPort		      1
+      Points		      [145, 0; 0, 135; -15, 0]
     }
   }
 }

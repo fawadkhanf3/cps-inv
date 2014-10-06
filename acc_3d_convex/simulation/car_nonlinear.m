@@ -56,7 +56,7 @@ function Derivative(block)
   u =  block.InputPort(1).Data;
   v = block.ContStates.Data(1);
 
-  block.Derivatives.Data = [ (u - con.f0 - con.f1*v - con.f2*v^2)/con.mass];
+  block.Derivatives.Data = [ max(-v, (u - con.f0 - con.f1*v - con.f2*v^2)/con.mass) ]; % hack to prevent from backing
   
 %endfunction
 
