@@ -25,33 +25,22 @@ function newpoly = merge_biggest_wins(poly1, poly2, vol_dir)
 		direction = poly1.A(index1,:);
 	end
 
+	% check maxima in directions
 	sol = poly1.extreme(direction);
 	x3max1 = sol.supp;
 	sol = poly1.extreme(-direction);
-	x3min1 = sol.supp;
+	x3min1 = -sol.supp;
 
 	sol = poly2.extreme(direction);
 	x3max2 = sol.supp;
 	sol = poly2.extreme(-direction);
-	x3min2 = sol.supp;
+	x3min2 = -sol.supp;
 
 	if x3max2 - x3min2 > x3max1 - x3min1
-		bigP = poly1;
-		smaP = poly2;
-		newH = bigP.H(setdiff(1:size(bigP.H, 1), index1), :);
+		% poly2 larger than poly1
+		newpoly = merge_in(poly2, poly1);
 	else
-		smaP = poly1;
-		bigP = poly2;
-		newH = bigP.H(setdiff(1:size(bigP.H, 1), index), :);
+		% poly1 larger than poly2
+		newpoly = merge_in(poly1, poly2);
 	end
-
-	for i = 1:size(smaP.H, 1)
-		sol = bigP.extreme(smaP.A(i,:)); % maximize in direction of new facet
-		ximax = sol.supp;
-		if ximax < smaP.b(i)
-			newH = [newH; smaP.H(i,:)];
-		end
-	end
-
-	newpoly = Polyhedron('H', newH);
 end
