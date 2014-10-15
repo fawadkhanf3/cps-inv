@@ -1,4 +1,4 @@
-function [C_iter] = robust_cinv(pwdyn, goal, maxiter, rel_tol, show_plot, verbose)
+function [C_iter] = robust_cinv(pwdyn, goal, maxiter, show_plot, verbose)
 	% CINV_OI: Compute an invariant set outside-in.
 	% ======================================================
 	%
@@ -20,8 +20,6 @@ function [C_iter] = robust_cinv(pwdyn, goal, maxiter, rel_tol, show_plot, verbos
 	%		Class: Polyhedron or PolyUnion
 	%   maxiter  Maximal number of iterations
 	% 		Default: inf
-	%	rel_tol 	Volume stopping criterion
-	%		Default: 1e-3
 	%	show_plot 	Show plotting while computing
 	%		Default: false
 	%	verbose 	Output text
@@ -31,9 +29,6 @@ function [C_iter] = robust_cinv(pwdyn, goal, maxiter, rel_tol, show_plot, verbos
 		maxiter = Inf;
 	end
 
-	if nargin<4
-		rel_tol = 1e-3;
-	end
 
 	if nargin<5
 		show_plot = 0;

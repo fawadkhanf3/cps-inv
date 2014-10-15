@@ -1,4 +1,4 @@
-function [V] = cinv_oi(dyn, R, maxiter, rel_tol, show_plot, verbose)
+function [V] = cinv_oi(dyn, R, maxiter, show_plot, verbose)
 	
 	% CINV_OI: Compute an invariant set outside-in.
 	% ======================================================
@@ -7,7 +7,7 @@ function [V] = cinv_oi(dyn, R, maxiter, rel_tol, show_plot, verbose)
 	% ------
 	%	C = cinv_oi(dyn, R)
 	%	C = cinv_oi(dyn, R, maxiter)
-	%	C = cinv_oi(dyn, R, maxiter, rel_tol, show_plot, verbose)
+	%	C = cinv_oi(dyn, R, maxiter, show_plot, verbose)
 	%
 	% DESCRIPTION
 	% -----------
@@ -21,8 +21,6 @@ function [V] = cinv_oi(dyn, R, maxiter, rel_tol, show_plot, verbose)
 	%		Class: Polyhedron or PolyUnion
 	%   maxiter  Maximal number of iterations
 	% 		Default: inf
-	%	rel_tol 	Volume stopping criterion
-	%		Default: 1e-3
 	%	show_plot 	Show plotting while computing
 	%		Default: false
 	%	verbose 	Output text
@@ -30,10 +28,6 @@ function [V] = cinv_oi(dyn, R, maxiter, rel_tol, show_plot, verbose)
 
 	if nargin<3
 		maxiter = Inf;
-	end
-
-	if nargin<4
-		rel_tol = 1e-3;
 	end
 
 	if nargin<5
@@ -48,34 +42,18 @@ function [V] = cinv_oi(dyn, R, maxiter, rel_tol, show_plot, verbose)
 	tic 
 
 	V = R;
-	rel_vol = inf;
 	i = 1;
 	tic;
-	while (rel_vol > rel_tol) && (i <= maxiter)
-		V_prim = intersect1(V, dyn.pre(V));
-		V_prim = merge1(V_prim,3,0);
+	while (i <= maxiter)
+		V_prim = intersect1(R, dyn.pre(V));
 
-		v1 = volume1(V); v2 = volume1(V_prim);
-		rel_vol = (v1-v2)/v1;
-		
-		if verbose
-			t = toc;
-			if isa(V_prim, 'Polyhedron')
-				num = 1;
-				numhp = size(V_prim.A,1);
-				numv = size(V_prim.V,1);
-			else
-				num = V_prim.Num;
-				numhp = 0;
-				numv = 0;
-			end
-			disp([num2str(i), ': time ' num2str(t), ', Number of polys: ', ...
-				num2str(num), ' Number of hps: ', num2str(numhp), ...
-				' Number of vs: ', num2str(numv), ' Voldiff: ', num2str(rel_vol)])
-		end
 		if show_plot
 			plot(V_prim);
 			drawnow;
+		end
+
+		if isEmptySet(mldivide(V, V_prim))
+			break;
 		end
 
 		V = V_prim;
