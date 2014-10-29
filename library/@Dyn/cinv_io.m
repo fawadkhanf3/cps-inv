@@ -14,20 +14,16 @@ function [V] = cinv_io(dyn, R, V, show_plot, verbose)
 	%  invariant set V.
 	%
 
-	if isa(R, 'Polyhedron')
-		R = PolyUnion([R]);
-	end
-
 	disp('Finding controlled-invariant set by inside-out')
 	tic
 
-	V_prim = intersect1(R, dyn.solve_feasible(V,1));
+	V_prim = intersect1(R, dyn.pre(V,1));
 
 	rel_vol = 1;
 	i = 0;
 	while rel_vol > 1e-3
 		V = V_prim;
-		V_prim = intersect1(R, dyn.solve_feasible(V, 1));
+		V_prim = intersect1(R, dyn.pre(V, 1));
 		V_prim = merge1(V_prim,3,0);
 		vol0 = volume1(V);
 		vol1 = volume1(V_prim);
