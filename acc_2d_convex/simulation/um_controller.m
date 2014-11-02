@@ -89,6 +89,8 @@ function InitializeConditions(block)
   time_in_current = 0;
   current = Inf;
 
+  warning('off', 'all'); % dont want to see QP warnings
+
   cd ..
     con = constants;
     dyn = get_2d_dyn(con);
@@ -116,8 +118,6 @@ function Outputs(block)
   global dyn1d;
   global con;
 
-  disp('---------------------');
-
   N = 4;
 
   x0 = block.InputPort(1).Data;
@@ -128,13 +128,13 @@ function Outputs(block)
     % Use controller for mode M2
     safe_set = Polyhedron('A', [1; -1], 'b', [con.v_max; -con.v_min]);
     Rv = 5*eye(N);
-    rv = -5*con.v_des*ones(N,1);
+    rv = -5*(con.v_des-1)*ones(N,1);
     Ru = eye(N);
     ru = zeros(N,1);
     u = dyn1d.solve_mpc(v, Rv, rv, Ru, ru, [safe_set, safe_set, safe_set, safe_set]);
     u_real = u(1)/(dyn.get_constant('B_cond_number'));
     u_real = u_real + con.f2*(v-con.v_linearize)^2;
-    disp(strcat({'M1: applying input '}, num2str(u_real)));        
+    % disp(strcat({'M1: applying input '}, num2str(u_real)));        
     block.OutputPort(1).Data = u_real;
     return;
   end
@@ -182,7 +182,7 @@ end
 
 function  [Rx,rx,Ru,ru] = mpcweights(v,d,N,con)
 
-  v_goal = min(con.v_des, con.v_lead);
+  v_goal = min(con.v_des-1, con.v_lead);
   h_goal = max(3, con.h_des*v);
 
   lim = 10;
@@ -190,8 +190,8 @@ function  [Rx,rx,Ru,ru] = mpcweights(v,d,N,con)
   ramp = max(0, min(1, 0.5+abs(v-con.v_lead)/delta-lim/delta));
 
   v_weight = 3.;
-  h_weight = 5.*(1-ramp);
-  u_weight = 3;
+  h_weight = 4.*(1-ramp);
+  u_weight = 10;
   u_weight_jerk = 50;
 
   Rx = kron(eye(N), [v_weight 0; 0 h_weight]);

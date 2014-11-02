@@ -21,7 +21,7 @@ function con = constants()
 	con.v_min = 0;			% mps
 	con.v_max = 35;			% mps
 	con.d_min = 0;			% m
-	con.d_max = 200;		% m
+	con.d_max = 300;		% m
 
 	% Problem parameters
 	con.v_lead = 8;		% mps

@@ -7,8 +7,9 @@ clf
 subplot(411)
 hold on
 plot(x_out.time, x_out.signals.values(:,1), 'b', 'linewidth', lw)
-plot([0 x_out.time(t60)], [con.v_lead con.v_lead], 'r');
-plot([x_out.time(t80) x_out.time(end)], [con.v_lead con.v_lead], 'r');
+plot([0 x_out.time(t60)], [con.v_lead con.v_lead], 'r', 'linewidth', lw);
+plot([x_out.time(t80) x_out.time(end)], [con.v_lead con.v_lead], 'r', 'linewidth', lw);
+% plot(get(gca,'xlim'), [con.v_des con.v_des], 'g');
 legend('ACC', 'Lead', 'Location', 'NorthOutSide')
 ylabel('$v$')
 xlabel('$t$')
