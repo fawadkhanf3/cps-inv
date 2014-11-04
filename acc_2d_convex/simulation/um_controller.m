@@ -190,7 +190,7 @@ function  [Rx,rx,Ru,ru] = mpcweights(v,d,N,con)
   ramp = max(0, min(1, 0.5+abs(v-con.v_lead)/delta-lim/delta));
 
   v_weight = 3.;
-  h_weight = 4.*(1-ramp);
+  h_weight = 2.*(1-ramp);
   u_weight = 10;
   u_weight_jerk = 50;
 

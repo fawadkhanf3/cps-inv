@@ -7,7 +7,7 @@ Model {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.38"
+    ComputedModelVersion    "1.39"
     NumModelReferences	    0
     NumTestPointedSignals   0
   }
@@ -56,7 +56,7 @@ Model {
 	LoadSaveID		"0"
 	Extents			[1087.0, 800.0]
 	ZoomFactor		[1.3238017110043363]
-	Offset			[3.4556480169971451, -24.32011331444761]
+	Offset			[3.4556480169971451, -24.320113314447553]
       }
     }
   }
@@ -66,9 +66,9 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "petter"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Tue Oct 28 16:41:56 2014"
-  RTWModifiedTimeStamp	  336415316
-  ModelVersionFormat	  "1.%<AutoIncrement:38>"
+  LastModifiedDate	  "Tue Nov 04 14:05:55 2014"
+  RTWModifiedTimeStamp	  337010750
+  ModelVersionFormat	  "1.%<AutoIncrement:39>"
   ConfigurationManager	  "none"
   SampleTimeColors	  off
   SampleTimeAnnotations	  off
@@ -799,21 +799,6 @@ Model {
       PreserveConstantTs      off
     }
     Block {
-      BlockType		      Gain
-      Gain		      "1"
-      Multiplication	      "Element-wise(K.*u)"
-      ParamMin		      "[]"
-      ParamMax		      "[]"
-      ParamDataTypeStr	      "Inherit: Same as input"
-      OutMin		      "[]"
-      OutMax		      "[]"
-      OutDataTypeStr	      "Inherit: Same as input"
-      LockScale		      off
-      RndMeth		      "Floor"
-      SaturateOnIntegerOverflow	on
-      SampleTime	      "-1"
-    }
-    Block {
       BlockType		      Inport
       Port		      "1"
       OutputFunctionCall      off
@@ -974,18 +959,6 @@ Model {
       Position		      [195, 291, 265, 329]
       ZOrder		      40
       FunctionName	      "car_nonlinear"
-    }
-    Block {
-      BlockType		      Gain
-      Name		      "Gain"
-      SID		      "151"
-      Position		      [620, 105, 650, 135]
-      ZOrder		      62
-      Gain		      "[1 0 0; 0 1 0]"
-      Multiplication	      "Matrix(K*u)"
-      ParamDataTypeStr	      "Inherit: Inherit via internal rule"
-      OutDataTypeStr	      "Inherit: Inherit via internal rule"
-      SaturateOnIntegerOverflow	off
     }
     Block {
       BlockType		      SubSystem
@@ -1349,25 +1322,17 @@ Model {
       ZOrder		      1
       SrcBlock		      "Controller"
       SrcPort		      1
-      Points		      [-67, 0]
+      Points		      [-148, 0; 0, -90]
       Branch {
-	ZOrder			2
-	Points			[0, 49; 566, 0; 0, -249; -29, 0]
+	ZOrder			4
+	Points			[0, -70]
+	DstBlock		"Following car"
+	DstPort			1
       }
       Branch {
-	ZOrder			3
-	Points			[-81, 0; 0, -90]
-	Branch {
-	  ZOrder		  4
-	  Points		  [0, -70]
-	  DstBlock		  "Following car"
-	  DstPort		  1
-	}
-	Branch {
-	  ZOrder		  5
-	  DstBlock		  "To Workspace2"
-	  DstPort		  1
-	}
+	ZOrder			5
+	DstBlock		"To Workspace2"
+	DstPort			1
       }
     }
     Line {
@@ -1396,27 +1361,17 @@ Model {
       ZOrder		      9
       SrcBlock		      "Vector\nConcatenate"
       SrcPort		      1
-      Points		      [0, 8]
+      Points		      [0, 30]
       Branch {
-	ZOrder			10
-	Points			[-85, 0; 0, -258]
-	DstBlock		"Gain"
+	ZOrder			12
+	DstBlock		"To Workspace"
 	DstPort			1
       }
       Branch {
-	ZOrder			11
-	Points			[0, 22]
-	Branch {
-	  ZOrder		  12
-	  DstBlock		  "To Workspace"
-	  DstPort		  1
-	}
-	Branch {
-	  ZOrder		  13
-	  Points		  [0, 70]
-	  DstBlock		  "Zero-Order\nHold"
-	  DstPort		  1
-	}
+	ZOrder			13
+	Points			[0, 70]
+	DstBlock		"Zero-Order\nHold"
+	DstPort			1
       }
     }
     Line {
@@ -1530,12 +1485,6 @@ Model {
       Points		      [30, 0; 0, 10]
       DstBlock		      "Merge"
       DstPort		      2
-    }
-    Line {
-      ZOrder		      33
-      SrcBlock		      "Gain"
-      SrcPort		      1
-      Points		      [145, 0; 0, 135; -15, 0]
     }
   }
 }

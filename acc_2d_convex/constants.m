@@ -8,8 +8,8 @@ function con = constants()
     con.f0 = 0.1*con.mass;
     con.f1 = 5;
     con.f2 =  0.25;
-	con.umin = -0.2*con.g*con.mass;	% Newton
-	con.umax = 0.15*con.g*con.mass;	% Newton
+	con.umin = -0.3*con.g*con.mass;	% Newton
+	con.umax = 0.2*con.g*con.mass;	% Newton
 
 	con.v_linearize = 15; 	% mps
 
@@ -27,7 +27,5 @@ function con = constants()
 	con.v_lead = 8;		% mps
 	con.v_des = 26;			% mps
 	con.h_des = 1.4;		% s
-	
-    
 
 end

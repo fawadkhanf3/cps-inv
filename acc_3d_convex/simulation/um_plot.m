@@ -34,7 +34,7 @@ hold on
 plot(u_out.time, max(0, min(3, x_out.signals.values(:,2)./x_out.signals.values(:,1))), 'linewidth', lw)
 plot(get(gca,'xlim'), [con.h_des-con.h_delta con.h_des-con.h_delta], 'g');
 xlabel('$t$')
-ylabel('$\max(3, h/v)$')
+ylabel('$\min(3, h/v)$')
 
 % matlab2tikz('doc/simulink_plots.tikz','interpretTickLabelsAsTex',true, ...
 % 		     'parseStrings',false, 'showInfo', false, ...
