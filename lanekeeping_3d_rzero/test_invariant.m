@@ -5,6 +5,7 @@ dyn = get_dyn(con);
 dyn_m = get_dyn_m(con);
 
 ymax = 0.9; %half lane width
+rmax = 2*ymax;
 
 domain = Polyhedron('A', [eye(3); -eye(3)], ...
 					'b', [2*ymax; 0.15; 2*rmax; 2*ymax; 0.15; 2*rmax]);
