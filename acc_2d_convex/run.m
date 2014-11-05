@@ -40,8 +40,13 @@ while true
 	control_chain = [control_chain preset];
 end
 
+
+%%%%%%%%%% synthesis done %%%%%%%%%%%%
+
+% save for simulation
 save('simulation/control_chain.mat', 'control_chain')
 
+% export stuff for codegen
 if true
 	A = dyn_model.A;
 	B = dyn_model.B;
@@ -56,8 +61,17 @@ if true
 
 	save('codegen/constants.mat', 'con')
 
-	polyA = control_chain(1).A;
-	polyb = control_chain(1).b;
-	save('codegen/poly.mat', 'polyA', 'polyb');
-
+	bigPolyA = zeros(0,dyn_model.n);
+	bigPolyb = zeros(0,1);
+	bigPolyStartInd = [];
+	bigPolyLen = [];
+	cumpolylength = 1;
+	for i=1:length(control_chain)
+		bigPolyA = [bigPolyA; control_chain(i).A];
+		bigPolyb = [bigPolyb; control_chain(i).b];
+		bigPolyStartInd = [bigPolyStartInd; cumpolylength];
+		cumpolylength = cumpolylength + size(control_chain(i).A, 1);
+		bigPolyLen = [bigPolyLen; size(control_chain(i).A, 1)];
+	end
+	save('codegen/poly.mat', 'bigPolyA', 'bigPolyb', 'bigPolyStartInd', 'bigPolyLen');
 end

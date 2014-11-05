@@ -3,9 +3,8 @@ function [H, f, A_ineq, b_ineq] = qp_vars(x0) %#codegen
     dyn =           coder.load('dyn_data.mat');
     dyn_con =       coder.load('constants.mat');
     control_con =   coder.load('control_constants.mat');
-    poly1 =         coder.load('poly.mat');
+    polys =         coder.load('poly.mat');
     
-    control_con
     N = control_con.control_con.N;
 
     % are we safe?
@@ -17,15 +16,31 @@ function [H, f, A_ineq, b_ineq] = qp_vars(x0) %#codegen
     p = size(dyn.E,2);
 
     % Find maximum # of ineqs
-    maxnum = size(poly1.polyA,1);
+    maxnum = max(polys.bigPolyLen);
 
     polyA = zeros(maxnum,n);
     polyb = zeros(maxnum,1);
 
-    if all(poly1.polyA*x0 <= poly1.polyb)
-        polyA(1:size(poly1.polyA,1), :) = polyA(1:size(poly1.polyA,1), :) + poly1.polyA;
-        polyb(1:size(poly1.polyb,1), :) = polyb(1:size(poly1.polyb,1), :) + poly1.polyb;
+    A = polys.bigPolyA(polys.bigPolyStartInd(1): polys.bigPolyStartInd(1) + polys.bigPolyLen(1) - 1, :);
+    b = polys.bigPolyb(polys.bigPolyStartInd(1): polys.bigPolyStartInd(1) + polys.bigPolyLen(1) - 1, :);
+
+    if all(A*x0 <= b)
+        polyA(1:size(A,1), :) = polyA(1:size(A,1), :) + A;
+        polyb(1:size(b,1), :) = polyb(1:size(b,1), :) + b;
         all_safe = 1;
+    else
+        for i=2:length(polys.bigPolyLen)
+            A = polys.bigPolyA(polys.bigPolyStartInd(i):polys.bigPolyStartInd(i)+polys.bigPolyLen(i) - 1, :);
+            b = polys.bigPolyb(polys.bigPolyStartInd(i):polys.bigPolyStartInd(i)+polys.bigPolyLen(i) - 1, :);
+            if all(A*x0 <= b)
+                A_1 = polys.bigPolyA(polys.bigPolyStartInd(i-1):polys.bigPolyStartInd(i-1) + polys.bigPolyLen(i-1) - 1, :);
+                b_1 = polys.bigPolyb(polys.bigPolyStartInd(i-1):polys.bigPolyStartInd(i-1) + polys.bigPolyLen(i-1) - 1, :);
+                polyA(1:size(A_1,1), :) = polyA(1:size(A_1,1), :) + A_1;
+                polyb(1:size(b_1,1), :) = polyb(1:size(b_1,1), :) + b_1;
+                all_safe = 1;
+                break;
+            end
+        end
     end
 
 	v = x0(1);
