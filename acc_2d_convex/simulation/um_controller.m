@@ -85,6 +85,7 @@ function InitializeConditions(block)
   global dyn1d;
   global con;
   global control_chain;
+  global control_con;
 
   time_in_current = 0;
   current = Inf;
@@ -93,6 +94,7 @@ function InitializeConditions(block)
 
   cd ..
     con = constants;
+    control_con = control_constants
     dyn = get_2d_dyn(con);
   cd simulation
   dyn1d = Dyn(dyn.A(1,1),dyn.K(1,:),dyn.B(1,:),projection(dyn.XU_set, [1 3]));
@@ -100,6 +102,7 @@ function InitializeConditions(block)
   load control_chain
 
   assignin('base','con',con)
+  assignin('base','control_con',control_con)
   assignin('base','dyn',dyn)
   assignin('base','dyn1d',dyn1d)
   assignin('base','control_chain',control_chain);
@@ -181,18 +184,19 @@ function ind = find_cell(puvec,x0)
 end
 
 function  [Rx,rx,Ru,ru] = mpcweights(v,d,N,con)
+  global control_con;
 
   v_goal = min(con.v_des-1, con.v_lead);
   h_goal = max(3, con.h_des*v);
 
-  lim = 10;
-  delta = 20;
+  lim = control_con.ramp_lim;
+  delta = control_con.ramp_delta;
   ramp = max(0, min(1, 0.5+abs(v-con.v_lead)/delta-lim/delta));
 
-  v_weight = 3.;
-  h_weight = 2.*(1-ramp);
-  u_weight = 10;
-  u_weight_jerk = 50;
+  v_weight      = control_con.v_weight % 3.;
+  h_weight      = control_con.h_weight % 2.*(1-ramp);
+  u_weight      = control_con.u_weight % 10;
+  u_weight_jerk = control_con.u_weight_jerk % 50;
 
   Rx = kron(eye(N), [v_weight 0; 0 h_weight]);
   rx = repmat([v_weight*(-v_goal); h_weight*(-h_goal)],N,1);

@@ -2,7 +2,10 @@
 %% Generate C code %%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-control_con = control_constants();
+cd ..
+	control_con = control_constants();
+cd codegen
+
 save('control_constants.mat', 'control_con')
 
 load('constants.mat');
