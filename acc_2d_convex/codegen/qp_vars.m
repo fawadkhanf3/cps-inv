@@ -126,7 +126,7 @@ function [H, f, A_ineq, b_ineq] = qp_vars(x0) %#codegen
 
     dLU_x = kron(eye(N-1), LU_x);
     dLU_u = kron(eye(N-1), LU_u);
-    dlU = repmat(lU,N-1,max(1,N-1));
+    dlU = repmat(lU,max(1,N-1),1);
 
     A_u_X = [ LU_x; 
               dLU_x*LxN1];

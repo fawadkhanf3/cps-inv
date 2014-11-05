@@ -11,13 +11,13 @@ con = constants_rc;
 dyn_model = get_2d_dyn(con);
 
 %% define V-H State space
-VH = Polyhedron([1 0; -eye(2)], [con.v_max; -con.v_min; -con.d_min]);
+VH = Polyhedron([1 0; -eye(2)], [con.v_max; -con.v_min; -con.h_min]);
 
 %% Define safe set
-S1 = intersect1(VH, Polyhedron('A', [con.tau_min -1; 0 -1], 'b', [0; -con.h_min]));
+S1 = intersect1(VH, Polyhedron('A', [con.tau_min -1; 0 -1], 'b', [0; -con.h_safe]));
 
 %% Define goal set
-G2 = intersect1(VH, Polyhedron('A', [con.tau_des  -1; 1 0], 'b', [0; con.v_des]));
+G2 = intersect1(S1, Polyhedron('A', [con.tau_des  -1; 1 0], 'b', [0; con.v_des]));
 
 %% Use inside-out approach starting with V0
 C0 = intersect1(G2, Polyhedron([1 0; -1 0], [con.v_lead; -con.v_lead])); 

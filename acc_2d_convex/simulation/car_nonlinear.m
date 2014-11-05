@@ -40,7 +40,7 @@ function setup(block)
 %endfunction
 
 function InitConditions(block)
-  block.ContStates.Data = 13;
+  block.ContStates.Data = 1;
   
 %endfunction
 

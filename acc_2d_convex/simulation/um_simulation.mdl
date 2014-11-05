@@ -7,7 +7,7 @@ Model {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.24"
+    ComputedModelVersion    "1.27"
     NumModelReferences	    0
     NumTestPointedSignals   0
   }
@@ -30,7 +30,7 @@ Model {
       $ObjectID		      2
       $ClassName	      "Simulink.WindowInfo"
       IsActive		      [1]
-      Location		      [67.0, 115.0, 1146.0, 739.0]
+      Location		      [1189.0, 283.0, 1146.0, 739.0]
       Object {
 	$PropName		"ModelBrowserInfo"
 	$ObjectID		3
@@ -52,11 +52,11 @@ Model {
 	$ObjectID		5
 	$ClassName		"Simulink.EditorInfo"
 	IsActive		[1]
-	ViewObjType		"SimulinkSubsys"
-	LoadSaveID		"129"
+	ViewObjType		"SimulinkTopLevel"
+	LoadSaveID		"0"
 	Extents			[1112.0, 599.0]
-	ZoomFactor		[3.871428571428571]
-	Offset			[71.383763837638384, -7.36162361623618]
+	ZoomFactor		[1.1629327902240325]
+	Offset			[-132.31641993213668, 5.9614711033274954]
       }
     }
   }
@@ -66,9 +66,9 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "petter"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Tue Nov 04 13:57:56 2014"
-  RTWModifiedTimeStamp	  337010272
-  ModelVersionFormat	  "1.%<AutoIncrement:24>"
+  LastModifiedDate	  "Wed Nov 05 18:24:14 2014"
+  RTWModifiedTimeStamp	  337110846
+  ModelVersionFormat	  "1.%<AutoIncrement:27>"
   ConfigurationManager	  "none"
   SampleTimeColors	  off
   SampleTimeAnnotations	  off
@@ -919,8 +919,8 @@ Model {
   }
   System {
     Name		    "um_simulation"
-    Location		    [67, 115, 1213, 854]
-    Open		    off
+    Location		    [1189, 283, 2335, 1022]
+    Open		    on
     ModelBrowserVisibility  off
     ModelBrowserWidth	    200
     ScreenColor		    "white"
@@ -931,7 +931,7 @@ Model {
     TiledPaperMargins	    [0.500000, 0.500000, 0.500000, 0.500000]
     TiledPageScale	    1
     ShowPageBoundaries	    off
-    ZoomFactor		    "110"
+    ZoomFactor		    "116"
     ReportName		    "simulink-default.rpt"
     SIDHighWatermark	    "144"
     Block {
@@ -956,7 +956,7 @@ Model {
       Name		      "Following car"
       SID		      "97"
       Ports		      [1, 1]
-      Position		      [205, 294, 260, 326]
+      Position		      [190, 294, 270, 326]
       ZOrder		      40
       FunctionName	      "car_nonlinear"
     }
@@ -977,7 +977,7 @@ Model {
       MaskHideContents	      off
       System {
 	Name			"Lead car 1"
-	Location		[67, 115, 1213, 854]
+	Location		[1189, 283, 2335, 1022]
 	Open			off
 	ModelBrowserVisibility	off
 	ModelBrowserWidth	200
@@ -1015,7 +1015,7 @@ Model {
 	  Position		  [170, 69, 285, 101]
 	  ZOrder		  2
 	  FunctionName		  "headway_model_car"
-	  Parameters		  "250"
+	  Parameters		  "10"
 	}
 	Block {
 	  BlockType		  Outport
@@ -1058,8 +1058,8 @@ Model {
       MaskHideContents	      off
       System {
 	Name			"Lead car 2"
-	Location		[67, 115, 1213, 854]
-	Open			on
+	Location		[1189, 283, 2335, 1022]
+	Open			off
 	ModelBrowserVisibility	off
 	ModelBrowserWidth	200
 	ScreenColor		"white"
@@ -1096,7 +1096,7 @@ Model {
 	  Position		  [170, 69, 290, 101]
 	  ZOrder		  4
 	  FunctionName		  "headway_model_car"
-	  Parameters		  "100"
+	  Parameters		  "8"
 	}
 	Block {
 	  BlockType		  Outport
@@ -1148,7 +1148,7 @@ Model {
       MaskHideContents	      off
       System {
 	Name			"No lead car"
-	Location		[32, 136, 1072, 823]
+	Location		[1189, 283, 2335, 1022]
 	Open			off
 	ModelBrowserVisibility	off
 	ModelBrowserWidth	200
@@ -1186,7 +1186,7 @@ Model {
 	  Position		  [170, 69, 290, 101]
 	  ZOrder		  4
 	  FunctionName		  "headway_model_nocar"
-	  Parameters		  "300"
+	  Parameters		  "10"
 	}
 	Block {
 	  BlockType		  Outport
@@ -1434,7 +1434,7 @@ Model {
       ZOrder		      15
       SrcBlock		      "Following car"
       SrcPort		      1
-      Points		      [16, 0]
+      Points		      [6, 0]
       Branch {
 	ZOrder			16
 	Points			[0, -75]

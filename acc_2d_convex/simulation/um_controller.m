@@ -93,13 +93,14 @@ function InitializeConditions(block)
   warning('off', 'all'); % dont want to see QP warnings
 
   cd ..
-    con = constants;
+    con = constants_rc;
     control_con = control_constants
     dyn = get_2d_dyn(con);
   cd simulation
+
   dyn1d = Dyn(dyn.A(1,1),dyn.K(1,:),dyn.B(1,:),projection(dyn.XU_set, [1 3]));
 
-  load control_chain
+  load control_chain;
 
   assignin('base','con',con)
   assignin('base','control_con',control_con)
@@ -125,13 +126,13 @@ function Outputs(block)
 
   x0 = block.InputPort(1).Data;
   v = x0(1);
-  d = x0(2);
+  h = x0(2);
 
-  if d >= con.d_max
+  if h >= con.h_max
     % Use controller for mode M2
     safe_set = Polyhedron('A', [1; -1], 'b', [con.v_max; -con.v_min]);
-    Rv = 5*eye(N);
-    rv = -5*(con.v_des-1)*ones(N,1);
+    Rv = eye(N);
+    rv = -(con.v_des)*ones(N,1);
     Ru = eye(N);
     ru = zeros(N,1);
     u = dyn1d.solve_mpc(v, Rv, rv, Ru, ru, [safe_set, safe_set, safe_set, safe_set]);
@@ -153,7 +154,7 @@ function Outputs(block)
   next_numbers = max(1, this_number-[1:N]);
   next_polys = control_chain(next_numbers);
 
-  [Rx,rx,Ru,ru] = mpcweights(v,d,N,con);
+  [Rx,rx,Ru,ru] = mpcweights(v,h,N,con);
 
   % Get input wrt discrete model
   u = dyn.solve_mpc(x0, Rx, rx, Ru, ru, next_polys);
@@ -183,20 +184,20 @@ function ind = find_cell(puvec,x0)
   end
 end
 
-function  [Rx,rx,Ru,ru] = mpcweights(v,d,N,con)
+function  [Rx,rx,Ru,ru] = mpcweights(v,h,N,con)
   global control_con;
 
-  v_goal = min(con.v_des-1, con.v_lead);
-  h_goal = max(3, con.h_des*v);
+  v_goal = min(con.v_des, con.v_lead);
+  h_goal = max(con.h_safe, con.tau_des*v);
 
   lim = control_con.ramp_lim;
   delta = control_con.ramp_delta;
   ramp = max(0, min(1, 0.5+abs(v-con.v_lead)/delta-lim/delta));
 
-  v_weight      = control_con.v_weight % 3.;
-  h_weight      = control_con.h_weight % 2.*(1-ramp);
-  u_weight      = control_con.u_weight % 10;
-  u_weight_jerk = control_con.u_weight_jerk % 50;
+  v_weight      = control_con.v_weight;
+  h_weight      = control_con.h_weight*(1-ramp);
+  u_weight      = control_con.u_weight;
+  u_weight_jerk = control_con.u_weight_jerk;
 
   Rx = kron(eye(N), [v_weight 0; 0 h_weight]);
   rx = repmat([v_weight*(-v_goal); h_weight*(-h_goal)],N,1);

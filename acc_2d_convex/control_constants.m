@@ -1,12 +1,10 @@
 function con = control_constants()
-% Horizon
-con.N = 1;
-con.v_weight = 2;
-con.h_weight = 2;
-con.u_weight = 1;
-con.u_weight_jerk = 1;
+	con.N = 5;
+	con.v_weight = 1;
+	con.h_weight = 5;
+	con.u_weight = 100;
+	con.u_weight_jerk = 10;
 
-con.ramp_delta = 20;
-con.ramp_lim = 10;		% 
-
+	con.ramp_lim = 0.3;		% 
+	con.ramp_delta = 0.6;
 end

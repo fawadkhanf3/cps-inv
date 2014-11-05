@@ -14,7 +14,7 @@ load('dyn_data.mat');
 
 codegen -c -d 'matlab_c' -config:lib qp_vars -args {zeros(n,1)} 
 
-num_poly_hp_max = size(polyA,1);
+num_poly_hp_max = max(bigPolyLen);
 % num_poly_hp_max = 0;
 % for i=1:length(control_chain)
 %     num_poly_hp_max = max(num_poly_hp_max, size(control_chain(i).A,1));
@@ -47,11 +47,5 @@ fprintf(fid,'%s', '#define QP_UDIM ');
 fprintf(fid,'%d\n', m);
 fprintf(fid,'%s', '#define QP_MAX_INEQ ');
 fprintf(fid,'%d\n', max_num_ineq);
-
-
-fprintf(fid,'%s', '#define KAL_XDIM ');
-fprintf(fid,'%d\n', 4);
-fprintf(fid,'%s', '#define KAL_YDIM ');
-fprintf(fid,'%d\n', 2);
 
 fclose(fid);
