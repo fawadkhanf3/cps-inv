@@ -19,20 +19,16 @@ function [V] = cinv_io(dyn, R, V, show_plot, verbose)
 
 	V_prim = intersect1(R, dyn.pre(V,1));
 
-	rel_vol = 1;
 	i = 0;
-	while rel_vol > 1e-3
+	while true
 		V = V_prim;
 		V_prim = intersect1(R, dyn.pre(V, 1));
 		V_prim = merge1(V_prim,3,0);
-		vol0 = volume1(V);
-		vol1 = volume1(V_prim);
 
-		rel_vol = abs((vol1-vol0) / vol0);
-		if verbose
-			disp([num2str(i), ', Number of polys: ', ...
-				num2str(V_prim.Num), ', Voldiff: ', num2str(rel_vol)])
+		if isEmptySet(mldivide(V_prim, V))
+			break;
 		end
+
 		i = i+1;
 		if show_plot
 			plot(V_prim)
