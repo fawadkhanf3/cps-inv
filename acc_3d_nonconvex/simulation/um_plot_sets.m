@@ -11,6 +11,8 @@ plot(intersect1(set_mat{1}(1), poly200), 'color', 'green', 'alpha', 0.3)
 xlabel('$v$')
 ylabel('$h$')
 zlabel('$v_L$')
+text(1, 100, 15, '$C_0$')
+text(20, 10, 5, '$G_2$')
 view([-28 4])
 
 matlab2tikz('C0.tikz','interpretTickLabelsAsTex',true, ...
@@ -34,10 +36,10 @@ xlabel('$v$')
 ylabel('$h$')
 zlabel('$v_L$')
 view([-28 4])
-text(1, 100, 15, '$C$')
-text(20, 10, 5, '$G$')
-text(28, 10, 5, '$S$')
-text(24, 10, 30, '$S \cap Pre(C)$')
+text(1, 100, 15, '$C_1$')
+text(20, 10, 5, '$G_2$')
+text(28, 10, 5, '$S_2$')
+text(24, 10, 30, '$S_2 \cap Pre(C_1)$')
 
 matlab2tikz('3d_domain.tikz','interpretTickLabelsAsTex',true, ...
 		     'width','\figurewidth', 'height', '\figureheight', ...

@@ -58,9 +58,9 @@ while (true)
 	i = i+1;
 end
 
+C0 = Ci;
 
 %%%% Step 2: expand inner cinv set
-
 Cinv_vec = [C0];
 
 while true
@@ -87,18 +87,25 @@ end
 
 set_mat = {Cinv_vec};
 
-% for t=1:6
-% 	Ct_vec = [];
+for t=1:6
+	Ct_vec = [];
 
-% 	for i=1:length(set_mat{end})
-% 		Ci = intersect1(S1, pwadyn.pre(set_mat{end}(i)));
-% 		Ci_cvx = merge_in(Ci.Set(2), Ci.Set(1));
-% 		Ci_cvx = merge_in(Ci_cvx, Ci.Set(3));
-% 		Ct_vec = [Ct_vec Ci_cvx];
-% 	end
+	for i=1:length(set_mat{end})
+		Ci = intersect1(S1, pwadyn.pre(set_mat{end}(i)));
+		Ci_cvx = merge_in(Ci.Set(2), Ci.Set(1));
+		Ci_cvx = merge_in(Ci_cvx, Ci.Set(3));
+		Ct_vec = [Ct_vec Ci_cvx];
+	end
 
-% 	set_mat = [set_mat {Ct_vec}];
-% end
+	if plot_and_video
+		figure(f); hold on
+		plot(intersect1(Ci_cvx, poly200), 'color', 'green', 'alpha', 0.2)
+		currFrame = getframe(gcf);
+		writeVideo(vidObj, currFrame);
+	end
+
+	set_mat = [set_mat {Ct_vec}];
+end
 
 if plot_and_video
 	[az el] = view;
