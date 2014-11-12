@@ -38,6 +38,9 @@ fprintf(fid,'%s', '#define CAR_F1 ');
 fprintf(fid,'%f\n', con.f1);
 fprintf(fid,'%s', '#define CAR_F2 ');
 fprintf(fid,'%f\n', con.f2);
+fprintf(fid,'%s', '#define U_SCALE ');
+fprintf(fid,'%f\n', u_scale);
+
 
 fprintf(fid,'%s', '#define QP_N ');
 fprintf(fid,'%d\n', control_con.N);

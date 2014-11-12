@@ -57,7 +57,8 @@ if true
 	n = dyn_model.n;
 	m = dyn_model.m;
 	p = dyn_model.p;
-	save('codegen/dyn_data.mat', 'A', 'B', 'E', 'K', 'XUA', 'XUb', 'n', 'm', 'p');
+	u_scale = dyn_model.get_constant('B_cond_number');
+	save('codegen/dyn_data.mat', 'A', 'B', 'E', 'K', 'XUA', 'XUb', 'n', 'm', 'p', 'u_scale');
 
 	save('codegen/constants.mat', 'con')
 
