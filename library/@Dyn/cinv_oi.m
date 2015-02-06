@@ -57,12 +57,9 @@ function [V] = cinv_oi(dyn, R, maxiter, show_plot, verbose)
 		end
 
 		V = V_prim;
+
 		i = i+1;
 	end
 	time = toc;
 	disp(['Outside-in controlled-invariant set algo finished in ', num2str(time), ' seconds after ', num2str(i), ' iterations'])
 end
-
-function mes = message(i, V_prim, rel_vol)
-end
-
