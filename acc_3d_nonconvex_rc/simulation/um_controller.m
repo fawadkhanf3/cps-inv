@@ -107,7 +107,7 @@ function Outputs(block)
   global set_mat;
 
   % disp('---------------------');
-  x0 = block.InputPort(1).Data;
+  x0 = block.InputPort(1).Data
   v = x0(1);
   h = x0(2);
   vl = x0(3);
@@ -135,12 +135,7 @@ function Outputs(block)
     return;
   end
 
-  % N = 10;
-  % next_numbers = max(1, current_cell-[0:N-1]);
-  % next_polys = set_mat(next_numbers);
-  % % next_poly = set_mat(max(1, current_cell-1));
-
-  [Rx,rx,Ru,ru] = mpcweights(v,h,vl,block.OutputPort(1).Data,1,con);
+  [Rx,rx,Ru,ru] = mpcweights(v,h,vl,block.OutputPort(1).Data,1,con)
 
   if current_set == 1
     % We are in controlled-invariant set
@@ -157,7 +152,7 @@ function Outputs(block)
 
   % Rescale to interval u/m \in [umin, umax] and add nonlinearity
   u_real = u(1)/(region_dyn.get_constant('B_cond_number'));
-  u_real = u_real + con.f2*(v-con.lin_speed)^2;
+  u_real = u_real + con.f2*(v-con.lin_speed)^2
 
   % disp(['Trying to go from ', num2str(current_cell), ' to  ', num2str(next_numbers), ' by applying ', num2str(u_real)]);
               
@@ -189,24 +184,18 @@ function  [Rx,rx,Ru,ru] = mpcweights(v,d,vl,udes,N,con)
   v_goal = min((con.v_des_max+con.v_des_min)/2, vl);
   h_goal = max(3, con.tau_des*v);
 
-  lim = 10;
-  delta = 20;
+  lim = 0.3;
+  delta = 0.6;
   ramp = max(0, min(1, 0.5+abs(v-vl)/delta-lim/delta));
 
   v_weight = 3.;
   h_weight = 5.*(1-ramp);
   u_weight = 3;
-  u_weight_jerk = 50;
 
   Rx = kron(eye(N), [v_weight 0 0; 0 h_weight 0; 0 0 0]);
   rx = repmat([v_weight*(-v_goal); h_weight*(-h_goal); 0],N,1);
 
   Ru = u_weight*eye(N);
-  if N>2
-    Ru = Ru + u_weight_jerk*(diag([1 2*ones(1,N-2) 1]) - diag(ones(N-1,1), -1) - diag(ones(N-1,1), 1));
-  else
-    Ru = Ru + u_weight_jerk*(diag(ones(1,N)) - diag(ones(N-1,1), -1) - diag(ones(N-1,1), 1));
-  end
   ru = zeros(N,1);
 
 end

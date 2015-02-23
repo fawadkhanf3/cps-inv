@@ -25,12 +25,12 @@ xlabel('$t$')
 
 subplot(413)
 hold on
-plot(u_out.time, u_out.signals.values/(9.82*con.mass), 'linewidth', lw)
+plot(u_out.time, u_out.signals.values, 'linewidth', lw)
 xlabel('$t$')
 ylabel('$F_w/mg$')
-plot(get(gca,'xlim'), [con.umax/(con.g*con.mass) con.umax/(con.g*con.mass)], 'g');
-plot(get(gca,'xlim'), [con.umin/(con.g*con.mass) con.umin/(con.g*con.mass)], 'g');
-ylim([1.1*con.umin/(con.g*con.mass) 1.1*con.umax/(con.g*con.mass)])
+plot(get(gca,'xlim'), [con.umax con.umax], 'g');
+plot(get(gca,'xlim'), [con.umin con.umin], 'g');
+ylim([1.1*con.umin 1.1*con.umax])
 
 subplot(414)
 hold on
