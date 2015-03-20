@@ -7,7 +7,7 @@ function two_car_model(block)
 function setup(block)
   
   %% Register number of dialog parameters   
-  block.NumDialogPrms = 0;
+  block.NumDialogPrms = 1;
 
   %% Register number of input and output ports
   block.NumInputPorts  = 1;
@@ -40,7 +40,7 @@ function setup(block)
 %endfunction
 
 function InitConditions(block)
-  block.ContStates.Data = 0.2;
+  block.ContStates.Data = block.DialogPrm(1).Data;
   
 %endfunction
 

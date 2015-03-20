@@ -89,6 +89,8 @@ function InitializeConditions(block)
   cd simulation
   simple_dyn = get_simple_dyn(con);
 
+  block.OutputPort(1).Data = con.f0;
+
   load set_mat
   warning('off', 'all'); % dont want to see QP warnings
 
@@ -126,7 +128,11 @@ function Outputs(block)
     return;
   end
 
-  region_dyn = pwadyn.get_region_dyn(x0); % active part of the pwa dynamics
+  try
+    region_dyn = pwadyn.get_region_dyn(x0); % active part of the pwa dynamics
+  catch
+    return;
+  end
 
   [current_set current_poly] = find_cell(set_mat, x0);
   if current_set == -1;
@@ -135,7 +141,7 @@ function Outputs(block)
     return;
   end
 
-  [Rx,rx,Ru,ru] = mpcweights(v,h,vl,block.OutputPort(1).Data,1,con)
+  [Rx,rx,Ru,ru] = mpcweights(v,h,vl,block.OutputPort(1).Data,1,con);
 
   if current_set == 1
     % We are in controlled-invariant set

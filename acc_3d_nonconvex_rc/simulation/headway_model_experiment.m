@@ -41,16 +41,17 @@ function setup(block)
 
 
 function InitConditions(block)
-  block.ContStates.Data = block.DialogPrm(1).Data;
+  time_start = 0;
+
   file = 'experiment.txt';
-  
   M = csvread(file, 1,0);
   M(:,1) = (M(:,1)-M(1,1))/10^9;
-
+  
+  block.ContStates.Data = block.DialogPrm(1).Data;
+  
   global experiment_data;
   global time_start;
   experiment_data = M;
-  time_start = 5;
   % assignin('base','experiment_data',M);
 
 %endfunction
@@ -58,7 +59,7 @@ function InitConditions(block)
 function Output(block)
   global experiment_data;
   global time_start;
-  vlind = find(experiment_data(:,1) <= time_start + block.currentTime, 1, 'last')
+  vlind = find(experiment_data(:,1) <= time_start + block.currentTime, 1, 'last');
   block.OutputPort(1).Data = [block.ContStates.Data experiment_data(vlind, 4)];
 %endfunction
 
