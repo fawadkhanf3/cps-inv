@@ -109,7 +109,7 @@ function Outputs(block)
   global set_mat;
 
   % disp('---------------------');
-  x0 = block.InputPort(1).Data
+  x0 = block.InputPort(1).Data;
   v = x0(1);
   h = x0(2);
   vl = x0(3);
@@ -158,7 +158,7 @@ function Outputs(block)
 
   % Rescale to interval u/m \in [umin, umax] and add nonlinearity
   u_real = u(1)/(region_dyn.get_constant('B_cond_number'));
-  u_real = u_real + con.f2*(v-con.lin_speed)^2
+  u_real = u_real + con.f2*(v-con.lin_speed)^2;
 
   % disp(['Trying to go from ', num2str(current_cell), ' to  ', num2str(next_numbers), ' by applying ', num2str(u_real)]);
               
@@ -188,20 +188,20 @@ end
 function  [Rx,rx,Ru,ru] = mpcweights(v,d,vl,udes,N,con)
 
   v_goal = min((con.v_des_max+con.v_des_min)/2, vl);
-  h_goal = max(3, con.tau_des*v);
+  h_goal = max(con.h_min*1.1, con.tau_des*v);
 
-  lim = 0.3;
-  delta = 0.6;
+  lim = 0.5;
+  delta = 1;
   ramp = max(0, min(1, 0.5+abs(v-vl)/delta-lim/delta));
 
-  v_weight = 3.;
-  h_weight = 5.*(1-ramp);
-  u_weight = 3;
+  v_weight = 1;
+  h_weight = 8*(1-ramp);
+  u_weight = 15;
 
   Rx = kron(eye(N), [v_weight 0 0; 0 h_weight 0; 0 0 0]);
   rx = repmat([v_weight*(-v_goal); h_weight*(-h_goal); 0],N,1);
 
   Ru = u_weight*eye(N);
-  ru = zeros(N,1);
+  ru = -u_weight * udes * zeros(N,1);
 
 end

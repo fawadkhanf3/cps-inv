@@ -59,8 +59,17 @@ function InitConditions(block)
 function Output(block)
   global experiment_data;
   global time_start;
+
+  t = block.currentTime;
   vlind = find(experiment_data(:,1) <= time_start + block.currentTime, 1, 'last');
-  block.OutputPort(1).Data = [block.ContStates.Data experiment_data(vlind, 4)];
+  t0 = experiment_data(vlind, 1);
+  t1 = experiment_data(vlind+1, 1);
+  v0 = experiment_data(vlind, 4);
+  v1 = experiment_data(vlind+1, 4);
+
+  vl = v0 + (v1 - v0) * (time_start + t - t0)/(t1-t0);
+  block.OutputPort(1).Data = [block.ContStates.Data vl];
+
 %endfunction
 
 function Derivative(block)

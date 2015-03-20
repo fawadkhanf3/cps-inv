@@ -785,7 +785,7 @@ Model {
     TiledPaperMargins	    [0.500000, 0.500000, 0.500000, 0.500000]
     TiledPageScale	    1
     ShowPageBoundaries	    off
-    ZoomFactor		    "164"
+    ZoomFactor		    "174"
     ReportName		    "simulink-default.rpt"
     SIDHighWatermark	    "153"
     Block {
