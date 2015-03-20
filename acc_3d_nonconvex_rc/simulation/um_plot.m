@@ -12,14 +12,14 @@ plot(x_out.time(1:t60), x_out.signals.values(1:t60,3), 'r', 'linewidth', lw)
 plot(x_out.time(t80:end), x_out.signals.values(t80:end,3), 'r', 'linewidth', lw)
 % plot(kal_out.time, kal_out.signals.values(:,3), 'r--', 'linewidth', lw)
 % legend('ACC', 'Lead')
-legend('ACC', 'Lead', 'Location', 'NorthOutSide')
+% legend('ACC', 'Lead', 'Location', 'NorthOutSide')
 ylabel('$v$')
 xlabel('$t$')
 
 subplot(412)
 hold on
 plot(x_out.time, x_out.signals.values(:,2), 'linewidth', lw)
-plot(get(gca,'xlim'), [3 3], 'g');
+plot(get(gca,'xlim'), [con.h_min con.h_min], 'g');
 ylabel('$h$')
 xlabel('$t$')
 
