@@ -41,17 +41,20 @@ function setup(block)
 
 
 function InitConditions(block)
-  time_start = 0;
 
-  file = 'experiment.txt';
+  file = 'car_state_13-41.txt';
   M = csvread(file, 1,0);
   M(:,1) = (M(:,1)-M(1,1))/10^9;
-  
-  block.ContStates.Data = block.DialogPrm(1).Data;
-  
+
   global experiment_data;
   global time_start;
+
   experiment_data = M;
+  time_start = 1;
+
+  time_ind = find(experiment_data(:,1) <= time_start, 1, 'last');
+  block.ContStates.Data = M(time_ind,3); % initial headway
+  
   % assignin('base','experiment_data',M);
 
 %endfunction
