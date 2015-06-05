@@ -17,7 +17,7 @@ safe = Polyhedron('A', [1  0 0 0;
 
 safe = intersect1(safe,domain);
 
-C = dyn.cinv_oi(safe, 10, 1e-3, 0, 1);
+C = dyn.cinv_oi(safe, 20, 0, 1);
 
 % % plot some projections of C
 % figure(1)

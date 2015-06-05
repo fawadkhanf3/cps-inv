@@ -7,7 +7,6 @@ plot_and_video = 1;
 dyn = get_dyn1(con);
 pwadyn = get_dyn2(con);
 
-
 %%%% Specify specification sets
 
 %Safe set
@@ -40,7 +39,6 @@ Ci = goal;
 
 while (true)
 	Ci_1 = intersect1(goal, dyn.pre(Ci));
-
 
 	if plot_and_video
 		clf; hold on
@@ -99,7 +97,7 @@ for t=1:6
 
 	if plot_and_video
 		figure(f); hold on
-		plot(intersect1(Ci_cvx, poly200), 'color', 'green', 'alpha', 0.2)
+		plot(intersect1(Ci_cvx, poly200), 'color', 'blue', 'alpha', 0.2)
 		currFrame = getframe(gcf);
 		writeVideo(vidObj, currFrame);
 	end

@@ -1,4 +1,4 @@
-function [ min_u, min_cost ] = solve_mpc(dyn, x0, Rx, rx, Ru, ru, polys, opts)
+function [ min_u, min_cost, feas ] = solve_mpc(dyn, x0, Rx, rx, Ru, ru, polys, opts)
     % SOLVE_MPC: Solve an optimal control problem with quadratic costs and
     % linear constraints.
     % ======================================================

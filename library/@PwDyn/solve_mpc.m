@@ -1,4 +1,4 @@
-function [ min_u, feas ] = solve_mpc( pwadyn,x0, Rx, rx, Ru, ru, polys)
+function [ min_u, min_cost, feas ] = solve_mpc( pwadyn,x0, Rx, rx, Ru, ru, polys)
     %
     % Minimizes  (1/2)*x'*Rx*x + rx'*x + (1/2)*u'*Ru*u + ru'*u, 
     % 
@@ -8,6 +8,6 @@ function [ min_u, feas ] = solve_mpc( pwadyn,x0, Rx, rx, Ru, ru, polys)
     % subject to the dynamics pwadyn.
 
     region_dyn = pwadyn.get_region_dyn(x0);
-    [min_u, feas] = region_dyn.solve_mpc(x0, Rx, rx, Ru, ru, polys);
+    [min_u, min_cost, feas] = region_dyn.solve_mpc(x0, Rx, rx, Ru, ru, polys);
 
 end

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2014) (preloaded format=pdflatex 2014.6.17)  18 JUN 2014 15:45
+This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2014) (preloaded format=pdflatex 2014.6.17)  1 JUN 2015 15:16
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -7,9 +7,9 @@ entering extended mode
 LaTeX2e <2014/05/01>
 Babel <3.9k> and hyphenation patterns for 21 languages loaded.
 (/usr/local/texlive/2014basic/texmf-dist/tex/latex/base/article.cls
-Document Class: article 2007/10/19 v1.4h Standard LaTeX document class
+Document Class: article 2014/09/29 v1.4h Standard LaTeX document class
 (/usr/local/texlive/2014basic/texmf-dist/tex/latex/base/size12.clo
-File: size12.clo 2007/10/19 v1.4h Standard LaTeX file (size option)
+File: size12.clo 2014/09/29 v1.4h Standard LaTeX file (size option)
 )
 \c@part=\count79
 \c@section=\count80
@@ -82,7 +82,7 @@ LaTeX Info: Redefining \[ on input line 2665.
 LaTeX Info: Redefining \] on input line 2666.
 )
 (/usr/local/texlive/2014basic/texmf-dist/tex/latex/amscls/amsthm.sty
-Package: amsthm 2004/08/06 v2.20
+Package: amsthm 2009/07/02 v2.20.1
 \thm@style=\toks19
 \thm@bodyfont=\toks20
 \thm@headfont=\toks21
@@ -164,7 +164,7 @@ Package: atbegshi 2011/10/05 v1.16 At begin shipout hook (HO)
 Package: refcount 2011/10/16 v3.4 Data extraction from label references (HO)
 Package: hycolor 2011/01/30 v1.7 Color options for hyperref/bookmark (HO)
 ) (/usr/local/texlive/2014basic/texmf-dist/tex/latex/graphics/keyval.sty
-Package: keyval 2014/05/08 v1.15 key=value parser (DPC)
+Package: keyval 2014/10/28 v1.15 key=value parser (DPC)
 \KV@toks@=\toks25
 )
 (/usr/local/texlive/2014basic/texmf-dist/tex/generic/ifxetex/ifxetex.sty
@@ -305,10 +305,10 @@ Package: pgf 2013/12/18 v3.0.0 (rcs-revision 1.14)
 
 (/usr/local/texlive/2014basic/texmf-dist/tex/latex/pgf/basiclayer/pgfcore.sty
 (/usr/local/texlive/2014basic/texmf-dist/tex/latex/graphics/graphicx.sty
-Package: graphicx 2014/04/25 v1.0g Enhanced LaTeX Graphics (DPC,SPQR)
+Package: graphicx 2014/10/28 v1.0g Enhanced LaTeX Graphics (DPC,SPQR)
 
 (/usr/local/texlive/2014basic/texmf-dist/tex/latex/graphics/graphics.sty
-Package: graphics 2009/02/05 v1.0o Standard LaTeX Graphics (DPC,SPQR)
+Package: graphics 2014/10/28 v1.0p Standard LaTeX Graphics (DPC,SPQR)
 
 (/usr/local/texlive/2014basic/texmf-dist/tex/latex/graphics/trig.sty
 Package: trig 1999/03/16 v1.09 sin cos tan (DPC)
@@ -607,7 +607,7 @@ File: tikzlibrarytopaths.code.tex 2008/06/17 v3.0.0 (rcs-revision 1.2)
 (/usr/local/texlive/2014basic/texmf-dist/tex/latex/pgfplots/pgfplots.sty
 (/usr/local/texlive/2014basic/texmf-dist/tex/generic/pgfplots/pgfplots.revision
 .tex)
-Package: pgfplots 2014/02/28 v1.10 Data Visualization (1.10-2-gb39fe75)
+Package: pgfplots 2015/01/31 v1.12 Data Visualization (1.12)
 
 (/usr/local/texlive/2014basic/texmf-dist/tex/generic/pgfplots/pgfplots.code.tex
 
@@ -627,7 +627,17 @@ ary.code.tex)
 (/usr/local/texlive/2014basic/texmf-dist/tex/generic/pgfplots/oldpgfcompatib/pg
 fplotsoldpgfsupp_loader.code.tex
 (/usr/local/texlive/2014basic/texmf-dist/tex/generic/pgf/libraries/pgflibraryfp
-u.code.tex))
+u.code.tex)
+Package pgfplots: loading complementary arithmetics for your pgf version...
+
+(/usr/local/texlive/2014basic/texmf-dist/tex/generic/pgfplots/oldpgfcompatib/pg
+fplotsoldpgfsupp_pgflibraryfpu.code.tex)
+(/usr/local/texlive/2014basic/texmf-dist/tex/generic/pgfplots/oldpgfcompatib/pg
+fplotsoldpgfsupp_pgfmathfloat.code.tex
+\c@pgfmathroundto@lastzeros=\count141
+)
+(/usr/local/texlive/2014basic/texmf-dist/tex/generic/pgfplots/oldpgfcompatib/pg
+fplotsoldpgfsupp_trig_format.code.tex))
 (/usr/local/texlive/2014basic/texmf-dist/tex/generic/pgfplots/util/pgfplotsutil
 .code.tex
 (/usr/local/texlive/2014basic/texmf-dist/tex/generic/pgfplots/liststructure/pgf
@@ -636,13 +646,13 @@ plotsliststructure.code.tex)
 plotsliststructureext.code.tex)
 (/usr/local/texlive/2014basic/texmf-dist/tex/generic/pgfplots/liststructure/pgf
 plotsarray.code.tex
-\c@pgfplotsarray@tmp=\count141
+\c@pgfplotsarray@tmp=\count142
 )
 (/usr/local/texlive/2014basic/texmf-dist/tex/generic/pgfplots/liststructure/pgf
 plotsmatrix.code.tex)
 (/usr/local/texlive/2014basic/texmf-dist/tex/generic/pgfplots/numtable/pgfplots
 tableshared.code.tex
-\c@pgfplotstable@counta=\count142
+\c@pgfplotstable@counta=\count143
 \t@pgfplotstable@a=\toks41
 )
 (/usr/local/texlive/2014basic/texmf-dist/tex/generic/pgfplots/liststructure/pgf
@@ -655,7 +665,7 @@ ry.data.code.tex))
 .verb.code.tex)
 (/usr/local/texlive/2014basic/texmf-dist/tex/generic/pgfplots/libs/pgflibrarypg
 fplots.surfshading.code.tex
-\c@pgfplotslibrarysurf@no=\count143
+\c@pgfplotslibrarysurf@no=\count144
 
 (/usr/local/texlive/2014basic/texmf-dist/tex/generic/pgfplots/sys/pgflibrarypgf
 plots.surfshading.pgfsys-pdftex.def)))
@@ -690,7 +700,7 @@ ations.code.tex
 \pgfdecoratedinputsegmentcompleteddistance=\dimen189
 \pgfdecoratedinputsegmentremainingdistance=\dimen190
 \pgf@decorate@distancetomove=\dimen191
-\pgf@decorate@repeatstate=\count144
+\pgf@decorate@repeatstate=\count145
 \pgfdecorationsegmentamplitude=\dimen192
 \pgfdecorationsegmentlength=\dimen193
 )
@@ -704,7 +714,7 @@ pgflibrarydecorations.pathmorphing.code.tex))
 raries/tikzlibrarydecorations.pathreplacing.code.tex
 (/usr/local/texlive/2014basic/texmf-dist/tex/generic/pgf/libraries/decorations/
 pgflibrarydecorations.pathreplacing.code.tex))
-\pgfplots@numplots=\count145
+\pgfplots@numplots=\count146
 \pgfplots@xmin@reg=\dimen194
 \pgfplots@xmax@reg=\dimen195
 \pgfplots@ymin@reg=\dimen196
@@ -755,7 +765,7 @@ Package: nameref 2012/10/27 v2.43 Cross-referencing by name of section
 y
 Package: gettitlestring 2010/12/03 v1.4 Cleanup title references (HO)
 )
-\c@section@level=\count146
+\c@section@level=\count147
 )
 LaTeX Info: Redefining \ref on input line 20.
 LaTeX Info: Redefining \pageref on input line 20.
@@ -770,16 +780,16 @@ Package caption Info: End \AtBeginDocument code.
 ABD: EveryShipout initializing macros
 (/usr/local/texlive/2014basic/texmf-dist/tex/context/base/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count147
+\scratchcounter=\count148
 \scratchdimen=\dimen200
 \scratchbox=\box41
-\nofMPsegments=\count148
-\nofMParguments=\count149
+\nofMPsegments=\count149
+\nofMParguments=\count150
 \everyMPshowfont=\toks42
-\MPscratchCnt=\count150
+\MPscratchCnt=\count151
 \MPscratchDim=\dimen201
-\MPnumerator=\count151
-\makeMPintoPDFobject=\count152
+\MPnumerator=\count152
+\makeMPintoPDFobject=\count153
 \everyMPtoPDFconversion=\toks43
 ) (/usr/local/texlive/2014basic/texmf-dist/tex/latex/oberdiek/epstopdf-base.sty
 Package: epstopdf-base 2010/02/09 v2.5 Base part for package epstopdf
@@ -796,7 +806,7 @@ File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
 e
 ))
 Package pgfplots notification 'compat/show suggested version=true': document ha
-s been generated with the most recent feature set (\pgfplotsset{compat=1.10}).
+s been generated with the most recent feature set (\pgfplotsset{compat=1.12}).
 
 LaTeX Font Info:    Try loading font information for U+msa on input line 27.
 (/usr/local/texlive/2014basic/texmf-dist/tex/latex/amsfonts/umsa.fd
@@ -845,13 +855,13 @@ LaTeX Warning: There were multiply-defined labels.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 158.
  ) 
 Here is how much of TeX's memory you used:
- 26016 strings out of 494522
- 801476 string characters out of 6167205
- 1210210 words of memory out of 5000000
- 28846 multiletter control sequences out of 15000+600000
+ 26339 strings out of 494522
+ 630414 string characters out of 6167205
+ 1250365 words of memory out of 5000000
+ 29160 multiletter control sequences out of 15000+600000
  8891 words of font info for 34 fonts, out of 8000000 for 9000
  319 hyphenation exceptions out of 8191
- 55i,19n,83p,17193b,2160s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 55i,19n,84p,744b,2185s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/local/texlive/2014basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx1
 2.pfb></usr/local/texlive/2014basic/texmf-dist/fonts/type1/public/amsfonts/cm/c
 mex10.pfb></usr/local/texlive/2014basic/texmf-dist/fonts/type1/public/amsfonts/
@@ -864,7 +874,7 @@ ublic/amsfonts/cm/cmr8.pfb></usr/local/texlive/2014basic/texmf-dist/fonts/type1
 /public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2014basic/texmf-dist/fonts/t
 ype1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/2014basic/texmf-dist/font
 s/type1/public/amsfonts/symbols/msam10.pfb>
-Output written on description.pdf (4 pages, 144554 bytes).
+Output written on description.pdf (4 pages, 143619 bytes).
 PDF statistics:
  96 PDF objects out of 1000 (max. 8388607)
  78 compressed objects within 1 object stream
