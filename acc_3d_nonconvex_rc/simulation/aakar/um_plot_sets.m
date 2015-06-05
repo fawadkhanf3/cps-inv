@@ -47,7 +47,10 @@ matlab2tikz('simulation.tikz','interpretTickLabelsAsTex',true, ...
 figure(2); clf; hold on
 
 % plot trajectories
-plot3(x_out.signals.values(1:10:end,1), x_out.signals.values(1:10:end,2), x_out.signals.values(1:10:end,3), 'linewidth', 1);
+t_ind = find(M(:,1) <= 70, 1, 'last');
+plot3(M(5:t_ind,2), M(5:t_ind,3), M(5:t_ind,4), 'linewidth', 1);
+
+%  plot3(x_out.signals.values(1:10:end,1), x_out.signals.values(1:10:end,2), x_out.signals.values(1:10:end,3), 'linewidth', 1);
 
 % plot sets on top
 plot(intersect(S1, poly10), 'color', 'red', 'alpha', 0.1)

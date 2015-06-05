@@ -69,9 +69,20 @@ function Output(block)
   t1 = experiment_data(vlind+1, 1);
   v0 = experiment_data(vlind, 4);
   v1 = experiment_data(vlind+1, 4);
-
+  
+  h0 = experiment_data(vlind, 3);
+  h1 = experiment_data(vlind+1, 3);
+  
   vl = v0 + (v1 - v0) * (time_start + t - t0)/(t1-t0);
-  block.OutputPort(1).Data = [block.ContStates.Data vl];
+  h = h0 + (h1 - h0) * (time_start + t - t0)/(t1-t0);
+
+  if 0
+      % integrate h
+      block.OutputPort(1).Data = [block.ContStates.Data vl];
+  else
+      % read h from file
+      block.OutputPort(1).Data = [h vl];
+  end
 
 %endfunction
 

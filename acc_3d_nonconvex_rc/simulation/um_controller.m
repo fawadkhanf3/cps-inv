@@ -190,13 +190,22 @@ function  [Rx,rx,Ru,ru] = mpcweights(v,d,vl,udes,N,con)
   v_goal = min((con.v_des_max+con.v_des_min)/2, vl);
   h_goal = max(con.h_min*1.1, con.tau_des*v);
 
-  lim = 0.5;
-  delta = 1;
+  % Good settings
+  % lim = 0.5;
+  % delta = 1;
+  % ramp = max(0, min(1, 0.5+abs(v-vl)/delta-lim/delta));
+  % v_weight = 1;
+  % h_weight = 8*(1-ramp);
+  % u_weight = 15;
+
+  % TAMU settings
+  lim = 0.3;
+  delta = 0.6;
   ramp = max(0, min(1, 0.5+abs(v-vl)/delta-lim/delta));
 
-  v_weight = 1;
-  h_weight = 8*(1-ramp);
-  u_weight = 15;
+  v_weight = 3;
+  h_weight = 5*(1-ramp);
+  u_weight = 3;
 
   Rx = kron(eye(N), [v_weight 0 0; 0 h_weight 0; 0 0 0]);
   rx = repmat([v_weight*(-v_goal); h_weight*(-h_goal); 0],N,1);
