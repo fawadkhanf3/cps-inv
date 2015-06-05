@@ -30,11 +30,11 @@ function [V] = cinv_oi(dyn, R, maxiter, show_plot, verbose)
 		maxiter = Inf;
 	end
 
-	if nargin<5
+	if nargin<4
 		show_plot = 0;
 	end
 
-	if nargin<6
+	if nargin<5
 		verbose = 0;
 	end
 
@@ -57,7 +57,9 @@ function [V] = cinv_oi(dyn, R, maxiter, show_plot, verbose)
 		end
 
 		V = V_prim;
-
+		if verbose
+			disp(['iteration ', num2str(i)])
+		end
 		i = i+1;
 	end
 	time = toc;

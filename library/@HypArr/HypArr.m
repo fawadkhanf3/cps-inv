@@ -1,9 +1,47 @@
 classdef HypArr
+    % HypArr: Create a HypArr object.
+    % ========================================
+    %
+    % SYNTAX
+    % ------
+    %
+    %   ha = HypArr(PU);
+    %   ha = HypArr(PU, no_env);
+    % 
+    % DESCRIPTION
+    % 
+    %   Creates a Hyperplane arrangement from a union of Polyhedra
+    %
+    % INPUT
+    % -----
+    %
+    % PU : Polyhedron union
+    %      class: PolyUnion
+    %
+    % no_env: If true, disregard envelope halfplanes
+    %      class: boolean
+    %
+    % METHODS
+    % -------
+    % 
+    % Construct Polyhedron from marking 
+    %  get_poly(ha, marking) 
+    % 
+    % Construct marking from Polyhedron
+    %  get_marking_poly(ha, poly)
+    %
+    % Construct marking from point p
+    %  get_marking_poly(ha, p)
+    %
+    % Plot marking(s)
+    %  plot_marking(ha, markings)
 
 	properties (SetAccess=protected)
 		Dim;			% Dimension of space
 		Num;			% Number of hyperplanes
 		hp_matrix; 		% matrix containing the hyperplanes ai'x = bi as [a1 b1; a2 b2 ; ... am bm]
+		envelope;       % envelope of polys that created envelope
+		has_envelope;
 	end
 
 	methods
@@ -21,14 +59,17 @@ classdef HypArr
 			if isa(arg1, 'PolyUnion')
 
 				if no_envelope
-					env = arg1.envelope();
-					H1 = env.H;
-					% Normalize entries in H1
-					for i=1:size(H1,1)
-						H1(i,:) = sign(H1(i,find(H1(i,:),1,'first')))*H1(i,:)/norm(H1(i,:));
+					obj.envelope = arg1.envelope().H;
+					obj.has_envelope = false;
+					env_normH = obj.envelope;
+					% Normalize entries in env_normH
+					for i=1:size(env_normH,1)
+						env_normH(i,:) = sign(env_normH(i,find(env_normH(i,:),1,'first')))*env_normH(i,:)/norm(env_normH(i,:));
 					end
 				else
-					H1 = zeros(0,arg1.Set(1).Dim+1);
+					obj.envelope = zeros(0,arg1.Set(1).Dim+1);
+					has_envelope = true;
+					env_normH = obj.envelope;
 				end
 
 				% Collect all hyperplanes
@@ -41,8 +82,8 @@ classdef HypArr
 							continue;
 						end
 						hp_norm_lead1 = sign(hp(find(hp,1,'first')))*hp/norm(hp);
-						if ~is_redundant2(hp_matrix, hp_norm_lead1) && ...
-						   		  ~is_redundant2(H1, hp_norm_lead1)
+						if ~is_redundant(hp_matrix, hp_norm_lead1) && ...
+						   		  ~is_redundant(env_normH, hp_norm_lead1)
 							hp_matrix = [hp_matrix; hp_norm_lead1];
 						end
 					end
@@ -50,7 +91,7 @@ classdef HypArr
 				obj.hp_matrix = hp_matrix;
 			else
 				if size(arg1,2) <= 1
-					error('Invalid arg1ument provided to HypArr constructor')
+					error('Invalid argument provided to HypArr constructor')
 				end
 				obj.hp_matrix = arg1;
 			end
@@ -69,7 +110,11 @@ classdef HypArr
 			end
 			ind_plus = find(marking == 1);
 			ind_minus = find(marking == -1);
-			HH = [hyparr.hp_matrix(ind_plus,:); -hyparr.hp_matrix(ind_minus,:) ]; 
+			if hyparr.has_envelope
+				HH = [hyparr.hp_matrix(ind_plus,:); -hyparr.hp_matrix(ind_minus,:) ]; 
+			else
+				HH = [hyparr.hp_matrix(ind_plus,:); -hyparr.hp_matrix(ind_minus,:); hyparr.envelope]; 
+			end
 			poly = Polyhedron('H', HH);
 		end	
 
@@ -104,7 +149,7 @@ classdef HypArr
 			hold on
 			for i = 1:N_mark
 				poly = hyparr.get_poly(markings(i,:));
-				plot(poly, 'color', col(i,:));
+				plot(poly, 'color', col(i,:), 'alpha', 0.3);
 			end
 			if ~held
 				hold off
@@ -113,34 +158,18 @@ classdef HypArr
 	end
 end
 
-function red = is_redundant2(mat, vec)
-	red = any(ismember(mat, vec, 'rows'));
-end
-
 function red = is_redundant(mat, vec, tol)
 	% Returns true if vec is a row of the matrix mat.
 
-	[n, m] = size(mat);
-
-	if (m ~= size(vec,2) || size(vec,1) ~= 1)
-		error('Wrong dimensions')
+	if nargin<3
+		tol = 1e-7;
 	end
 
-	if norm(vec) == 0
-		red = 1;
-		return;
+	for i=1:size(mat, 1)
+		if (norm(mat(i,:) - vec) < tol)
+			red = true;
+			return;
+		end
 	end
-
-	if n == 0
-		red = 0;
-		return;
-	end
-
-	testmat = mat-ones(n,1)*vec;
-	test_norm = sqrt(sum(testmat.*testmat, 2));
-	if min(test_norm) < tol
-		red = 1;
-	else
-		red = 0;
-	end
+	red = false;
 end

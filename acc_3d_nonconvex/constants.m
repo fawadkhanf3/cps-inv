@@ -24,9 +24,9 @@ function [con] = constants()
 	con.umin = -0.3*con.mass*con.g;
 	con.umax = 0.2*con.mass*con.g;
 	con.vl_min = 0;
-	con.vl_max = 20;
-	con.al_min = -0.97; % m/s^2
-	con.al_max = 0.65;  % m/s^2
+	con.vl_max = 35;
+	con.al_min = -3; % m/s^2
+	con.al_max = 2;  % m/s^2
 
 	% specifications
 	con.h_min = 3;   % minimum distance
