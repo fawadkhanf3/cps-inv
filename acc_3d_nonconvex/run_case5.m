@@ -3,8 +3,8 @@ tau_des = 1.4;
 v_des = 27;
 delta = 1;
 
-% con = constants_ucla;
-con = constants;
+% con = constants_aggressive;
+con = constants_benign;
 %%%% Create dynamics
 
 dyn = get_dyn1(con);
