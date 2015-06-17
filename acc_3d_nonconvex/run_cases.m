@@ -1,6 +1,6 @@
-case_nr = 3;  % should be 3 or 4
+case_nr = 5;  % should be 3 or 4 or 5
 plot_verification = 0; % show verification plots
-plot_paper = 1;
+plot_paper = 0;
 
 tau_min = 1;
 tau_des = 1.4;
@@ -11,6 +11,8 @@ if case_nr == 3
 	con = constants_benign;
 elseif case_nr == 4
 	con = constants_aggressive;
+elseif case_nr == 5
+	con = constants_carsim;
 end	
 
 %%%% Create dynamics
@@ -61,7 +63,7 @@ Inv1_outer = intersect(S, intersect(G1, ALL));
 disp('Iteration 1, Reach set 1-inv')
 % Can reach Inv1 iff we can reach Inv1(1)
 C1_1 = pre_pwa(pwadyn, Inv1(1), intersect(S, ALL));
-C1_1 = intersect(C1_1, M1);
+C1_1_M1 = intersect(C1_1, M1);
 
 disp('Iteration 1, Reach set 1-C2')
 C1_2 = pre_pwa(pwadyn, C2, intersect(S, ALL));
@@ -72,10 +74,11 @@ if plot_verification
 	plot(intersect(Inv1, M1), 'color', 'blue', 'alpha', 0.01);
 	plot(C1_1, 'color', 'red', 'alpha', 0.01);
 	plot(C1_2, 'color', 'green', 'alpha', 0.01);
-	Can verify that Reach(C2) \subset Reach(Inv1)!
+	% Can verify that Reach(C2) \subset Reach(Inv1)!
 end
 
-C1 = C1_1;
+C1_full = C1_1;
+C1 = C1_1_M1;
 
 disp('Iteration 1, Inv set 2')
 Inv2_outer = intersect(S, intersect(G2, ALL));
@@ -85,13 +88,15 @@ if plot_verification
 	figure(3); clf; hold on
 	plot(intersect(Inv2, Polyhedron('H', [0 1 0 200])), 'color', 'blue', 'alpha', 0.01)
 	plot(intersect(C1, Polyhedron('H', [0 1 0 200])), 'color', 'red', 'alpha', 0.01)
-	Disregard C1, it is "almost" contained in Inv2
 end
+% Disregard C1, it is "almost" contained in Inv2
 
 disp('Iteration 1, Reach set 2-inv')
 C2_1 = pre_pwa(pwadyn, Inv2(1), intersect(S, ALL));
-C2_1 = intersect(C2_1, M2)
-C2 = C2_1;
+C2_1_M2 = intersect(C2_1, M2)
+
+C2_full = C2_1;
+C2 = C2_1_M2;
 
 if plot_verification
 	figure(4); clf; hold on

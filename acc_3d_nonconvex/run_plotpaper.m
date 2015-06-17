@@ -6,6 +6,7 @@ ylabel('$h$')
 zlabel('$v_L$')
 view([-20 18])
 grid off
+ylim([0 35])
 
 if case_nr == 3
 	filename = 'plots/pcis_case3_invset.tikz'

@@ -81,30 +81,48 @@ function InitializeConditions(block)
   global pwadyn;
   global simple_dyn;
   global con;
-  global set_mat;
+  global M1;
+  global C1_full;
+  global C1_reach;
+  global M2;
+  global C2_full;
+  global C2_reach;
+  global in_c1_reach;
 
   cd ..
-    con = constants;
+    con = constants_carsim;
     pwadyn = get_dyn2(con);
   cd simulation
   simple_dyn = get_simple_dyn(con);
 
-  load set_mat
+  load case3_carsim
   warning('off', 'all'); % dont want to see QP warnings
+
+  in_c1_reach = false;
 
   assignin('base','con',con)
   assignin('base','pwadyn',pwadyn)
   assignin('base','simple_dyn',simple_dyn)
-  assignin('base','set_mat',set_mat);
+  assignin('base','M1',M1);
+  assignin('base','C1_full',C1_full);
+  assignin('base','C1_reach',C1_reach);
+  assignin('base','M2',M2);
+  assignin('base','C2_full',C2_full);
+  assignin('base','C2_reach',C2_reach);
 
 end %InitializeConditions
-
 
 function Outputs(block)
   global pwadyn;
   global simple_dyn;
   global con;
-  global set_mat;
+  global M1;
+  global C1_full;
+  global C1_reach;
+  global M2;
+  global C2_full;
+  global C2_reach;
+  global in_c1_reach;
 
   % disp('---------------------');
   x0 = block.InputPort(1).Data;
@@ -118,7 +136,7 @@ function Outputs(block)
   end
 
   if h >= con.h_max
-    % Use controller for mode M2
+    % Use controller for no lead car hybrid mode
     u = simple_dyn.solve_mpc(v, 1, -con.v_des_max, 1, 0, Polyhedron('A', [1; -1], 'b', [con.v_max; -con.v_min]));
     u_real = u(1)/(simple_dyn.get_constant('B_cond_number'));
     u_real = u_real + con.f2*(v-con.lin_speed)^2;
@@ -128,38 +146,71 @@ function Outputs(block)
 
   region_dyn = pwadyn.get_region_dyn(x0); % active part of the pwa dynamics
 
-  [current_set current_poly] = find_cell(set_mat, x0);
-  if current_set == -1;
-    disp([num2str(block.currentTime), ': Cell not found for ', mat2str(x0), ', keeping constant'])
-    % block.OutputPort(1).Data = con.umin;
-    return;
-  end
-
-  % N = 10;
-  % next_numbers = max(1, current_cell-[0:N-1]);
-  % next_polys = set_mat(next_numbers);
-  % % next_poly = set_mat(max(1, current_cell-1));
-
   [Rx,rx,Ru,ru] = mpcweights(v,h,vl,block.OutputPort(1).Data,1,con);
 
-  if current_set == 1
-    % We are in controlled-invariant set
-    [u1, c1] = region_dyn.solve_mpc(x0, Rx, rx, Ru, ru, set_mat{1}(current_poly));
-    [u2, c2] = region_dyn.solve_mpc(x0, Rx, rx, Ru, ru, set_mat{1}(max(1,current_poly-1)));
-    if c1<c2
-      u = u1;
+  if (M1.contains(x0))
+    cont = C1_reach.contains(x0);
+    if (in_c1_reach || any(cont))
+      in_c1_reach = true;
+      % in controlled invariant set, should stay there
+
+      if (~any(cont))
+        % disp('fell out, should keep constant')
+        return;
+      end
+
+      ind = find(cont, 1, 'first');
+      [u1, c1] = region_dyn.solve_mpc(x0, Rx, rx, Ru, ru, C1_reach(max(1, ind-1)));
+      [u2, c2] = region_dyn.solve_mpc(x0, Rx, rx, Ru, ru, C1_reach(ind));
+      if c1<c2
+        u = u1;
+      else
+        u = u2;
+      end
+      % disp([num2str(block.currentTime), ' in C1_reach'])
     else
-      u = u2;
+      % must make progress towards invariant set
+      cont = C1_full.contains(x0);
+      if ~any(cont)
+        error('not in C1 set')
+      else
+        ind = find(cont, 1, 'first');
+        [u, c] = region_dyn.solve_mpc(x0, Rx, rx, Ru, ru, C1_full(ind-1));
+      end
+      % disp([num2str(block.currentTime), ' in C1_full'])
+    end
+  elseif (M2.contains(x0))
+    in_c1_reach = false;
+    cont = C2_reach.contains(x0);
+    if (any(cont))
+      % in controlled invariant set, should stay there
+      ind = find(cont, 1, 'first');
+      [u1, c1] = region_dyn.solve_mpc(x0, Rx, rx, Ru, ru, C2_reach(max(1, ind-1)));
+      [u2, c2] = region_dyn.solve_mpc(x0, Rx, rx, Ru, ru, C2_reach(ind));
+      if c1<c2
+        u = u1;
+      else
+        u = u2;
+      end
+      % disp([num2str(block.currentTime), 'in C2_reach'])
+    else
+      % must make progress towards invariant set
+      cont = C2_full.contains(x0);
+      if ~any(cont)
+        error('not in C2 set')
+      else
+        ind = find(cont, 1, 'first');
+        [u, c] = region_dyn.solve_mpc(x0, Rx, rx, Ru, ru, C2_full(ind-1));
+      end
+      % disp([num2str(block.currentTime), 'in C2_full'])
     end
   else
-    u = region_dyn.solve_mpc(x0, Rx, rx, Ru, ru, set_mat{current_set-1}(current_poly));
+    error('not inside a goal region')
   end
 
   % Rescale to interval u/m \in [umin, umax] and add nonlinearity
   u_real = u(1)/(region_dyn.get_constant('B_cond_number'));
   u_real = u_real + con.f2*(v-con.lin_speed)^2;
-
-  % disp(['Trying to go from ', num2str(current_cell), ' to  ', num2str(next_numbers), ' by applying ', num2str(u_real)]);
               
   block.OutputPort(1).Data = u_real;
 
@@ -169,20 +220,6 @@ end %Outputs
 function Terminate(block)
   warning('on', 'all');
 end %Terminate
-
-function [ind1 ind2] = find_cell(cmat,x0)
-  ind1 = -1;
-  ind2 = -1;
-  for i=1:length(cmat)
-    for j=1:length(cmat{i})
-      if contains1(cmat{i}(j),x0)
-        ind1 = i; 
-        ind2 = j;
-        return;
-      end
-    end
-  end
-end
 
 function  [Rx,rx,Ru,ru] = mpcweights(v,d,vl,udes,N,con)
 
