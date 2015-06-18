@@ -32,8 +32,9 @@ function [con] = constants()
 	con.h_min = 3;   % minimum distance
 	con.tau_min = 1; % minimum headway
 	con.tau_des = 1.4;
-	con.v_des_min = 26;
-	con.v_des_max = 28;
+	con.v_des_min = 24;
+	con.v_des_max = 26;
+	con.v_des = 25;
 
 	% simulation
 	con.v0 = 12;

@@ -34,6 +34,7 @@ function [con] = constants()
 	con.tau_des = 1.4;
 	con.v_des_min = 24;
 	con.v_des_max = 26;
+	con.v_des = 25;
 
 	% simulation
 	con.v0 = 12;
