@@ -90,12 +90,12 @@ function InitializeConditions(block)
   global in_c1_reach;
 
   cd ..
-    con = constants_carsim;
+    con = constants_benign;
     pwadyn = get_dyn2(con);
   cd simulation
   simple_dyn = get_simple_dyn(con);
 
-  load case3_carsim
+  load case3
   warning('off', 'all'); % dont want to see QP warnings
 
   in_c1_reach = false;
@@ -136,8 +136,8 @@ function Outputs(block)
   end
 
   if h >= con.h_max
-    % Use controller for no lead car hybrid mode
-    u = simple_dyn.solve_mpc(v, 1, -con.v_des_max, 1, 0, Polyhedron('A', [1; -1], 'b', [con.v_max; -con.v_min]));
+    % Use controller for no lead car hybrid state
+    u = simple_dyn.solve_mpc(v, 1, -con.v_des, 1, 0, Polyhedron('A', [1; -1], 'b', [con.v_max; -con.v_min]));
     u_real = u(1)/(simple_dyn.get_constant('B_cond_number'));
     u_real = u_real + con.f2*(v-con.lin_speed)^2;
     block.OutputPort(1).Data = u_real;
@@ -151,21 +151,21 @@ function Outputs(block)
   if (M1.contains(x0))
     cont = C1_reach.contains(x0);
     if (in_c1_reach || any(cont))
-      in_c1_reach = true;
       % in controlled invariant set, should stay there
+      in_c1_reach = true;
 
       if (~any(cont))
         % disp('fell out, should keep constant')
         return;
-      end
-
-      ind = find(cont, 1, 'first');
-      [u1, c1] = region_dyn.solve_mpc(x0, Rx, rx, Ru, ru, C1_reach(max(1, ind-1)));
-      [u2, c2] = region_dyn.solve_mpc(x0, Rx, rx, Ru, ru, C1_reach(ind));
-      if c1<c2
-        u = u1;
       else
-        u = u2;
+        ind = find(cont, 1, 'first');
+        [u1, c1] = region_dyn.solve_mpc(x0, Rx, rx, Ru, ru, C1_reach(max(1, ind-1)));
+        [u2, c2] = region_dyn.solve_mpc(x0, Rx, rx, Ru, ru, C1_reach(ind));
+        if c1<c2
+          u = u1;
+        else
+          u = u2;
+        end
       end
       % disp([num2str(block.currentTime), ' in C1_reach'])
     else
@@ -223,7 +223,7 @@ end %Terminate
 
 function  [Rx,rx,Ru,ru] = mpcweights(v,d,vl,udes,N,con)
 
-  v_goal = min((con.v_des_max+con.v_des_min)/2, vl);
+  v_goal = min(con.v_des, vl);
   h_goal = max(3, con.tau_des*v);
 
   lim = 10;

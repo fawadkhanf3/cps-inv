@@ -1,4 +1,4 @@
-case_nr = 5;  % should be 3 or 4 or 5
+case_nr = 3;  % should be 3 or 4 or 5
 plot_verification = 0; % show verification plots
 plot_paper = 0;
 
@@ -113,6 +113,5 @@ end
 %
 % same holds for C2 -> convergence
 
-if plot_paper
-	run_plotpaper
-end
+C2_reach = Inv2;
+C1_reach = Inv1;

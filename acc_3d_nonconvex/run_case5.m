@@ -72,7 +72,7 @@ Inv2_outer = intersect(S, intersect(G2, ALL));
 % Invariant set is empty here
 
 disp('Iteration 1, Reach set 2-C1')
-C2_2 = pre_pwa(pwadyn, C1(16), intersect(S, ALL), 0, 6);
+C2_2 = pre_pwa(pwadyn, C1(16), intersect(S, ALL), 0, 10);
 C2_2 = intersect(C2_2, M2)
 C2 = C2_2;
 
