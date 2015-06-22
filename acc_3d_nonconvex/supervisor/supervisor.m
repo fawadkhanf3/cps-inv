@@ -7,7 +7,7 @@ function two_car_model(block)
 function setup(block)
   
   %% Register number of dialog parameters   
-  block.NumDialogPrms = 1;
+  block.NumDialogPrms = 2;
 
   %% Register number of input and output ports
   block.NumInputPorts  = 2;
@@ -55,13 +55,27 @@ function InitConditions(block)
   global pwdyn;
   global con;
 
-  con = constants;
+
+  if block.DialogPrm(2).Data == 1
+    disp('loading normal safe set')
+    load safe_set_normal;
+    con = constants_normal;
+  elseif block.DialogPrm(2).Data == 2
+    disp('loading aggressive safe set')
+    load safe_set_aggressive;
+    con = constants_aggressive;
+  elseif block.DialogPrm(2).Data == 3
+    disp('loading normal safe set w/ large vl')
+    load safe_set_normal_largevl;
+    con = constants_normal_largevl;
+  else
+    error('invalid parameter')
+  end
+
   cd ..
     pwdyn = get_dyn2(con);
   cd supervisor
-
-  load safe_set;
-
+    
   block.Dwork(1).Data = 0;
 %endfunction
 

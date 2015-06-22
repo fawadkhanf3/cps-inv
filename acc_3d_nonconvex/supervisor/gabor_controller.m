@@ -98,7 +98,7 @@ function Derivative(block)
 %endfunction
 
 function res = V(h)
-  con = constants;
+  global con;
   gcon = gab_constants;
 
   res = (gcon.h_st<h).*(h<gcon.h_go)*(con.v_des/2).*(1-cos(pi*((h-gcon.h_st)./(gcon.h_go-gcon.h_st)))) + (h>=gcon.h_go)*con.v_des;
@@ -124,11 +124,12 @@ function [Kp,Ki,Kv] = search_weights()
 %endfunction
 
 function passed_all = check_weights(Kp,Ki,Kv,verbose)
+  global con;
+
   if nargin<4
     verbose = 0;
   end
 
-  con = constants;
   gcon = gab_constants;
 
   Kph = Kp; %/con.mass;

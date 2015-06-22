@@ -1,5 +1,5 @@
 lw = 1;
-con = constants;
+% con = constants;
 
 % construct vectors of different signs
 differ = box_out.signals.values(2:end) - box_out.signals.values(1:end-1);
@@ -16,11 +16,10 @@ figure(2)
 clf
 subplot(311)
 hold on
-plot(x_out.time, x_out.signals.values(:,1), 'b', 'linewidth', lw)
-plot(x_out.time, x_out_unsup.signals.values(:,1), 'k--', 'linewidth', lw)
-plot(x_out.time, x_out.signals.values(:,3), 'r', 'linewidth', lw)
-% legend('ACC', 'Lead')
-legend('Supervised', 'Unsupervised', 'Lead car', 'Location', 'NorthOutSide')
+sup = plot(x_out.time, x_out.signals.values(:,1), 'b', 'linewidth', lw)
+unsup = plot(x_out.time, x_out_unsup.signals.values(:,1), 'k--', 'linewidth', lw)
+lc = plot(x_out.time, x_out.signals.values(:,3), 'r', 'linewidth', lw)
+% legend([sup unsup lc], 'Supervised', 'Unsupervised', 'Lead car', 'Location', 'North')
 ylabel('$v$')
 xlabel('$t$')
 yl = ylim;

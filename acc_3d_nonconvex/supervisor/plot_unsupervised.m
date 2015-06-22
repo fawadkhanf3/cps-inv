@@ -1,5 +1,4 @@
 lw = 1;
-con = constants;
 
 x_out_unsup = x_out; % save unsupervised data
 u_out_unsup = u_out;

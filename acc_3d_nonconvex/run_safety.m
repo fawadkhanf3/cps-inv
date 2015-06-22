@@ -1,9 +1,11 @@
-case_nr = 2;
+case_nr = 3;
 
 if case_nr == 1
-	con = constants_benign;
+	con = constants_normal;
 elseif case_nr == 2
 	con = constants_aggressive;
+elseif case_nr == 3
+	con = constants_normal_largevl;
 end
 
 plot_and_video = 1;
@@ -21,10 +23,13 @@ S = intersect(VH, Polyhedron([con.tau_min -1 0; 0 -1 0], [0; -con.h_min]));
 
 [~, safe_set] = in_out_cinv(dyn, pwadyn, S);
 
-save('supervisor/safe_set.mat', 'safe_set');
-
 if case_nr == 1
-	copyfile('constants_benign.m', 'supervisor/constants.m')
+	save('supervisor/safe_set_normal.mat', 'safe_set');
+	copyfile('constants_normal.m', 'supervisor/constants_normal.m')
 elseif case_nr == 2
-	copyfile('constants_aggressive.m', 'supervisor/constants.m')
+	save('supervisor/safe_set_aggressive.mat', 'safe_set');
+	copyfile('constants_aggressive.m', 'supervisor/constants_aggressive.m')
+elseif case_nr == 3
+	save('supervisor/safe_set_normal_largevl.mat', 'safe_set');
+	copyfile('constants_normal_largevl.m', 'supervisor/constants_normal_largevl.m')
 end
