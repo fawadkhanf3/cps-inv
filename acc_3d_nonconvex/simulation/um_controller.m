@@ -89,13 +89,14 @@ function InitializeConditions(block)
   global C2_reach;
   global in_c1_reach;
 
+  load case3
+
   cd ..
     con = constants_benign;
     pwadyn = get_dyn2(con);
   cd simulation
   simple_dyn = get_simple_dyn(con);
 
-  load case3
   warning('off', 'all'); % dont want to see QP warnings
 
   in_c1_reach = false;
