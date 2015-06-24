@@ -58,6 +58,7 @@ function Derivative(block)
 
 function dvl = vldt(t, vl)
   global con;
+  dvl = 0;
   amin = 0.9*con.al_min;
   dvl = (t>13)*(t<23)*(vl>5)*amin;
 % end

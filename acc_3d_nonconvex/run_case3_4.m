@@ -8,7 +8,7 @@ v_des = 27;
 delta = 1;
 
 if case_nr == 3
-	con = constants_benign;
+	con = constants_normal;
 elseif case_nr == 4
 	con = constants_aggressive;
 elseif case_nr == 5

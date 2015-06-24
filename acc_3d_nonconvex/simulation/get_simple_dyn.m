@@ -16,7 +16,9 @@ function dyn = get_simple_dyn(con)
 			0   -1;
 			ekt*B_cond_number (1-ekt)/con.f1_bar;
 			-ekt*B_cond_number  -(1-ekt)/con.f1_bar ];
-	b_xu = [B_cond_number*con.umax; 
+	adjustment = max(con.f2*(con.v_max-con.lin_speed)^2, con.f2*(con.v_min-con.lin_speed)^2);
+
+	b_xu = [B_cond_number*(con.umax-adjustment); 
 	       -B_cond_number*con.umin;
 	       B_cond_number*con.v_max-con.f0_bar*B_cond_number*(ekt-1)/con.f1_bar;
 	       -B_cond_number*con.v_min+con.f0_bar*B_cond_number*(ekt-1)/con.f1_bar];

@@ -8,7 +8,7 @@ function setup(block)
 
 % Register number of ports
 block.NumInputPorts  = 1;
-block.NumOutputPorts = 1;
+block.NumOutputPorts = 2;
 
 % Setup port properties to be inherited or dynamic
 block.SetPreCompInpPortInfoToDynamic;
@@ -24,6 +24,10 @@ block.InputPort(1).DirectFeedthrough = false;
 block.OutputPort(1).Dimensions       = 1;
 block.OutputPort(1).DatatypeID  = 0; % double
 block.OutputPort(1).Complexity  = 'Real';
+
+block.OutputPort(2).Dimensions       = 2;
+block.OutputPort(2).DatatypeID  = 0; % double
+block.OutputPort(2).Complexity  = 'Real';
 
 % Register parameters
 block.NumDialogPrms     = 0;
@@ -57,6 +61,7 @@ block.RegBlockMethod('PostPropagationSetup',    @DoPostPropSetup);
 block.RegBlockMethod('InitializeConditions', @InitializeConditions);
 block.RegBlockMethod('Outputs', @Outputs);     % Required
 block.RegBlockMethod('Terminate', @Terminate); % Required
+block.RegBlockMethod('SetInputPortSamplingMode',@SetInputPortSamplingMode);
 
 end %setup
 
@@ -77,6 +82,14 @@ block.NumDworks = 1;
   block.Dwork(1).UsedAsDiscState = true;
 end % DoPostPropSetup
 
+function SetInputPortSamplingMode(block, idx, fd)
+  block.InputPort(idx).SamplingMode = fd;
+  block.InputPort(idx).SamplingMode = fd;
+
+  block.OutputPort(1).SamplingMode = fd;
+  block.OutputPort(2).SamplingMode = fd;
+end
+
 function InitializeConditions(block)
   global pwadyn;
   global simple_dyn;
@@ -92,7 +105,7 @@ function InitializeConditions(block)
   load case3
 
   cd ..
-    con = constants_benign;
+    con = constants_normal;
     pwadyn = get_dyn2(con);
   cd simulation
   simple_dyn = get_simple_dyn(con);
@@ -138,6 +151,7 @@ function Outputs(block)
 
   if h >= con.h_max
     % Use controller for no lead car hybrid state
+    in_c1_reach = false;
     u = simple_dyn.solve_mpc(v, 1, -con.v_des, 1, 0, Polyhedron('A', [1; -1], 'b', [con.v_max; -con.v_min]));
     u_real = u(1)/(simple_dyn.get_constant('B_cond_number'));
     u_real = u_real + con.f2*(v-con.lin_speed)^2;
@@ -155,6 +169,8 @@ function Outputs(block)
       % in controlled invariant set, should stay there
       in_c1_reach = true;
 
+      c_part = 1;
+
       if (~any(cont))
         % disp('fell out, should keep constant')
         return;
@@ -171,9 +187,13 @@ function Outputs(block)
       % disp([num2str(block.currentTime), ' in C1_reach'])
     else
       % must make progress towards invariant set
+
+      c_part = 2;
+
       cont = C1_full.contains(x0);
       if ~any(cont)
-        error('not in C1 set')
+        disp([mat2str(x0), ' not in C1 set'])
+        return;
       else
         ind = find(cont, 1, 'first');
         [u, c] = region_dyn.solve_mpc(x0, Rx, rx, Ru, ru, C1_full(ind-1));
@@ -181,6 +201,9 @@ function Outputs(block)
       % disp([num2str(block.currentTime), ' in C1_full'])
     end
   elseif (M2.contains(x0))
+
+    c_part = 3;
+
     in_c1_reach = false;
     cont = C2_reach.contains(x0);
     if (any(cont))
@@ -195,6 +218,9 @@ function Outputs(block)
       end
       % disp([num2str(block.currentTime), 'in C2_reach'])
     else
+
+      c_part = 4;
+
       % must make progress towards invariant set
       cont = C2_full.contains(x0);
       if ~any(cont)
@@ -214,6 +240,7 @@ function Outputs(block)
   u_real = u_real + con.f2*(v-con.lin_speed)^2;
               
   block.OutputPort(1).Data = u_real;
+  block.OutputPort(2).Data = [c_part; ind];
 
 end %Outputs
 
@@ -226,15 +253,14 @@ function  [Rx,rx,Ru,ru] = mpcweights(v,d,vl,udes,N,con)
 
   v_goal = min(con.v_des, vl);
   h_goal = max(3, con.tau_des*v);
-
   lim = 10;
   delta = 20;
   ramp = max(0, min(1, 0.5+abs(v-vl)/delta-lim/delta));
 
   v_weight = 3.;
   h_weight = 5.*(1-ramp);
-  u_weight = 3;
-  u_weight_jerk = 50;
+  u_weight = 0.00075;
+  u_weight_jerk = 0;
 
   Rx = kron(eye(N), [v_weight 0 0; 0 h_weight 0; 0 0 0]);
   rx = repmat([v_weight*(-v_goal); h_weight*(-h_goal); 0],N,1);
@@ -245,6 +271,6 @@ function  [Rx,rx,Ru,ru] = mpcweights(v,d,vl,udes,N,con)
   else
     Ru = Ru + u_weight_jerk*(diag(ones(1,N)) - diag(ones(N-1,1), -1) - diag(ones(N-1,1), 1));
   end
-  ru = zeros(N,1);
+  ru = u_weight*(-udes)*ones(N,1);
 
 end
