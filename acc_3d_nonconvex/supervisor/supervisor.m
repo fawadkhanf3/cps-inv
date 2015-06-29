@@ -38,7 +38,7 @@ function setup(block)
   block.RegBlockMethod('PostPropagationSetup',    @DoPostPropSetup);
   block.RegBlockMethod('InitializeConditions',    @InitConditions);  
   block.RegBlockMethod('Outputs',                 @Output);  
-  
+
 %endfunction
 
 function DoPostPropSetup(block)
@@ -56,20 +56,21 @@ function InitConditions(block)
   global con;
 
 
-  if block.DialogPrm(2).Data == 1
-    disp('loading normal safe set')
-    load safe_set_normal;
-    con = constants_normal;
-  elseif block.DialogPrm(2).Data == 2
-    disp('loading aggressive safe set')
-    load safe_set_aggressive;
-    con = constants_aggressive;
-  elseif block.DialogPrm(2).Data == 3
-    disp('loading normal safe set w/ large vl')
-    load safe_set_normal_largevl;
-    con = constants_normal_largevl;
-  else
-    error('invalid parameter')
+  switch block.DialogPrm(2).Data
+    case {1}
+      disp('loading normal safe set')
+      load safe_set_normal;
+      con = constants_normal;
+    case {2}
+      disp('loading aggressive safe set')
+      load safe_set_aggressive;
+      con = constants_aggressive;
+    case {3}
+      disp('loading normal safe set w/ large vl')
+      load safe_set_normal_largevl;
+      con = constants_normal_largevl;
+    otherwise
+      error('invalid parameter')
   end
 
   cd ..
@@ -130,7 +131,7 @@ function Output(block)
 
   if current_set == -1
     disp('Not in safe set!!!')
-    block.OutputPort(1).Data = [con.umin; 1];
+    % block.OutputPort(1).Data = [con.umin; 1];
     return;
   end
 

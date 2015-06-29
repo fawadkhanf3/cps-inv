@@ -94,20 +94,16 @@ function InitializeConditions(block)
   global pwadyn;
   global simple_dyn;
   global con;
-  global M1;
-  global C1_full;
-  global C1_reach;
-  global M2;
-  global C2_full;
-  global C2_reach;
+  global sets;
   global in_c1_reach;
 
-  load case3
+  sets = load('case3.mat');
 
   cd ..
     con = constants_normal;
     pwadyn = get_dyn2(con);
   cd simulation
+
   simple_dyn = get_simple_dyn(con);
 
   warning('off', 'all'); % dont want to see QP warnings
@@ -117,12 +113,6 @@ function InitializeConditions(block)
   assignin('base','con',con)
   assignin('base','pwadyn',pwadyn)
   assignin('base','simple_dyn',simple_dyn)
-  assignin('base','M1',M1);
-  assignin('base','C1_full',C1_full);
-  assignin('base','C1_reach',C1_reach);
-  assignin('base','M2',M2);
-  assignin('base','C2_full',C2_full);
-  assignin('base','C2_reach',C2_reach);
 
 end %InitializeConditions
 
@@ -130,12 +120,7 @@ function Outputs(block)
   global pwadyn;
   global simple_dyn;
   global con;
-  global M1;
-  global C1_full;
-  global C1_reach;
-  global M2;
-  global C2_full;
-  global C2_reach;
+  global sets;
   global in_c1_reach;
 
   % disp('---------------------');
@@ -163,8 +148,8 @@ function Outputs(block)
 
   [Rx,rx,Ru,ru] = mpcweights(v,h,vl,block.OutputPort(1).Data,1,con);
 
-  if (M1.contains(x0))
-    cont = C1_reach.contains(x0);
+  if (sets.M1.contains(x0))
+    cont = sets.C1_reach.contains(x0);
     if (in_c1_reach || any(cont))
       % in controlled invariant set, should stay there
       in_c1_reach = true;
@@ -176,60 +161,60 @@ function Outputs(block)
         return;
       else
         ind = find(cont, 1, 'first');
-        [u1, c1] = region_dyn.solve_mpc(x0, Rx, rx, Ru, ru, C1_reach(max(1, ind-1)));
-        [u2, c2] = region_dyn.solve_mpc(x0, Rx, rx, Ru, ru, C1_reach(ind));
+        [u1, c1] = region_dyn.solve_mpc(x0, Rx, rx, Ru, ru, sets.C1_reach(max(1, ind-1)));
+        [u2, c2] = region_dyn.solve_mpc(x0, Rx, rx, Ru, ru, sets.C1_reach(ind));
         if c1<c2
           u = u1;
         else
           u = u2;
         end
       end
-      % disp([num2str(block.currentTime), ' in C1_reach'])
+      % disp([num2str(block.currentTime), ' in sets.C1_reach'])
     else
       % must make progress towards invariant set
 
       c_part = 2;
 
-      cont = C1_full.contains(x0);
+      cont = sets.C1_full.contains(x0);
       if ~any(cont)
         disp([mat2str(x0), ' not in C1 set'])
         return;
       else
         ind = find(cont, 1, 'first');
-        [u, c] = region_dyn.solve_mpc(x0, Rx, rx, Ru, ru, C1_full(ind-1));
+        [u, c] = region_dyn.solve_mpc(x0, Rx, rx, Ru, ru, sets.C1_full(ind-1));
       end
-      % disp([num2str(block.currentTime), ' in C1_full'])
+      % disp([num2str(block.currentTime), ' in sets.C1_full'])
     end
   elseif (M2.contains(x0))
 
     c_part = 3;
 
     in_c1_reach = false;
-    cont = C2_reach.contains(x0);
+    cont = sets.C2_reach.contains(x0);
     if (any(cont))
       % in controlled invariant set, should stay there
       ind = find(cont, 1, 'first');
-      [u1, c1] = region_dyn.solve_mpc(x0, Rx, rx, Ru, ru, C2_reach(max(1, ind-1)));
-      [u2, c2] = region_dyn.solve_mpc(x0, Rx, rx, Ru, ru, C2_reach(ind));
+      [u1, c1] = region_dyn.solve_mpc(x0, Rx, rx, Ru, ru, sets.C2_reach(max(1, ind-1)));
+      [u2, c2] = region_dyn.solve_mpc(x0, Rx, rx, Ru, ru, sets.C2_reach(ind));
       if c1<c2
         u = u1;
       else
         u = u2;
       end
-      % disp([num2str(block.currentTime), 'in C2_reach'])
+      % disp([num2str(block.currentTime), 'in sets.C2_reach'])
     else
 
       c_part = 4;
 
       % must make progress towards invariant set
-      cont = C2_full.contains(x0);
+      cont = sets.C2_full.contains(x0);
       if ~any(cont)
         error('not in C2 set')
       else
         ind = find(cont, 1, 'first');
-        [u, c] = region_dyn.solve_mpc(x0, Rx, rx, Ru, ru, C2_full(ind-1));
+        [u, c] = region_dyn.solve_mpc(x0, Rx, rx, Ru, ru, sets.C2_full(ind-1));
       end
-      % disp([num2str(block.currentTime), 'in C2_full'])
+      % disp([num2str(block.currentTime), 'in sets.C2_full'])
     end
   else
     error('not inside a goal region')

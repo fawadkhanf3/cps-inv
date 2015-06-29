@@ -3,9 +3,9 @@ function [con] = constants()
 
 	% car dynamics
 	con.mass = 1370;
-	con.f0 = 0.1;
-	con.f1 = 5;
-	con.f2 = 0.25;
+	con.f0 = 51;
+	con.f1 = 1.2567;
+	con.f2 = 0.4342;
 	con.g = 9.82;
 
 	% linearization

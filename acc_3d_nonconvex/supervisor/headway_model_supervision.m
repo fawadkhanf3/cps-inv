@@ -59,5 +59,5 @@ function Derivative(block)
 function dvl = vldt(t, vl)
   global con;
   amin = -0.97;
-  dvl = (t>2.5)*(t<20)*(vl>3)*amin;
+  dvl = (t>5)*(t<20)*(vl>3)*amin;
 % end

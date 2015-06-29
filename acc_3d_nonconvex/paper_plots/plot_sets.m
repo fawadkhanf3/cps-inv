@@ -1,3 +1,5 @@
+% this requires matlab2tikz v 0.6.0
+
 load case3
 
 figure; hold on
@@ -10,7 +12,9 @@ view([-20 18])
 grid off
 zlim([0 35])
 
-matlab2tikz('tikz/pcis_case3_invset.tikz','interpretTickLabelsAsTex',true, 'width','\figurewidth', 'height', '\figureheight', 'parseStrings',false, 'showInfo', false)
+matlab2tikz('tikz/pcis_case3_invset.tikz','interpretTickLabelsAsTex',true, 'noSize',true, ...
+ 			'parseStrings',false, 'extraAxisOptions', ...
+		    'width=\figurewidth, height=\figureheight')
 
 load case4
 
@@ -24,4 +28,6 @@ view([-20 18])
 grid off
 zlim([0 35])
 
-matlab2tikz('tikz/pcis_case4_invset.tikz','interpretTickLabelsAsTex',true, 'width','\figurewidth', 'height', '\figureheight', 'parseStrings',false, 'showInfo', false)
+matlab2tikz('tikz/pcis_case4_invset.tikz','interpretTickLabelsAsTex',true, 'noSize',true, ...
+ 			'parseStrings',false, 'extraAxisOptions', ...
+		    'width=\figurewidth, height=\figureheight')

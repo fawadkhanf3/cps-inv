@@ -7,7 +7,7 @@ Model {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.44"
+    ComputedModelVersion    "1.49"
     NumModelReferences	    0
     NumTestPointedSignals   0
   }
@@ -66,9 +66,9 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "petter"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Fri Jun 19 12:15:08 2015"
-  RTWModifiedTimeStamp	  356616901
-  ModelVersionFormat	  "1.%<AutoIncrement:44>"
+  LastModifiedDate	  "Wed Jun 24 13:19:09 2015"
+  RTWModifiedTimeStamp	  357052747
+  ModelVersionFormat	  "1.%<AutoIncrement:49>"
   ConfigurationManager	  "none"
   SampleTimeColors	  off
   SampleTimeAnnotations	  off
@@ -935,38 +935,11 @@ Model {
     ReportName		    "simulink-default.rpt"
     SIDHighWatermark	    "152"
     Block {
-      BlockType		      Constant
-      Name		      "Constant"
-      SID		      "139"
-      Position		      [20, 115, 50, 145]
-      ZOrder		      56
-    }
-    Block {
-      BlockType		      M-S-Function
-      Name		      "Controller"
-      SID		      "5"
-      Ports		      [1, 1]
-      Position		      [320, 453, 435, 487]
-      ZOrder		      5
-      BlockMirror	      on
-      FunctionName	      "um_controller"
-    }
-    Block {
-      BlockType		      M-S-Function
-      Name		      "Following car"
-      SID		      "97"
-      Ports		      [1, 1]
-      Position		      [195, 291, 265, 329]
-      ZOrder		      40
-      FunctionName	      "car_nonlinear"
-      Parameters	      "15"
-    }
-    Block {
       BlockType		      SubSystem
-      Name		      "Lead car: h_0 = 10\n"
+      Name		      "Car that leaves"
       SID		      "118"
       Ports		      [1, 1, 0, 0, 0, 0, 0, 1]
-      Position		      [320, 67, 390, 103]
+      Position		      [330, 87, 400, 123]
       ZOrder		      52
       TreatAsAtomicUnit	      on
       MinAlgLoopOccurrences   off
@@ -977,7 +950,7 @@ Model {
       RequestExecContextInheritance off
       MaskHideContents	      off
       System {
-	Name			"Lead car: h_0 = 10\n"
+	Name			"Car that leaves"
 	Location		[202, 50, 1323, 854]
 	Open			off
 	ModelBrowserVisibility	off
@@ -1015,8 +988,8 @@ Model {
 	  Ports			  [1, 1]
 	  Position		  [170, 68, 285, 102]
 	  ZOrder		  2
-	  FunctionName		  "headway_model_car"
-	  Parameters		  "23,15"
+	  FunctionName		  "headway_model_leave"
+	  Parameters		  "21,15"
 	}
 	Block {
 	  BlockType		  Outport
@@ -1043,103 +1016,46 @@ Model {
       }
     }
     Block {
-      BlockType		      SubSystem
-      Name		      "Lead car: h_0 = 100"
-      SID		      "129"
-      Ports		      [1, 1, 0, 0, 0, 0, 0, 1]
-      Position		      [320, 132, 390, 168]
-      ZOrder		      54
-      TreatAsAtomicUnit	      on
-      MinAlgLoopOccurrences   off
-      PropExecContextOutsideSubsystem off
-      RTWSystemCode	      "Auto"
-      FunctionWithSeparateData off
-      Opaque		      off
-      RequestExecContextInheritance off
-      MaskHideContents	      off
-      System {
-	Name			"Lead car: h_0 = 100"
-	Location		[202, 50, 1323, 854]
-	Open			off
-	ModelBrowserVisibility	off
-	ModelBrowserWidth	200
-	ScreenColor		"white"
-	PaperOrientation	"landscape"
-	PaperPositionMode	"auto"
-	PaperType		"usletter"
-	PaperUnits		"inches"
-	TiledPaperMargins	[0.500000, 0.500000, 0.500000, 0.500000]
-	TiledPageScale		1
-	ShowPageBoundaries	off
-	ZoomFactor		"387"
-	Block {
-	  BlockType		  Inport
-	  Name			  "In1"
-	  SID			  "130"
-	  Position		  [75, 78, 105, 92]
-	  ZOrder		  -1
-	  IconDisplay		  "Port number"
-	}
-	Block {
-	  BlockType		  ActionPort
-	  Name			  "Action Port"
-	  SID			  "131"
-	  Position		  [170, 15, 229, 43]
-	  ZOrder		  -2
-	  InitializeStates	  "reset"
-	  ActionType		  "case"
-	}
-	Block {
-	  BlockType		  M-S-Function
-	  Name			  "Level-2 MATLAB\nS-Function1"
-	  SID			  "132"
-	  Ports			  [1, 1]
-	  Position		  [170, 78, 290, 112]
-	  ZOrder		  4
-	  FunctionName		  "headway_model_car"
-	  Parameters		  "120,12"
-	}
-	Block {
-	  BlockType		  Outport
-	  Name			  "Out1"
-	  SID			  "133"
-	  Position		  [325, 78, 355, 92]
-	  ZOrder		  -3
-	  IconDisplay		  "Port number"
-	}
-	Line {
-	  ZOrder		  1
-	  SrcBlock		  "In1"
-	  SrcPort		  1
-	  Points		  [45, 0]
-	  DstBlock		  "Level-2 MATLAB\nS-Function1"
-	  DstPort		  1
-	}
-	Line {
-	  ZOrder		  2
-	  SrcBlock		  "Level-2 MATLAB\nS-Function1"
-	  SrcPort		  1
-	  Points		  [0, -10]
-	  DstBlock		  "Out1"
-	  DstPort		  1
-	}
-      }
+      BlockType		      Constant
+      Name		      "Constant"
+      SID		      "139"
+      Position		      [20, 115, 50, 145]
+      ZOrder		      56
+    }
+    Block {
+      BlockType		      M-S-Function
+      Name		      "Controller"
+      SID		      "5"
+      Ports		      [1, 2]
+      Position		      [320, 455, 435, 490]
+      ZOrder		      5
+      BlockMirror	      on
+      FunctionName	      "um_controller"
+    }
+    Block {
+      BlockType		      M-S-Function
+      Name		      "Following car"
+      SID		      "97"
+      Ports		      [1, 1]
+      Position		      [195, 291, 265, 329]
+      ZOrder		      40
+      FunctionName	      "car_nonlinear"
+      Parameters	      "15"
     }
     Block {
       BlockType		      Merge
       Name		      "Merge"
       SID		      "113"
-      Ports		      [3, 1]
-      Position		      [460, 44, 490, 276]
+      Ports		      [2, 1]
+      Position		      [460, 46, 490, 279]
       ZOrder		      47
-      Inputs		      "3"
     }
     Block {
       BlockType		      SubSystem
       Name		      "No lead car"
       SID		      "122"
       Ports		      [1, 1, 0, 0, 0, 0, 0, 1]
-      Position		      [320, 215, 390, 255]
+      Position		      [330, 200, 400, 240]
       ZOrder		      53
       TreatAsAtomicUnit	      on
       MinAlgLoopOccurrences   off
@@ -1243,10 +1159,9 @@ Model {
       BlockType		      SwitchCase
       Name		      "Switch Case"
       SID		      "114"
-      Ports		      [1, 3]
+      Ports		      [1, 2]
       Position		      [155, 18, 225, 242]
       ZOrder		      48
-      CaseConditions	      "{1,2}"
     }
     Block {
       BlockType		      ToWorkspace
@@ -1297,7 +1212,7 @@ Model {
       ZOrder		      1
       SrcBlock		      "Controller"
       SrcPort		      1
-      Points		      [-148, 0; 0, -90]
+      Points		      [-148, 0; 0, -85]
       Branch {
 	ZOrder			2
 	Points			[0, -70]
@@ -1314,15 +1229,16 @@ Model {
       ZOrder		      4
       SrcBlock		      "Zero-Order\nHold"
       SrcPort		      1
+      Points		      [-35, 0]
       DstBlock		      "Controller"
       DstPort		      1
     }
     Line {
-      ZOrder		      5
+      ZOrder		      25
       SrcBlock		      "No lead car"
       SrcPort		      1
       DstBlock		      "Merge"
-      DstPort		      3
+      DstPort		      2
     }
     Line {
       ZOrder		      6
@@ -1358,7 +1274,7 @@ Model {
     }
     Line {
       ZOrder		      11
-      SrcBlock		      "Lead car: h_0 = 10\n"
+      SrcBlock		      "Car that leaves"
       SrcPort		      1
       DstBlock		      "Merge"
       DstPort		      1
@@ -1367,8 +1283,8 @@ Model {
       ZOrder		      12
       SrcBlock		      "Switch Case"
       SrcPort		      1
-      Points		      [125, 0]
-      DstBlock		      "Lead car: h_0 = 10\n"
+      Points		      [135, 0]
+      DstBlock		      "Car that leaves"
       DstPort		      ifaction
     }
     Line {
@@ -1378,21 +1294,12 @@ Model {
       Points		      [11, 0]
       Branch {
 	ZOrder			14
-	Points			[0, -75]
+	Points			[0, -90]
 	Branch {
 	  ZOrder		  15
-	  Points		  [0, -85]
-	  Branch {
-	    ZOrder		    16
-	    Points		    [0, -65]
-	    DstBlock		    "Lead car: h_0 = 10\n"
-	    DstPort		    1
-	  }
-	  Branch {
-	    ZOrder		    17
-	    DstBlock		    "Lead car: h_0 = 100"
-	    DstPort		    1
-	  }
+	  Points		  [0, -115]
+	  DstBlock		  "Car that leaves"
+	  DstPort		  1
 	}
 	Branch {
 	  ZOrder		  18
@@ -1425,26 +1332,9 @@ Model {
     Line {
       ZOrder		      22
       SrcBlock		      "Switch Case"
-      SrcPort		      3
-      Points		      [125, 0]
+      SrcPort		      2
       DstBlock		      "No lead car"
       DstPort		      ifaction
-    }
-    Line {
-      ZOrder		      23
-      SrcBlock		      "Switch Case"
-      SrcPort		      2
-      Points		      [125, 0]
-      DstBlock		      "Lead car: h_0 = 100"
-      DstPort		      ifaction
-    }
-    Line {
-      ZOrder		      24
-      SrcBlock		      "Lead car: h_0 = 100"
-      SrcPort		      1
-      Points		      [30, 0; 0, 10]
-      DstBlock		      "Merge"
-      DstPort		      2
     }
   }
 }

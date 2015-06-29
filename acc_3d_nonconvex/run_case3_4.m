@@ -1,11 +1,5 @@
 case_nr = 3;  % should be 3 or 4 or 5
 plot_verification = 0; % show verification plots
-plot_paper = 0;
-
-tau_min = 1;
-tau_des = 1.4;
-v_des = 27;
-delta = 1;
 
 if case_nr == 3
 	con = constants_normal;
@@ -25,13 +19,13 @@ pwadyn = get_dyn2(con);
 %Safe set
 VH = pwadyn.domain;
 
-M1 = intersect(VH, Polyhedron('H', [0 1 0 v_des*tau_des]))
-G1 = intersect(VH, Polyhedron('H', [tau_des -1 0 0; 1 0 0 v_des]));
+M1 = intersect(VH, Polyhedron('H', [0 1 0 con.v_des*con.tau_des]))
+G1 = intersect(VH, Polyhedron('H', [con.tau_des -1 0 0; 1 0 0 con.v_des]));
 
-M2 = intersect(VH, Polyhedron('H', [0 -1 0 -v_des*tau_des]))
-G2 = intersect(VH, Polyhedron('H', [1 0 0 v_des]));
+M2 = intersect(VH, Polyhedron('H', [0 -1 0 -con.v_des*con.tau_des]))
+G2 = intersect(VH, Polyhedron('H', [1 0 0 con.v_des]));
 
-S = Polyhedron('H', [tau_min -1 0 0])
+S = Polyhedron('H', [con.tau_min -1 0 0])
 
 %%%%%%%%%%%%%%%%%%%%%
 %%%% ITERATION 0 %%%%
@@ -115,3 +109,5 @@ end
 
 C2_reach = Inv2;
 C1_reach = Inv1;
+
+save('sets.mat', 'C1', 'C2', 'C1_full', 'C2_full', 'M1', 'M2', 'C1_reach', 'C2_reach')

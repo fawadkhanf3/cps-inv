@@ -7,7 +7,7 @@ function headway_model_car(block)
 function setup(block)
   
   %% Register number of dialog parameters   
-  block.NumDialogPrms = 2;
+  block.NumDialogPrms = 3;
 
   %% Register number of input and output ports
   block.NumInputPorts  = 1;
@@ -52,12 +52,12 @@ function Derivative(block)
   v = block.InputPort(1).Data;
   vl = block.ContStates.Data(2);
 
-  block.Derivatives.Data = [vl - v; vldt(block.currentTime, vl)];
+  block.Derivatives.Data = [vl - v; vldt(block.currentTime, vl, block)];
   
 %endfunction
 
-function dvl = vldt(t, vl)
+function dvl = vldt(t, vl, block)
   global con;
   amin = 0.9*con.al_min;
-  dvl = (t>13)*(t<23)*(vl>5)*amin;
+  dvl = (t>block.DialogPrm(3).Data)*(t<block.DialogPrm(3).Data+10)*(vl>5)*amin;
 % end

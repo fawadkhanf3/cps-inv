@@ -1,4 +1,4 @@
-function headway_model_car(block)
+function two_car_model(block)
 
   setup(block);
   
@@ -7,7 +7,7 @@ function headway_model_car(block)
 function setup(block)
   
   %% Register number of dialog parameters   
-  block.NumDialogPrms = 2;
+  block.NumDialogPrms = 0;
 
   %% Register number of input and output ports
   block.NumInputPorts  = 1;
@@ -18,47 +18,43 @@ function setup(block)
   block.SetPreCompInpPortInfoToDynamic;
   block.SetPreCompOutPortInfoToDynamic;
  
-  block.InputPort(1).Dimensions        = 1;
+  block.InputPort(1).Dimensions        = 3;
   block.InputPort(1).DirectFeedthrough = false;
 
-  block.OutputPort(1).Dimensions       = 2;
+  block.OutputPort(1).Dimensions       = 1;
   
   %% Set block sample time to continuous
   block.SampleTimes = [0 0];
   
   %% Setup Dwork
-  block.NumContStates = 2;
+  block.NumContStates = 0;
 
   %% Set the block simStateCompliance to default (i.e., same as a built-in block)
   block.SimStateCompliance = 'DefaultSimState';
 
   %% Register methods
-  block.RegBlockMethod('InitializeConditions',    @InitConditions);  
+  block.RegBlockMethod('PostPropagationSetup',    @DoPostPropSetup);
   block.RegBlockMethod('Outputs',                 @Output);  
-  block.RegBlockMethod('Derivatives',             @Derivative);  
   
 %endfunction
 
-function InitConditions(block)
-  block.ContStates.Data = [block.DialogPrm(1).Data; block.DialogPrm(2).Data];
-  
+function DoPostPropSetup(block)
+
 %endfunction
+
 
 function Output(block)
-  block.OutputPort(1).Data = block.ContStates.Data;
-%endfunction
+  global con;
 
-function Derivative(block)
-  v = block.InputPort(1).Data;
-  vl = block.ContStates.Data(2);
+  x =  block.InputPort(1).Data;
+  v = x(1);
+  h = x(2);
 
-  block.Derivatives.Data = [vl - v; vldt(block.currentTime, vl)];
+  k = 500;
+
+  v_target = min(con.v_des, h/con.tau_des);
+
+  block.OutputPort(1).Data = con.f0 + con.f1*v + con.f2*v^2 -k*(v - v_target);
   
 %endfunction
 
-function dvl = vldt(t, vl)
-  global con;
-  dvl = 0;
-  amin = 0.9*con.al_min;
-  dvl = (t>13)*(t<23)*(vl>5)*amin;
-% end

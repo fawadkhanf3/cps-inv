@@ -1,5 +1,5 @@
 Model {
-  Name			  "sim_leave_cutin"
+  Name			  "supervision_simulation"
   Version		  8.2
   MdlSubVersion		  0
   SavedCharacterEncoding  "ISO-8859-1"
@@ -7,7 +7,7 @@ Model {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.56"
+    ComputedModelVersion    "1.98"
     NumModelReferences	    0
     NumTestPointedSignals   0
   }
@@ -30,7 +30,7 @@ Model {
       $ObjectID		      2
       $ClassName	      "Simulink.WindowInfo"
       IsActive		      [1]
-      Location		      [109.0, 227.0, 1121.0, 804.0]
+      Location		      [167.0, 51.0, 991.0, 764.0]
       Object {
 	$PropName		"ModelBrowserInfo"
 	$ObjectID		3
@@ -47,28 +47,16 @@ Model {
 	$ClassName		"Simulink.ExplorerBarInfo"
 	Visible			[0]
       }
-      Array {
-	Type			"Simulink.EditorInfo"
-	Dimension		2
-	Object {
-	  $ObjectID		  5
-	  IsActive		  [1]
-	  ViewObjType		  "SimulinkTopLevel"
-	  LoadSaveID		  "0"
-	  Extents		  [1087.0, 664.0]
-	  ZoomFactor		  [1.1865671641791045]
-	  Offset		  [-112.25886890723274, 22.402515723270426]
-	}
-	Object {
-	  $ObjectID		  6
-	  IsActive		  [0]
-	  ViewObjType		  "SimulinkSubsys"
-	  LoadSaveID		  "129"
-	  Extents		  [1087.0, 664.0]
-	  ZoomFactor		  [3.782142857142857]
-	  Offset		  [71.298394711992444, 24.438149197355983]
-	}
-	PropName		"EditorsInfo"
+      Object {
+	$PropName		"EditorsInfo"
+	$ObjectID		5
+	$ClassName		"Simulink.EditorInfo"
+	IsActive		[1]
+	ViewObjType		"SimulinkTopLevel"
+	LoadSaveID		"0"
+	Extents			[957.0, 624.0]
+	ZoomFactor		[1.3215077605321508]
+	Offset			[53.698746854026808, 111.81208053691276]
       }
     }
   }
@@ -78,9 +66,9 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "petter"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Wed Jun 24 14:45:04 2015"
-  RTWModifiedTimeStamp	  357057777
-  ModelVersionFormat	  "1.%<AutoIncrement:56>"
+  LastModifiedDate	  "Wed Jun 24 14:54:07 2015"
+  RTWModifiedTimeStamp	  357058445
+  ModelVersionFormat	  "1.%<AutoIncrement:98>"
   ConfigurationManager	  "none"
   SampleTimeColors	  off
   SampleTimeAnnotations	  off
@@ -120,7 +108,7 @@ Model {
   TryForcingSFcnDF	  off
   Object {
     $PropName		    "DataLoggingOverride"
-    $ObjectID		    7
+    $ObjectID		    6
     $ClassName		    "Simulink.SimulationData.ModelLoggingInfo"
     model_		    "simulink_model"
     overrideMode_	    [0.0]
@@ -180,16 +168,16 @@ Model {
     Type		    "Handle"
     Dimension		    1
     Simulink.ConfigSet {
-      $ObjectID		      8
+      $ObjectID		      7
       Version		      "1.13.1"
       Array {
 	Type			"Handle"
 	Dimension		8
 	Simulink.SolverCC {
-	  $ObjectID		  9
+	  $ObjectID		  8
 	  Version		  "1.13.1"
 	  StartTime		  "0.0"
-	  StopTime		  "35"
+	  StopTime		  "30"
 	  AbsTol		  "auto"
 	  FixedStep		  "auto"
 	  InitialStep		  "auto"
@@ -221,7 +209,7 @@ Model {
 	  InsertRTBMode		  "Whenever possible"
 	}
 	Simulink.DataIOCC {
-	  $ObjectID		  10
+	  $ObjectID		  9
 	  Version		  "1.13.1"
 	  Decimation		  "1"
 	  ExternalInput		  "[t, u]"
@@ -253,7 +241,7 @@ Model {
 	  Refine		  "1"
 	}
 	Simulink.OptimizationCC {
-	  $ObjectID		  11
+	  $ObjectID		  10
 	  Version		  "1.13.1"
 	  Array {
 	    Type		    "Cell"
@@ -311,7 +299,7 @@ Model {
 	  ParallelExecutionInRapidAccelerator on
 	}
 	Simulink.DebuggingCC {
-	  $ObjectID		  12
+	  $ObjectID		  11
 	  Version		  "1.13.1"
 	  RTPrefix		  "error"
 	  ConsistencyChecking	  "none"
@@ -401,7 +389,7 @@ Model {
 	  SFTransitionActionBeforeConditionDiag	"warning"
 	}
 	Simulink.HardwareCC {
-	  $ObjectID		  13
+	  $ObjectID		  12
 	  Version		  "1.13.1"
 	  ProdBitPerChar	  8
 	  ProdBitPerShort	  16
@@ -442,7 +430,7 @@ Model {
 	  ProdEqTarget		  on
 	}
 	Simulink.ModelReferenceCC {
-	  $ObjectID		  14
+	  $ObjectID		  13
 	  Version		  "1.13.1"
 	  UpdateModelReferenceTargets "IfOutOfDateOrStructuralChange"
 	  CheckModelReferenceTargetMessage "error"
@@ -457,7 +445,7 @@ Model {
 	  SupportModelReferenceSimTargetCustomCode off
 	}
 	Simulink.SFSimCC {
-	  $ObjectID		  15
+	  $ObjectID		  14
 	  Version		  "1.13.1"
 	  SFSimEnableDebug	  on
 	  SFSimOverflowDetection  on
@@ -473,7 +461,7 @@ Model {
 	}
 	Simulink.RTWCC {
 	  $BackupClass		  "Simulink.RTWCC"
-	  $ObjectID		  16
+	  $ObjectID		  15
 	  Version		  "1.13.1"
 	  Array {
 	    Type		    "Cell"
@@ -561,7 +549,7 @@ Model {
 	    Type		    "Handle"
 	    Dimension		    2
 	    Simulink.CodeAppCC {
-	      $ObjectID		      17
+	      $ObjectID		      16
 	      Version		      "1.13.1"
 	      Array {
 		Type			"Cell"
@@ -630,7 +618,7 @@ Model {
 	    }
 	    Simulink.GRTTargetCC {
 	      $BackupClass	      "Simulink.TargetCC"
-	      $ObjectID		      18
+	      $ObjectID		      17
 	      Version		      "1.13.1"
 	      Array {
 		Type			"Cell"
@@ -721,11 +709,11 @@ Model {
   }
   Simulink.ConfigSet {
     $PropName		    "ActiveConfigurationSet"
-    $ObjectID		    8
+    $ObjectID		    7
   }
   Object {
     $PropName		    "DataTransfer"
-    $ObjectID		    19
+    $ObjectID		    18
     $ClassName		    "Simulink.GlobalDataTransfer"
     DefaultTransitionBetweenSyncTasks "Ensure deterministic transfer (maximum delay)"
     DefaultTransitionBetweenAsyncTasks "Ensure data integrity only"
@@ -809,6 +797,12 @@ Model {
       SampleTime	      "inf"
       FramePeriod	      "inf"
       PreserveConstantTs      off
+    }
+    Block {
+      BlockType		      Demux
+      Outputs		      "4"
+      DisplayOption	      "none"
+      BusSelectionMode	      off
     }
     Block {
       BlockType		      Inport
@@ -930,8 +924,8 @@ Model {
     }
   }
   System {
-    Name		    "sim_leave_cutin"
-    Location		    [109, 227, 1230, 1031]
+    Name		    "supervision_simulation"
+    Location		    [167, 51, 1158, 815]
     Open		    on
     ModelBrowserVisibility  off
     ModelBrowserWidth	    200
@@ -943,97 +937,67 @@ Model {
     TiledPaperMargins	    [0.500000, 0.500000, 0.500000, 0.500000]
     TiledPageScale	    1
     ShowPageBoundaries	    off
-    ZoomFactor		    "119"
+    ZoomFactor		    "132"
     ReportName		    "simulink-default.rpt"
-    SIDHighWatermark	    "156"
+    SIDHighWatermark	    "182"
     Block {
-      BlockType		      SubSystem
-      Name		      "Car cuts in"
-      SID		      "129"
-      Ports		      [1, 1, 0, 0, 0, 0, 0, 1]
-      Position		      [320, 132, 390, 168]
-      ZOrder		      54
-      TreatAsAtomicUnit	      on
-      MinAlgLoopOccurrences   off
-      PropExecContextOutsideSubsystem off
-      RTWSystemCode	      "Auto"
-      FunctionWithSeparateData off
-      Opaque		      off
-      RequestExecContextInheritance off
-      MaskHideContents	      off
-      System {
-	Name			"Car cuts in"
-	Location		[109, 227, 1230, 1031]
-	Open			on
-	ModelBrowserVisibility	off
-	ModelBrowserWidth	200
-	ScreenColor		"white"
-	PaperOrientation	"landscape"
-	PaperPositionMode	"auto"
-	PaperType		"usletter"
-	PaperUnits		"inches"
-	TiledPaperMargins	[0.500000, 0.500000, 0.500000, 0.500000]
-	TiledPageScale		1
-	ShowPageBoundaries	off
-	ZoomFactor		"378"
-	Block {
-	  BlockType		  Inport
-	  Name			  "In1"
-	  SID			  "130"
-	  Position		  [75, 78, 105, 92]
-	  ZOrder		  -1
-	  IconDisplay		  "Port number"
-	}
-	Block {
-	  BlockType		  ActionPort
-	  Name			  "Action Port"
-	  SID			  "131"
-	  Position		  [170, 15, 229, 43]
-	  ZOrder		  -2
-	  InitializeStates	  "reset"
-	  ActionType		  "case"
-	}
-	Block {
-	  BlockType		  M-S-Function
-	  Name			  "Level-2 MATLAB\nS-Function1"
-	  SID			  "132"
-	  Ports			  [1, 1]
-	  Position		  [170, 68, 290, 102]
-	  ZOrder		  4
-	  FunctionName		  "headway_model_cutin"
-	  Parameters		  "30,20,13"
-	}
-	Block {
-	  BlockType		  Outport
-	  Name			  "Out1"
-	  SID			  "133"
-	  Position		  [325, 78, 355, 92]
-	  ZOrder		  -3
-	  IconDisplay		  "Port number"
-	}
-	Line {
-	  ZOrder		  1
-	  SrcBlock		  "In1"
-	  SrcPort		  1
-	  DstBlock		  "Level-2 MATLAB\nS-Function1"
-	  DstPort		  1
-	}
-	Line {
-	  ZOrder		  2
-	  SrcBlock		  "Level-2 MATLAB\nS-Function1"
-	  SrcPort		  1
-	  DstBlock		  "Out1"
-	  DstPort		  1
-	}
-      }
+      BlockType		      Constant
+      Name		      "Constant"
+      SID		      "161"
+      Position		      [75, 135, 105, 165]
+      ZOrder		      73
+      Value		      "0"
+    }
+    Block {
+      BlockType		      M-S-Function
+      Name		      "Controller"
+      SID		      "5"
+      Ports		      [1, 1]
+      Position		      [450, 457, 565, 493]
+      ZOrder		      5
+      BlockMirror	      on
+      FunctionName	      "prop_controller"
+    }
+    Block {
+      BlockType		      M-S-Function
+      Name		      "Controller1"
+      SID		      "152"
+      Ports		      [2, 1]
+      Position		      [290, 450, 405, 485]
+      ZOrder		      63
+      BlockMirror	      on
+      FunctionName	      "supervisor"
+      Parameters	      "1,1"
+    }
+    Block {
+      BlockType		      Demux
+      Name		      "Demux"
+      SID		      "150"
+      Ports		      [1, 2]
+      Position		      [260, 451, 265, 489]
+      ZOrder		      61
+      BlockMirror	      on
+      ShowName		      off
+      Outputs		      "2"
+      DisplayOption	      "bar"
+    }
+    Block {
+      BlockType		      M-S-Function
+      Name		      "Following car"
+      SID		      "97"
+      Ports		      [1, 1]
+      Position		      [260, 291, 330, 329]
+      ZOrder		      40
+      FunctionName	      "car_nonlinear"
+      Parameters	      "25"
     }
     Block {
       BlockType		      SubSystem
-      Name		      "Car that leaves"
-      SID		      "118"
+      Name		      "Lead car"
+      SID		      "162"
       Ports		      [1, 1, 0, 0, 0, 0, 0, 1]
-      Position		      [320, 67, 390, 103]
-      ZOrder		      52
+      Position		      [390, 122, 460, 158]
+      ZOrder		      71
       TreatAsAtomicUnit	      on
       MinAlgLoopOccurrences   off
       PropExecContextOutsideSubsystem off
@@ -1043,8 +1007,8 @@ Model {
       RequestExecContextInheritance off
       MaskHideContents	      off
       System {
-	Name			"Car that leaves"
-	Location		[893, 430, 2014, 1234]
+	Name			"Lead car"
+	Location		[167, 51, 1158, 815]
 	Open			off
 	ModelBrowserVisibility	off
 	ModelBrowserWidth	200
@@ -1056,11 +1020,11 @@ Model {
 	TiledPaperMargins	[0.500000, 0.500000, 0.500000, 0.500000]
 	TiledPageScale		1
 	ShowPageBoundaries	off
-	ZoomFactor		"378"
+	ZoomFactor		"332"
 	Block {
 	  BlockType		  Inport
 	  Name			  "In1"
-	  SID			  "119"
+	  SID			  "163"
 	  Position		  [75, 78, 105, 92]
 	  ZOrder		  -1
 	  IconDisplay		  "Port number"
@@ -1068,7 +1032,7 @@ Model {
 	Block {
 	  BlockType		  ActionPort
 	  Name			  "Action Port"
-	  SID			  "120"
+	  SID			  "164"
 	  Position		  [170, 15, 229, 43]
 	  ZOrder		  -2
 	  InitializeStates	  "reset"
@@ -1077,30 +1041,30 @@ Model {
 	Block {
 	  BlockType		  M-S-Function
 	  Name			  "Level-2 MATLAB\nS-Function"
-	  SID			  "109"
+	  SID			  "176"
 	  Ports			  [1, 1]
-	  Position		  [170, 68, 285, 102]
-	  ZOrder		  2
-	  FunctionName		  "headway_model_leave"
-	  Parameters		  "21,15"
+	  Position		  [145, 68, 285, 102]
+	  ZOrder		  68
+	  FunctionName		  "headway_model_supervision"
+	  Parameters		  "40, 15"
 	}
 	Block {
 	  BlockType		  Outport
 	  Name			  "Out1"
-	  SID			  "121"
+	  SID			  "166"
 	  Position		  [325, 78, 355, 92]
 	  ZOrder		  -3
 	  IconDisplay		  "Port number"
 	}
 	Line {
-	  ZOrder		  1
+	  ZOrder		  3
 	  SrcBlock		  "In1"
 	  SrcPort		  1
 	  DstBlock		  "Level-2 MATLAB\nS-Function"
 	  DstPort		  1
 	}
 	Line {
-	  ZOrder		  2
+	  ZOrder		  4
 	  SrcBlock		  "Level-2 MATLAB\nS-Function"
 	  SrcPort		  1
 	  DstBlock		  "Out1"
@@ -1109,48 +1073,20 @@ Model {
       }
     }
     Block {
-      BlockType		      Constant
-      Name		      "Constant"
-      SID		      "139"
-      Position		      [20, 115, 50, 145]
-      ZOrder		      56
-    }
-    Block {
-      BlockType		      M-S-Function
-      Name		      "Controller"
-      SID		      "5"
-      Ports		      [1, 2]
-      Position		      [320, 455, 435, 490]
-      ZOrder		      5
-      BlockMirror	      on
-      FunctionName	      "um_controller"
-    }
-    Block {
-      BlockType		      M-S-Function
-      Name		      "Following car"
-      SID		      "97"
-      Ports		      [1, 1]
-      Position		      [195, 291, 265, 329]
-      ZOrder		      40
-      FunctionName	      "car_nonlinear"
-      Parameters	      "15"
-    }
-    Block {
       BlockType		      Merge
       Name		      "Merge"
-      SID		      "113"
-      Ports		      [3, 1]
-      Position		      [460, 44, 490, 276]
-      ZOrder		      47
-      Inputs		      "3"
+      SID		      "182"
+      Ports		      [2, 1]
+      Position		      [530, 100, 565, 255]
+      ZOrder		      76
     }
     Block {
       BlockType		      SubSystem
-      Name		      "No lead car"
-      SID		      "122"
+      Name		      "No lead car1"
+      SID		      "177"
       Ports		      [1, 1, 0, 0, 0, 0, 0, 1]
-      Position		      [320, 215, 390, 255]
-      ZOrder		      53
+      Position		      [390, 195, 460, 235]
+      ZOrder		      75
       TreatAsAtomicUnit	      on
       MinAlgLoopOccurrences   off
       PropExecContextOutsideSubsystem off
@@ -1160,7 +1096,7 @@ Model {
       RequestExecContextInheritance off
       MaskHideContents	      off
       System {
-	Name			"No lead car"
+	Name			"No lead car1"
 	Location		[202, 50, 1323, 854]
 	Open			off
 	ModelBrowserVisibility	off
@@ -1177,7 +1113,7 @@ Model {
 	Block {
 	  BlockType		  Inport
 	  Name			  "In1"
-	  SID			  "123"
+	  SID			  "178"
 	  Position		  [75, 78, 105, 92]
 	  ZOrder		  -1
 	  IconDisplay		  "Port number"
@@ -1185,7 +1121,7 @@ Model {
 	Block {
 	  BlockType		  ActionPort
 	  Name			  "Action Port"
-	  SID			  "124"
+	  SID			  "179"
 	  Position		  [170, 15, 229, 43]
 	  ZOrder		  -2
 	  InitializeStates	  "reset"
@@ -1194,7 +1130,7 @@ Model {
 	Block {
 	  BlockType		  M-S-Function
 	  Name			  "Level-2 MATLAB\nS-Function1"
-	  SID			  "128"
+	  SID			  "180"
 	  Ports			  [1, 1]
 	  Position		  [170, 69, 290, 101]
 	  ZOrder		  4
@@ -1204,7 +1140,7 @@ Model {
 	Block {
 	  BlockType		  Outport
 	  Name			  "Out1"
-	  SID			  "126"
+	  SID			  "181"
 	  Position		  [325, 78, 355, 92]
 	  ZOrder		  -3
 	  IconDisplay		  "Port number"
@@ -1228,45 +1164,19 @@ Model {
     Block {
       BlockType		      Step
       Name		      "Step1"
-      SID		      "116"
-      Position		      [20, 170, 50, 200]
-      ZOrder		      50
-      Time		      "3"
-      After		      "-1"
-      SampleTime	      "0"
-    }
-    Block {
-      BlockType		      Step
-      Name		      "Step2"
-      SID		      "153"
-      Position		      [20, 225, 50, 255]
-      ZOrder		      57
-      Time		      "13"
-      After		      "2"
+      SID		      "172"
+      Position		      [75, 190, 105, 220]
+      ZOrder		      69
+      Time		      "4"
       SampleTime	      "0"
     }
     Block {
       BlockType		      Sum
       Name		      "Sum"
-      SID		      "117"
+      SID		      "173"
       Ports		      [2, 1]
-      Position		      [85, 120, 105, 140]
-      ZOrder		      51
-      ShowName		      off
-      IconShape		      "round"
-      Inputs		      "|++"
-      InputSameDT	      off
-      OutDataTypeStr	      "Inherit: Inherit via internal rule"
-      SaturateOnIntegerOverflow	off
-    }
-    Block {
-      BlockType		      Sum
-      Name		      "Sum1"
-      SID		      "154"
-      Ports		      [2, 1]
-      Position		      [85, 175, 105, 195]
-      ZOrder		      58
-      NamePlacement	      "alternate"
+      Position		      [140, 140, 160, 160]
+      ZOrder		      70
       ShowName		      off
       IconShape		      "round"
       Inputs		      "|++"
@@ -1277,18 +1187,17 @@ Model {
     Block {
       BlockType		      SwitchCase
       Name		      "Switch Case"
-      SID		      "114"
-      Ports		      [1, 3]
-      Position		      [155, 18, 225, 242]
-      ZOrder		      48
-      CaseConditions	      "{1,2}"
+      SID		      "175"
+      Ports		      [1, 2]
+      Position		      [220, 58, 290, 222]
+      ZOrder		      68
     }
     Block {
       BlockType		      ToWorkspace
       Name		      "To Workspace"
       SID		      "8"
       Ports		      [1]
-      Position		      [615, 385, 675, 415]
+      Position		      [700, 385, 760, 415]
       ZOrder		      8
       VariableName	      "x_out"
       MaxDataPoints	      "inf"
@@ -1298,12 +1207,12 @@ Model {
     Block {
       BlockType		      ToWorkspace
       Name		      "To Workspace1"
-      SID		      "155"
+      SID		      "151"
       Ports		      [1]
-      Position		      [135, 510, 195, 540]
-      ZOrder		      59
+      Position		      [85, 465, 145, 495]
+      ZOrder		      62
       BlockMirror	      on
-      VariableName	      "set_out"
+      VariableName	      "box_out"
       MaxDataPoints	      "inf"
       SampleTime	      "-1"
       SaveFormat	      "Structure With Time"
@@ -1313,10 +1222,23 @@ Model {
       Name		      "To Workspace2"
       SID		      "69"
       Ports		      [1]
-      Position		      [75, 365, 135, 395]
+      Position		      [85, 335, 145, 365]
       ZOrder		      32
       BlockMirror	      on
       VariableName	      "u_out"
+      MaxDataPoints	      "inf"
+      SampleTime	      "-1"
+      SaveFormat	      "Structure With Time"
+    }
+    Block {
+      BlockType		      ToWorkspace
+      Name		      "To Workspace3"
+      SID		      "153"
+      Ports		      [1]
+      Position		      [85, 400, 145, 430]
+      ZOrder		      64
+      BlockMirror	      on
+      VariableName	      "u_des_out"
       MaxDataPoints	      "inf"
       SampleTime	      "-1"
       SaveFormat	      "Structure With Time"
@@ -1326,7 +1248,7 @@ Model {
       Name		      "Vector\nConcatenate"
       SID		      "67"
       Ports		      [2, 1]
-      Position		      [566, 335, 604, 365]
+      Position		      [646, 335, 684, 365]
       ZOrder		      30
       BlockRotation	      270
       BlockMirror	      on
@@ -1336,25 +1258,25 @@ Model {
       BlockType		      ZeroOrderHold
       Name		      "Zero-Order\nHold"
       SID		      "68"
-      Position		      [490, 460, 525, 490]
+      Position		      [615, 450, 650, 480]
       ZOrder		      31
       BlockMirror	      on
-      SampleTime	      "0.02"
+      SampleTime	      "0.1"
     }
     Line {
       ZOrder		      1
-      SrcBlock		      "Controller"
+      SrcBlock		      "Demux"
       SrcPort		      1
-      Points		      [-148, 0; 0, -85]
+      Points		      [-33, 0; 0, -110]
       Branch {
 	ZOrder			2
-	Points			[0, -70]
-	DstBlock		"Following car"
+	DstBlock		"To Workspace2"
 	DstPort			1
       }
       Branch {
 	ZOrder			3
-	DstBlock		"To Workspace2"
+	Points			[0, -40]
+	DstBlock		"Following car"
 	DstPort			1
       }
     }
@@ -1362,160 +1284,152 @@ Model {
       ZOrder		      4
       SrcBlock		      "Zero-Order\nHold"
       SrcPort		      1
-      DstBlock		      "Controller"
-      DstPort		      1
+      Points		      [-30, 0]
+      Branch {
+	ZOrder			5
+	Points			[0, -27; -138, 0; 0, 22]
+	DstBlock		"Controller1"
+	DstPort			1
+      }
+      Branch {
+	ZOrder			6
+	DstBlock		"Controller"
+	DstPort			1
+      }
     }
     Line {
-      ZOrder		      5
-      SrcBlock		      "No lead car"
-      SrcPort		      1
-      DstBlock		      "Merge"
-      DstPort		      3
-    }
-    Line {
-      ZOrder		      6
+      ZOrder		      43
       SrcBlock		      "Merge"
       SrcPort		      1
-      Points		      [100, 0]
+      Points		      [105, 0]
       DstBlock		      "Vector\nConcatenate"
       DstPort		      2
     }
     Line {
-      ZOrder		      7
+      ZOrder		      8
       SrcBlock		      "Vector\nConcatenate"
       SrcPort		      1
       Points		      [0, 30]
       Branch {
-	ZOrder			8
-	DstBlock		"To Workspace"
+	ZOrder			9
+	DstBlock		"Zero-Order\nHold"
 	DstPort			1
       }
       Branch {
-	ZOrder			9
-	Points			[0, 75]
-	DstBlock		"Zero-Order\nHold"
+	ZOrder			10
+	DstBlock		"To Workspace"
 	DstPort			1
       }
     }
     Line {
-      ZOrder		      10
+      ZOrder		      14
+      SrcBlock		      "Controller1"
+      SrcPort		      1
+      DstBlock		      "Demux"
+      DstPort		      1
+    }
+    Line {
+      ZOrder		      15
+      SrcBlock		      "Controller"
+      SrcPort		      1
+      Points		      [-13, 0]
+      Branch {
+	ZOrder			16
+	Points			[0, -60]
+	DstBlock		"To Workspace3"
+	DstPort			1
+      }
+      Branch {
+	ZOrder			17
+	DstBlock		"Controller1"
+	DstPort			2
+      }
+    }
+    Line {
+      ZOrder		      18
+      SrcBlock		      "Demux"
+      SrcPort		      2
+      DstBlock		      "To Workspace1"
+      DstPort		      1
+    }
+    Line {
+      ZOrder		      21
       SrcBlock		      "Constant"
       SrcPort		      1
       DstBlock		      "Sum"
       DstPort		      1
     }
     Line {
-      ZOrder		      11
-      SrcBlock		      "Car that leaves"
+      ZOrder		      38
+      SrcBlock		      "Lead car"
       SrcPort		      1
       DstBlock		      "Merge"
       DstPort		      1
-    }
-    Line {
-      ZOrder		      12
-      SrcBlock		      "Switch Case"
-      SrcPort		      1
-      Points		      [125, 0]
-      DstBlock		      "Car that leaves"
-      DstPort		      ifaction
-    }
-    Line {
-      ZOrder		      13
-      SrcBlock		      "Following car"
-      SrcPort		      1
-      Points		      [11, 0]
-      Branch {
-	ZOrder			14
-	Points			[0, -75]
-	Branch {
-	  ZOrder		  15
-	  Points		  [0, -85]
-	  Branch {
-	    ZOrder		    16
-	    Points		    [0, -65]
-	    DstBlock		    "Car that leaves"
-	    DstPort		    1
-	  }
-	  Branch {
-	    ZOrder		    17
-	    DstBlock		    "Car cuts in"
-	    DstPort		    1
-	  }
-	}
-	Branch {
-	  ZOrder		  18
-	  DstBlock		  "No lead car"
-	  DstPort		  1
-	}
-      }
-      Branch {
-	ZOrder			19
-	Points			[294, 0]
-	DstBlock		"Vector\nConcatenate"
-	DstPort			1
-      }
-    }
-    Line {
-      ZOrder		      20
-      SrcBlock		      "Sum"
-      SrcPort		      1
-      DstBlock		      "Switch Case"
-      DstPort		      1
-    }
-    Line {
-      ZOrder		      27
-      SrcBlock		      "Step1"
-      SrcPort		      1
-      DstBlock		      "Sum1"
-      DstPort		      1
-    }
-    Line {
-      ZOrder		      22
-      SrcBlock		      "Switch Case"
-      SrcPort		      3
-      Points		      [125, 0]
-      DstBlock		      "No lead car"
-      DstPort		      ifaction
     }
     Line {
       ZOrder		      23
       SrcBlock		      "Switch Case"
-      SrcPort		      2
-      Points		      [125, 0]
-      DstBlock		      "Car cuts in"
+      SrcPort		      1
+      Points		      [130, 0]
+      DstBlock		      "Lead car"
       DstPort		      ifaction
     }
     Line {
-      ZOrder		      24
-      SrcBlock		      "Car cuts in"
+      ZOrder		      11
+      SrcBlock		      "Following car"
       SrcPort		      1
-      Points		      [30, 0; 0, 10]
+      Points		      [16, 0]
+      Branch {
+	ZOrder			37
+	Points			[304, 0]
+	DstBlock		"Vector\nConcatenate"
+	DstPort			1
+      }
+      Branch {
+	ZOrder			36
+	Points			[0, -95]
+	Branch {
+	  ZOrder		  32
+	  DstBlock		  "No lead car1"
+	  DstPort		  1
+	}
+	Branch {
+	  ZOrder		  25
+	  Points		  [0, -75]
+	  DstBlock		  "Lead car"
+	  DstPort		  1
+	}
+      }
+    }
+    Line {
+      ZOrder		      27
+      SrcBlock		      "Sum"
+      SrcPort		      1
+      Points		      [9, 0; 0, -10]
+      DstBlock		      "Switch Case"
+      DstPort		      1
+    }
+    Line {
+      ZOrder		      41
+      SrcBlock		      "Switch Case"
+      SrcPort		      2
+      DstBlock		      "No lead car1"
+      DstPort		      ifaction
+    }
+    Line {
+      ZOrder		      42
+      SrcBlock		      "No lead car1"
+      SrcPort		      1
       DstBlock		      "Merge"
       DstPort		      2
     }
     Line {
-      ZOrder		      28
-      SrcBlock		      "Step2"
+      ZOrder		      45
+      SrcBlock		      "Step1"
       SrcPort		      1
       Points		      [40, 0]
-      DstBlock		      "Sum1"
-      DstPort		      2
-    }
-    Line {
-      ZOrder		      29
-      SrcBlock		      "Sum1"
-      SrcPort		      1
-      Points		      [9, 0; 0, -30]
       DstBlock		      "Sum"
       DstPort		      2
-    }
-    Line {
-      ZOrder		      30
-      SrcBlock		      "Controller"
-      SrcPort		      2
-      Points		      [-57, 0; 0, 45]
-      DstBlock		      "To Workspace1"
-      DstPort		      1
     }
   }
 }
