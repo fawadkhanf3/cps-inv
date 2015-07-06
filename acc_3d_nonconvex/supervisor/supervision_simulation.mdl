@@ -1,16 +1,16 @@
 Model {
   Name			  "supervision_simulation"
-  Version		  8.2
+  Version		  8.1
   MdlSubVersion		  0
-  SavedCharacterEncoding  "ISO-8859-1"
   GraphicalInterface {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.98"
+    ComputedModelVersion    "1.101"
     NumModelReferences	    0
     NumTestPointedSignals   0
   }
+  SavedCharacterEncoding  "ISO-8859-1"
   SaveDefaultBlockParams  on
   ScopeRefreshTime	  0.035000
   OverrideScopeRefreshTime on
@@ -56,7 +56,7 @@ Model {
 	LoadSaveID		"0"
 	Extents			[957.0, 624.0]
 	ZoomFactor		[1.3215077605321508]
-	Offset			[53.698746854026808, 111.81208053691276]
+	Offset			[53.698746854026808, 104.81208053691276]
       }
     }
   }
@@ -66,9 +66,9 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "petter"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Wed Jun 24 14:54:07 2015"
-  RTWModifiedTimeStamp	  357058445
-  ModelVersionFormat	  "1.%<AutoIncrement:98>"
+  LastModifiedDate	  "Thu Jul 02 11:57:47 2015"
+  RTWModifiedTimeStamp	  357739065
+  ModelVersionFormat	  "1.%<AutoIncrement:101>"
   ConfigurationManager	  "none"
   SampleTimeColors	  off
   SampleTimeAnnotations	  off
@@ -94,11 +94,6 @@ Model {
   BrowserShowLibraryLinks off
   BrowserLookUnderMasks	  off
   SimulationMode	  "normal"
-  PauseTimes		  "5"
-  NumberOfSteps		  1
-  SnapshotBufferSize	  10
-  SnapshotInterval	  10
-  NumberOfLastSnapshots	  0
   LinearizationMsg	  "none"
   Profile		  off
   ParamWorkspaceSource	  "MATLABWorkspace"
@@ -132,7 +127,6 @@ Model {
   CovNameIncrementing	  off
   CovHtmlReporting	  on
   CovForceBlockReductionOff on
-  CovEnableCumulative	  on
   covSaveCumulativeToWorkspaceVar on
   CovSaveSingleToWorkspaceVar on
   CovCumulativeVarName	  "covCumulativeData"
@@ -169,13 +163,13 @@ Model {
     Dimension		    1
     Simulink.ConfigSet {
       $ObjectID		      7
-      Version		      "1.13.1"
+      Version		      "1.13.0"
       Array {
 	Type			"Handle"
 	Dimension		8
 	Simulink.SolverCC {
 	  $ObjectID		  8
-	  Version		  "1.13.1"
+	  Version		  "1.13.0"
 	  StartTime		  "0.0"
 	  StopTime		  "30"
 	  AbsTol		  "auto"
@@ -210,7 +204,7 @@ Model {
 	}
 	Simulink.DataIOCC {
 	  $ObjectID		  9
-	  Version		  "1.13.1"
+	  Version		  "1.13.0"
 	  Decimation		  "1"
 	  ExternalInput		  "[t, u]"
 	  FinalStateName	  "xFinal"
@@ -242,7 +236,7 @@ Model {
 	}
 	Simulink.OptimizationCC {
 	  $ObjectID		  10
-	  Version		  "1.13.1"
+	  Version		  "1.13.0"
 	  Array {
 	    Type		    "Cell"
 	    Dimension		    8
@@ -262,7 +256,6 @@ Model {
 	  InlineParams		  off
 	  UseIntDivNetSlope	  off
 	  UseFloatMulNetSlope	  off
-	  DefaultUnderspecifiedDataType	"double"
 	  UseSpecifiedMinMax	  off
 	  InlineInvariantSignals  off
 	  OptimizeBlockIOStorage  on
@@ -282,7 +275,6 @@ Model {
 	  SystemCodeInlineAuto	  off
 	  StateBitsets		  off
 	  DataBitsets		  off
-	  ActiveStateOutputEnumStorageType "Native Integer"
 	  UseTempVars		  off
 	  ZeroExternalMemoryAtStartup on
 	  ZeroInternalMemoryAtStartup on
@@ -300,7 +292,7 @@ Model {
 	}
 	Simulink.DebuggingCC {
 	  $ObjectID		  11
-	  Version		  "1.13.1"
+	  Version		  "1.13.0"
 	  RTPrefix		  "error"
 	  ConsistencyChecking	  "none"
 	  ArrayBoundsChecking	  "none"
@@ -390,7 +382,7 @@ Model {
 	}
 	Simulink.HardwareCC {
 	  $ObjectID		  12
-	  Version		  "1.13.1"
+	  Version		  "1.13.0"
 	  ProdBitPerChar	  8
 	  ProdBitPerShort	  16
 	  ProdBitPerInt		  32
@@ -431,7 +423,7 @@ Model {
 	}
 	Simulink.ModelReferenceCC {
 	  $ObjectID		  13
-	  Version		  "1.13.1"
+	  Version		  "1.13.0"
 	  UpdateModelReferenceTargets "IfOutOfDateOrStructuralChange"
 	  CheckModelReferenceTargetMessage "error"
 	  EnableParallelModelReferenceBuilds off
@@ -446,7 +438,7 @@ Model {
 	}
 	Simulink.SFSimCC {
 	  $ObjectID		  14
-	  Version		  "1.13.1"
+	  Version		  "1.13.0"
 	  SFSimEnableDebug	  on
 	  SFSimOverflowDetection  on
 	  SFSimEcho		  on
@@ -457,12 +449,11 @@ Model {
 	  SimUseLocalCustomCode	  off
 	  SimParseCustomCode	  on
 	  SimBuildMode		  "sf_incremental_build"
-	  SimGenImportedTypeDefs  off
 	}
 	Simulink.RTWCC {
 	  $BackupClass		  "Simulink.RTWCC"
 	  $ObjectID		  15
-	  Version		  "1.13.1"
+	  Version		  "1.13.0"
 	  Array {
 	    Type		    "Cell"
 	    Dimension		    15
@@ -484,15 +475,11 @@ Model {
 	    PropName		    "DisabledProps"
 	  }
 	  SystemTargetFile	  "grt.tlc"
-	  TLCOptions		  ""
 	  GenCodeOnly		  off
 	  MakeCommand		  "make_rtw"
 	  GenerateMakefile	  on
 	  PackageGeneratedCodeAndArtifacts off
-	  PackageName		  ""
 	  TemplateMakefile	  "grt_default_tmf"
-	  PostCodeGenCommand	  ""
-	  Description		  ""
 	  GenerateReport	  off
 	  SaveLog		  off
 	  RTWVerbose		  on
@@ -503,20 +490,9 @@ Model {
 	  TLCAssert		  off
 	  ProcessScriptMode	  "Default"
 	  ConfigurationMode	  "Optimized"
-	  ProcessScript		  ""
-	  ConfigurationScript	  ""
 	  ConfigAtBuild		  off
 	  RTWUseLocalCustomCode	  off
 	  RTWUseSimCustomCode	  off
-	  CustomSourceCode	  ""
-	  CustomHeaderCode	  ""
-	  CustomInclude		  ""
-	  CustomSource		  ""
-	  CustomLibrary		  ""
-	  CustomInitializer	  ""
-	  CustomTerminator	  ""
-	  Toolchain		  "Automatically locate an installed toolchain"
-	  BuildConfiguration	  "Faster Builds"
 	  IncludeHyperlinkInReport off
 	  LaunchReport		  off
 	  PortableWordSizes	  off
@@ -540,17 +516,14 @@ Model {
 	  GenerateCodeMetricsReport off
 	  GenerateCodeReplacementReport	off
 	  RTWCompilerOptimization "Off"
-	  RTWCustomCompilerOptimizations ""
 	  CheckMdlBeforeBuild	  "Off"
 	  CustomRebuildMode	  "OnUpdate"
-	  DataInitializer	  ""
-	  SharedConstantsCachingThreshold 1024
 	  Array {
 	    Type		    "Handle"
 	    Dimension		    2
 	    Simulink.CodeAppCC {
 	      $ObjectID		      16
-	      Version		      "1.13.1"
+	      Version		      "1.13.0"
 	      Array {
 		Type			"Cell"
 		Dimension		22
@@ -602,7 +575,6 @@ Model {
 	      CustomSymbolStrBlkIO    "rtb_$N$M"
 	      CustomSymbolStrTmpVar   "$N$M"
 	      CustomSymbolStrMacro    "$R$N$M"
-	      CustomSymbolStrUtil     "$N$C"
 	      DefineNamingRule	      "None"
 	      ParamNamingRule	      "None"
 	      SignalNamingRule	      "None"
@@ -619,7 +591,7 @@ Model {
 	    Simulink.GRTTargetCC {
 	      $BackupClass	      "Simulink.TargetCC"
 	      $ObjectID		      17
-	      Version		      "1.13.1"
+	      Version		      "1.13.0"
 	      Array {
 		Type			"Cell"
 		Dimension		15
@@ -883,7 +855,6 @@ Model {
       SFBlockType	      "NONE"
       Variant		      off
       GeneratePreprocessorConditionals off
-      ContentPreviewEnabled   off
     }
     Block {
       BlockType		      Sum
@@ -1046,7 +1017,7 @@ Model {
 	  Position		  [145, 68, 285, 102]
 	  ZOrder		  68
 	  FunctionName		  "headway_model_supervision"
-	  Parameters		  "40, 15"
+	  Parameters		  "70, 15"
 	}
 	Block {
 	  BlockType		  Outport
@@ -1057,14 +1028,12 @@ Model {
 	  IconDisplay		  "Port number"
 	}
 	Line {
-	  ZOrder		  3
 	  SrcBlock		  "In1"
 	  SrcPort		  1
 	  DstBlock		  "Level-2 MATLAB\nS-Function"
 	  DstPort		  1
 	}
 	Line {
-	  ZOrder		  4
 	  SrcBlock		  "Level-2 MATLAB\nS-Function"
 	  SrcPort		  1
 	  DstBlock		  "Out1"
@@ -1146,14 +1115,12 @@ Model {
 	  IconDisplay		  "Port number"
 	}
 	Line {
-	  ZOrder		  1
 	  SrcBlock		  "In1"
 	  SrcPort		  1
 	  DstBlock		  "Level-2 MATLAB\nS-Function1"
 	  DstPort		  1
 	}
 	Line {
-	  ZOrder		  2
 	  SrcBlock		  "Level-2 MATLAB\nS-Function1"
 	  SrcPort		  1
 	  DstBlock		  "Out1"
@@ -1264,41 +1231,34 @@ Model {
       SampleTime	      "0.1"
     }
     Line {
-      ZOrder		      1
       SrcBlock		      "Demux"
       SrcPort		      1
       Points		      [-33, 0; 0, -110]
       Branch {
-	ZOrder			2
 	DstBlock		"To Workspace2"
 	DstPort			1
       }
       Branch {
-	ZOrder			3
 	Points			[0, -40]
 	DstBlock		"Following car"
 	DstPort			1
       }
     }
     Line {
-      ZOrder		      4
       SrcBlock		      "Zero-Order\nHold"
       SrcPort		      1
       Points		      [-30, 0]
       Branch {
-	ZOrder			5
 	Points			[0, -27; -138, 0; 0, 22]
 	DstBlock		"Controller1"
 	DstPort			1
       }
       Branch {
-	ZOrder			6
 	DstBlock		"Controller"
 	DstPort			1
       }
     }
     Line {
-      ZOrder		      43
       SrcBlock		      "Merge"
       SrcPort		      1
       Points		      [105, 0]
@@ -1306,68 +1266,57 @@ Model {
       DstPort		      2
     }
     Line {
-      ZOrder		      8
       SrcBlock		      "Vector\nConcatenate"
       SrcPort		      1
       Points		      [0, 30]
       Branch {
-	ZOrder			9
 	DstBlock		"Zero-Order\nHold"
 	DstPort			1
       }
       Branch {
-	ZOrder			10
 	DstBlock		"To Workspace"
 	DstPort			1
       }
     }
     Line {
-      ZOrder		      14
       SrcBlock		      "Controller1"
       SrcPort		      1
       DstBlock		      "Demux"
       DstPort		      1
     }
     Line {
-      ZOrder		      15
       SrcBlock		      "Controller"
       SrcPort		      1
       Points		      [-13, 0]
       Branch {
-	ZOrder			16
 	Points			[0, -60]
 	DstBlock		"To Workspace3"
 	DstPort			1
       }
       Branch {
-	ZOrder			17
 	DstBlock		"Controller1"
 	DstPort			2
       }
     }
     Line {
-      ZOrder		      18
       SrcBlock		      "Demux"
       SrcPort		      2
       DstBlock		      "To Workspace1"
       DstPort		      1
     }
     Line {
-      ZOrder		      21
       SrcBlock		      "Constant"
       SrcPort		      1
       DstBlock		      "Sum"
       DstPort		      1
     }
     Line {
-      ZOrder		      38
       SrcBlock		      "Lead car"
       SrcPort		      1
       DstBlock		      "Merge"
       DstPort		      1
     }
     Line {
-      ZOrder		      23
       SrcBlock		      "Switch Case"
       SrcPort		      1
       Points		      [130, 0]
@@ -1375,26 +1324,21 @@ Model {
       DstPort		      ifaction
     }
     Line {
-      ZOrder		      11
       SrcBlock		      "Following car"
       SrcPort		      1
       Points		      [16, 0]
       Branch {
-	ZOrder			37
 	Points			[304, 0]
 	DstBlock		"Vector\nConcatenate"
 	DstPort			1
       }
       Branch {
-	ZOrder			36
 	Points			[0, -95]
 	Branch {
-	  ZOrder		  32
 	  DstBlock		  "No lead car1"
 	  DstPort		  1
 	}
 	Branch {
-	  ZOrder		  25
 	  Points		  [0, -75]
 	  DstBlock		  "Lead car"
 	  DstPort		  1
@@ -1402,7 +1346,6 @@ Model {
       }
     }
     Line {
-      ZOrder		      27
       SrcBlock		      "Sum"
       SrcPort		      1
       Points		      [9, 0; 0, -10]
@@ -1410,21 +1353,18 @@ Model {
       DstPort		      1
     }
     Line {
-      ZOrder		      41
       SrcBlock		      "Switch Case"
       SrcPort		      2
       DstBlock		      "No lead car1"
       DstPort		      ifaction
     }
     Line {
-      ZOrder		      42
       SrcBlock		      "No lead car1"
       SrcPort		      1
       DstBlock		      "Merge"
       DstPort		      2
     }
     Line {
-      ZOrder		      45
       SrcBlock		      "Step1"
       SrcPort		      1
       Points		      [40, 0]

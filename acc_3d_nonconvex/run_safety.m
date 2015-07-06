@@ -1,4 +1,4 @@
-case_nr = 3;
+case_nr = 1;
 
 if case_nr == 1
 	con = constants_normal;
