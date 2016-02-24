@@ -46,6 +46,7 @@ function [V] = cinv_oi(dyn, R, maxiter, show_plot, verbose)
 	tic;
 	while (i <= maxiter)
 		V_prim = intersect1(R, dyn.pre(V));
+		V_prim.minHRep;
 
 		if show_plot
 			plot(V_prim);
@@ -53,6 +54,7 @@ function [V] = cinv_oi(dyn, R, maxiter, show_plot, verbose)
 		end
 
 		if isEmptySet(mldivide(V, V_prim))
+			V = V_prim;
 			break;
 		end
 
