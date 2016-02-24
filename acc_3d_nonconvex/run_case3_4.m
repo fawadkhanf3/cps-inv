@@ -1,5 +1,6 @@
 case_nr = 3;  % should be 3 or 4 or 5
 plot_verification = 0; % show verification plots
+save_movies = 1;
 
 if case_nr == 3
 	con = constants_normal;
@@ -8,6 +9,16 @@ elseif case_nr == 4
 elseif case_nr == 5
 	con = constants_carsim;
 end	
+
+if save_movies
+	vidObj = VideoWriter('outside_in.mp4', 'MPEG-4');
+	vidObj.FrameRate = 10;
+	open(vidObj);
+else
+	vidObj = 0
+end
+
+tic;
 
 %%%% Create dynamics
 
@@ -52,15 +63,15 @@ end
 % for C1
 disp('Iteration 1, cinv set 1')
 Inv1_outer = intersect(S, intersect(G1, ALL));
-[~, Inv1] = in_out_cinv(dyn, pwadyn, Inv1_outer);
+[~, Inv1] = in_out_cinv(dyn, pwadyn, Inv1_outer, 0, 100, vidObj);
 
 disp('Iteration 1, Reach set 1-inv')
 % Can reach Inv1 iff we can reach Inv1(1)
-C1_1 = pre_pwa(pwadyn, Inv1(1), intersect(S, ALL));
+C1_1 = pre_pwa(pwadyn, Inv1(1), intersect(S, ALL), 0, 100, vidObj);
 C1_1_M1 = intersect(C1_1, M1);
 
 disp('Iteration 1, Reach set 1-C2')
-C1_2 = pre_pwa(pwadyn, C2, intersect(S, ALL));
+C1_2 = pre_pwa(pwadyn, C2, intersect(S, ALL), 0, 100, vidObj);
 C1_2 = intersect(C1_2, M1);
 
 if plot_verification
@@ -76,7 +87,7 @@ C1 = C1_1_M1;
 
 disp('Iteration 1, Inv set 2')
 Inv2_outer = intersect(S, intersect(G2, ALL));
-[~, Inv2] = in_out_cinv(dyn, pwadyn, Inv2_outer);
+[~, Inv2] = in_out_cinv(dyn, pwadyn, Inv2_outer, 0, 100, vidObj);
 
 if plot_verification
 	figure(3); clf; hold on
@@ -86,7 +97,7 @@ end
 % Disregard C1, it is "almost" contained in Inv2
 
 disp('Iteration 1, Reach set 2-inv')
-C2_1 = pre_pwa(pwadyn, Inv2(1), intersect(S, ALL));
+C2_1 = pre_pwa(pwadyn, Inv2(1), intersect(S, ALL), 0, 100, vidObj);
 C2_1_M2 = intersect(C2_1, M2)
 
 C2_full = C2_1;
@@ -109,5 +120,12 @@ end
 
 C2_reach = Inv2;
 C1_reach = Inv1;
+
+end_time = toc;
+disp(['time elapsed: ', num2str(end_time)])
+
+if save_movies
+	close(vidObj)
+end
 
 save('sets.mat', 'C1', 'C2', 'C1_full', 'C2_full', 'M1', 'M2', 'C1_reach', 'C2_reach')

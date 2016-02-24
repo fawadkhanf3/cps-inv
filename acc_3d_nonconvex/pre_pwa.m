@@ -1,4 +1,4 @@
-function pre_list = pre_pwa(pwadyn, goal, container, plot, maxiter)
+function pre_list = pre_pwa(pwadyn, goal, container, plotstuff, maxiter, vidObj)
 
     % pre_pwa: short description
     % ======================================================
@@ -21,13 +21,21 @@ function pre_list = pre_pwa(pwadyn, goal, container, plot, maxiter)
     %           Class: Dyn
 
     if nargin<4
-	    plot = 0;
+	    plotstuff = 0;
 	end
 
 	if nargin<5
 		maxiter = 100;
 	end
-	
+
+	if nargin<6
+		vidObj = 0
+	end
+
+	if vidObj ~= 0
+		isect_poly = Polyhedron([ 0 1 0], [200])
+	end
+
 	pre_list = [goal];
 	i = 0;
 	while i < maxiter
@@ -48,9 +56,18 @@ function pre_list = pre_pwa(pwadyn, goal, container, plot, maxiter)
 
 		Ci_cvx = intersect(Ci_cvx, container);
 
-		if plot 
-			% plot(Ci_cvx, 'alpha', 0.2);
+		if plotstuff 
+			plot(Ci_cvx, 'alpha', 0.2);
 			drawnow;
+		end
+
+		if vidObj ~= 0
+			clf
+			plot(intersect(Ci_cvx, isect_poly), 'color', 'red', 'alpha', 0.2)
+			set(gcf,'color','w');
+			axis off
+			currFrame = getframe(gca, [0 0 430 344]);
+			writeVideo(vidObj, currFrame);
 		end
 
 		if isEmptySet(mldivide(Ci_cvx, pre_list(end)))

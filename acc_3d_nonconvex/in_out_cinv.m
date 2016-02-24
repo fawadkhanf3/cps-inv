@@ -1,4 +1,4 @@
-function [inner, outer] = in_out_cinv(dyn, pwadyn, target, plot, maxiter)
+function [inner, outer] = in_out_cinv(dyn, pwadyn, target, plot_stuff, maxiter, vidObj)
 
     % in_out_cinv: find a non-convex controlled invariant set
     % ======================================================
@@ -22,19 +22,28 @@ function [inner, outer] = in_out_cinv(dyn, pwadyn, target, plot, maxiter)
 
 
     if nargin<4
-    	plot = 0;
+    	plot_stuff = 0;
     end
 
     if nargin<5
     	maxiter = 100;
     end
 
+    if nargin<6
+    	vidObj = 0;
+    end
+
     % inner approximation
 	Ci = target;
 	i = 0;
 
-	if plot
+	if plot_stuff
 		clf;
+	end
+
+	if vidObj ~= 0
+		clf; hold on
+		isect_poly = Polyhedron([ 0 1 0], [200])
 	end
 
 	while i < maxiter
@@ -42,9 +51,18 @@ function [inner, outer] = in_out_cinv(dyn, pwadyn, target, plot, maxiter)
 
 		Ci_1 = intersect1(target, dyn.pre(Ci));
 
-		if plot
+		if plot_stuff
 			plot(Ci_1, 'alpha', 0.2);
 			drawnow;
+		end
+
+		if vidObj ~= 0
+			clf
+			plot(intersect1(Ci_1, isect_poly), 'alpha', 0.2);
+			set(gcf,'color','w');
+			axis off
+			currFrame = getframe(gca, [0 0 430 344]);
+			writeVideo(vidObj, currFrame);
 		end
 
 		if isEmptySet(mldivide(Ci, Ci_1))
@@ -66,10 +84,19 @@ function [inner, outer] = in_out_cinv(dyn, pwadyn, target, plot, maxiter)
 	outer = [inner];
 	i = 0;
 
-	if plot 
+	if plot_stuff 
 		clf; hold on
 		plot(inner, 'alpha', 0.2)
 		drawnow;
+	end
+
+	if vidObj ~= 0
+		clf; hold on
+		plot(intersect1(isect_poly, inner), 'alpha', 0.2);
+		axis off
+		set(gcf,'color','w');
+		currFrame = getframe(gca, [0 0 430 344]);
+		writeVideo(vidObj, currFrame);
 	end
 
 	% expand it inside target
@@ -86,9 +113,15 @@ function [inner, outer] = in_out_cinv(dyn, pwadyn, target, plot, maxiter)
 
 		Ci_cvx = intersect(Ci_cvx, target);
 
-		if plot 
+		if plot_stuff 
 			plot(Ci_cvx, 'alpha', 0.2);
 			drawnow;
+		end
+
+		if vidObj ~= 0
+			plot(intersect1(isect_poly, Ci_cvx), 'alpha', 0.2);
+			currFrame = getframe(gca, [0 0 430 344]);
+			writeVideo(vidObj, currFrame);
 		end
 
 		if isEmptySet(mldivide(Ci_cvx, outer(end)))
