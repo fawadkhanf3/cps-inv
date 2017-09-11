@@ -185,7 +185,7 @@ function Outputs(block)
       end
       % disp([num2str(block.currentTime), ' in sets.C1_full'])
     end
-  elseif (M2.contains(x0))
+  elseif (sets.M2.contains(x0))
 
     c_part = 3;
 
