@@ -1,4 +1,4 @@
-function [V] = cinv_oi(dyn, R, maxiter, show_plot, verbose)
+function [Vt] = cinv_oi(dyn, R, rho, maxiter, show_plot, verbose)
 	
 	% CINV_OI: Compute an invariant set outside-in.
 	% ======================================================
@@ -6,8 +6,7 @@ function [V] = cinv_oi(dyn, R, maxiter, show_plot, verbose)
 	% SYNTAX
 	% ------
 	%	C = cinv_oi(dyn, R)
-	%	C = cinv_oi(dyn, R, maxiter)
-	%	C = cinv_oi(dyn, R, maxiter, show_plot, verbose)
+	%	C = cinv_oi(dyn, R, rho, maxiter, show_plot, verbose)
 	%
 	% DESCRIPTION
 	% -----------
@@ -26,44 +25,54 @@ function [V] = cinv_oi(dyn, R, maxiter, show_plot, verbose)
 	%	verbose 	Output text
 	%		Default: false
 
-	if nargin<3
-		maxiter = Inf;
+	if nargin<3 || isempty(rho)
+		rho = 0 * ones(dyn.n,1);
 	end
 
 	if nargin<4
-		show_plot = 0;
+		maxiter = Inf;
 	end
 
 	if nargin<5
+		show_plot = 0;
+	end
+
+	if nargin<6
 		verbose = 0;
 	end
 
 	disp('Finding controlled-invariant set by outside-in')
 	tic 
 
-	V = R;
-	i = 1;
+	rho_ball = Polyhedron('A', [eye(dyn.n); -eye(dyn.n)], 'b', repmat(rho, 2, 1));
+
+	V = Polyhedron('A', zeros(1,dyn.n), 'b', 1);
+	Vt = R;
+
+	iter = 1;
 	tic;
-	while (i <= maxiter)
-		V_prim = intersect1(R, dyn.pre(V));
-		V_prim.minHRep;
+	while not (V - rho_ball <= Vt)
+		V = Vt;
 
-		if show_plot
-			plot(V_prim);
-			drawnow;
+		Vpre = dyn.pre(V);
+		
+		if Vpre.isEmptySet
+			disp('returned empty')
+			Vt = Vpre;
 		end
 
-		if isEmptySet(mldivide(V, V_prim))
-			V = V_prim;
-			break;
-		end
+		Vt = Polyhedron('A', [Vpre.A; R.A], 'b', [Vpre.b; R.b]);
+		Ct = minHRep(Vt);
 
-		V = V_prim;
+	  cc = Ct.chebyCenter;
+	  time = toc;
 		if verbose
-			disp(['iteration ', num2str(i)])
+		  disp(['iteration ', num2str(iter), ', ', num2str(size(C.A,1)), ...
+        ' ineqs, ball ', num2str(cc.r), ', time ', num2str(time)])		
 		end
-		i = i+1;
+		iter = iter + 1;
 	end
 	time = toc;
-	disp(['Outside-in controlled-invariant set algo finished in ', num2str(time), ' seconds after ', num2str(i), ' iterations'])
+
+	disp(['Outside-in controlled-invariant set algo finished in ', num2str(time), ' seconds after ', num2str(iter), ' iterations'])
 end
